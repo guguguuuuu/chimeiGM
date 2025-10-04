@@ -62,6 +62,10 @@
             flex-wrap: wrap; /* 在小螢幕上時，允許按鈕換行 */
         }
         
+        .pgym-links {
+            justify-content: center; /* 畢業後訓練按鈕維持置中 */
+        }
+        
         /* --- 師資培育計畫區塊的新樣式 --- */
         .plan-container {
             display: flex;
@@ -122,14 +126,22 @@
             font-weight: bold; /* 將字體加粗 */
         }
         
-        /* --- 日期按鈕的特殊樣式 --- */
-        .date-button .date-label {
-             font-size: 1.75rem; /* 調整日期字體大小 */
+        /* --- 日期按鈕的新樣式 --- */
+        .date-button .date-main {
+             font-size: 2.8rem; /* 調整日期字體大小 */
              font-weight: 700;
              color: #5f6368;
+             line-height: 1.2;
+        }
+        .date-button .date-year {
+            font-size: 1.1rem;
+            font-weight: bold;
         }
         
         /* --- 為不同月份按鈕設定繽紛的馬卡龍背景顏色 --- */
+        .bg-august { background-color: #ffdac1; } /* 馬卡龍橘 */
+        .bg-september { background-color: #e2f0cb; } /* 馬卡龍綠 */
+        .bg-october { background-color: #fff2b2; } /* 馬卡龍黃 */
         .bg-plan-i { background-color: #f9d1d1; } /* 馬卡龍粉 */
         .bg-plan-ii { background-color: #d4f0f0; } /* 馬卡龍青 */
         .bg-workshop { background-color: #bde0fe; } /* 新增一個研習營的顏色 */
@@ -145,28 +157,6 @@
         .month-button:active {
             transform: translateY(-2px);
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        /* --- 下拉式選單樣式 --- */
-        .dropdown-section {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 1rem 0; /* 減少上下間距 */
-        }
-        .dropdown-label {
-            font-size: 1.1rem;
-            color: #4a4a4a;
-            margin-right: 1rem;
-        }
-        .month-select {
-            font-size: 1.1rem;
-            padding: 0.6rem 1rem;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-            background-color: #fff;
-            min-width: 280px;
-            cursor: pointer;
         }
 
         /* --- 聯絡資訊樣式 --- */
@@ -258,13 +248,6 @@
             h1 {
                 font-size: 1.8rem; /* 在小螢幕上縮小標題 */
             }
-            .dropdown-section {
-                flex-direction: column;
-                gap: 1rem;
-            }
-            .month-select {
-                width: 100%;
-            }
             .schedule-links {
                 flex-direction: column;
                 align-items: center;
@@ -280,21 +263,23 @@
         <!-- 第一個區塊: 畢業後一般內科醫學訓練 -->
         <div class="training-section">
             <h2>畢業後一般內科醫學訓練</h2>
-            
-            <!-- 114年 下拉選單 -->
-            <div class="dropdown-section">
-                <label for="month-select-114" class="dropdown-label">114年：</label>
-                <select id="month-select-114" class="month-select">
-                    <option value="">-- 查看課表 --</option>
-                    <option value="https://guguguuuuu.github.io/chimeiGM/August">8月 August</option>
-                    <option value="https://guguguuuuu.github.io/chimeiGM/September">9月 September</option>
-                    <option value="https://guguguuuuu.github.io/chimeiGM/October">10月 October</option>
-                    <!-- 未來有課表時，可將此處的註解移除 -->
-                    <!-- <option value="#">11月 November</option> -->
-                    <!-- <option value="#">12月 December</option> -->
-                </select>
+            <div class="schedule-links pgym-links">
+                <!-- 8月按鈕 -->
+                <a href="https://guguguuuuu.github.io/chimeiGM/August" class="month-button bg-august">
+                    <span class="month-digit">8</span>
+                    <span class="month-label">114年 August</span>
+                </a>
+                <!-- 9月按鈕 -->
+                <a href="https://guguguuuuu.github.io/chimeiGM/September" class="month-button bg-september">
+                    <span class="month-digit">9</span>
+                    <span class="month-label">114年 September</span>
+                </a>
+                <!-- 10月按鈕 -->
+                <a href="https://guguguuuuu.github.io/chimeiGM/October" class="month-button bg-october">
+                    <span class="month-digit">10</span>
+                    <span class="month-label">114年 October</span>
+                </a>
             </div>
-
         </div>
 
         <!-- 第二個區塊: 一般醫學師資培育計畫 -->
@@ -306,7 +291,8 @@
                     <h3>一般醫學教師研習營</h3>
                     <div class="schedule-links">
                         <a href="#" data-modal-target="workshop-modal" class="month-button date-button bg-workshop">
-                            <span class="date-label">114.5.24</span>
+                            <span class="date-main">5/24</span>
+                            <span class="date-year">114</span>
                         </a>
                     </div>
                 </div>
