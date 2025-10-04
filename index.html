@@ -102,7 +102,7 @@
             flex-direction: column; /* 將圖示和文字垂直排列 */
             justify-content: center;
             align-items: center;
-            gap: 0;
+            gap: 0.2rem; /* 微調內部間距 */
             text-decoration: none; /* 移除超連結的底線 */
             border-radius: 16px; /* 增加圓角 */
             width: 160px;
@@ -115,20 +115,24 @@
         
         /* --- 月份大數字樣式 --- */
         .month-digit {
-            font-size: 4.5rem;
+            font-size: 3.5rem; /* 調整字體大小以容納更多文字 */
             font-weight: 700;
             line-height: 1.1;
         }
 
-        /* --- "月" 和年份文字樣式 --- */
-        .month-label {
+        /* --- 按鈕內文字樣式 --- */
+        .month-name {
             font-size: 1.1rem;
-            font-weight: bold; /* 將字體加粗 */
+            font-weight: bold;
         }
-        
+        .month-year {
+            font-size: 0.9rem;
+            font-weight: normal;
+        }
+
         /* --- 日期按鈕的新樣式 --- */
         .date-button .date-main {
-             font-size: 2.8rem; /* 調整日期字體大小 */
+             font-size: 2.8rem;
              font-weight: 700;
              color: #5f6368;
              line-height: 1.2;
@@ -136,6 +140,14 @@
         .date-button .date-year {
             font-size: 1.1rem;
             font-weight: bold;
+        }
+
+        /* --- 實務訓練按鈕標籤樣式 --- */
+        .practice-label {
+            font-size: 1rem;
+            font-weight: bold;
+            text-align: center;
+            padding: 0 0.5rem;
         }
         
         /* --- 為不同月份按鈕設定繽紛的馬卡龍背景顏色 --- */
@@ -246,7 +258,7 @@
                 padding: 2.5rem 1rem;
             }
             h1 {
-                font-size: 1.8rem; /* 在小螢幕上縮小標題 */
+                font-size: 1.6rem; /* 縮小手機版標題字體以防止跑版 */
             }
             /* 師資計畫按鈕預設垂直排列 */
             .plan-grid .schedule-links {
@@ -266,8 +278,11 @@
             .pgym-links .month-digit {
                 font-size: 2.5rem; /* 縮小數字字體 */
             }
-            .pgym-links .month-label {
-                font-size: 0.8rem; /* 縮小標籤字體 */
+            .pgym-links .month-name {
+                font-size: 0.9rem;
+            }
+            .pgym-links .month-year {
+                font-size: 0.8rem;
             }
         }
     </style>
@@ -284,17 +299,20 @@
                 <!-- 10月按鈕 -->
                 <a href="https://guguguuuuu.github.io/chimeiGM/October" class="month-button bg-october">
                     <span class="month-digit">10</span>
-                    <span class="month-label">114年 October</span>
+                    <span class="month-name">October</span>
+                    <span class="month-year">2025</span>
                 </a>
                 <!-- 9月按鈕 -->
                 <a href="https://guguguuuuu.github.io/chimeiGM/September" class="month-button bg-september">
                     <span class="month-digit">9</span>
-                    <span class="month-label">114年 September</span>
+                    <span class="month-name">September</span>
+                    <span class="month-year">2025</span>
                 </a>
                 <!-- 8月按鈕 -->
                 <a href="https://guguguuuuu.github.io/chimeiGM/August" class="month-button bg-august">
                     <span class="month-digit">8</span>
-                    <span class="month-label">114年 August</span>
+                    <span class="month-name">August</span>
+                    <span class="month-year">2025</span>
                 </a>
             </div>
         </div>
@@ -309,7 +327,7 @@
                     <div class="schedule-links">
                         <a href="#" data-modal-target="workshop-modal" class="month-button date-button bg-workshop">
                             <span class="date-main">5/24</span>
-                            <span class="date-year">114</span>
+                            <span class="date-year">2025</span>
                         </a>
                     </div>
                 </div>
@@ -319,11 +337,11 @@
                     <div class="schedule-links">
                         <a href="#" data-modal-target="practice-i-modal" class="month-button bg-plan-i">
                             <span class="month-digit">I</span>
-                            <span class="month-label">114.5-7月</span>
+                            <span class="practice-label">2025/5-7月</span>
                         </a>
                         <a href="#" data-modal-target="practice-ii-modal" class="month-button bg-plan-ii">
                             <span class="month-digit">II</span>
-                            <span class="month-label">114.7-9月</span>
+                            <span class="practice-label">2025/7-9月</span>
                         </a>
                     </div>
                 </div>
@@ -342,7 +360,7 @@
     <div id="workshop-modal" class="modal">
         <div class="modal-content">
             <span class="modal-close">&times;</span>
-            <h2>一般醫學教師研習營 (114.5.24)</h2>
+            <h2>一般醫學教師研習營 (2025/5/24)</h2>
             <img src="https://raw.githubusercontent.com/guguguuuuu/chimeiGM/main/40%2B7/7-ACGME01.jpg" alt="研習營議程第一頁" class="agenda-image">
             <img src="https://raw.githubusercontent.com/guguguuuuu/chimeiGM/main/40%2B7/7-ACGME02.jpg" alt="研習營議程第二頁" class="agenda-image">
         </div>
@@ -352,7 +370,7 @@
     <div id="practice-i-modal" class="modal">
         <div class="modal-content">
             <span class="modal-close">&times;</span>
-            <h2>臨床教學實務訓練 I (114.5-7月)</h2>
+            <h2>臨床教學實務訓練 I (2025/5-7月)</h2>
             <img src="https://raw.githubusercontent.com/guguguuuuu/chimeiGM/main/40%2B7/40-1-001.JPG" alt="實務訓練 I 課表第一頁" class="agenda-image">
             <img src="https://raw.githubusercontent.com/guguguuuuu/chimeiGM/main/40%2B7/40-1-002.JPG" alt="實務訓練 I 課表第二頁" class="agenda-image">
             <img src="https://raw.githubusercontent.com/guguguuuuu/chimeiGM/main/40%2B7/40-1-003.JPG" alt="實務訓練 I 課表第三頁" class="agenda-image">
@@ -365,7 +383,7 @@
     <div id="practice-ii-modal" class="modal">
         <div class="modal-content">
             <span class="modal-close">&times;</span>
-            <h2>臨床教學實務訓練 II (114.7-9月)</h2>
+            <h2>臨床教學實務訓練 II (2025/7-9月)</h2>
             <img src="https://raw.githubusercontent.com/guguguuuuu/chimeiGM/main/40%2B7/40-2-001.JPG" alt="實務訓練 II 課表第一頁" class="agenda-image">
             <img src="https://raw.githubusercontent.com/guguguuuuu/chimeiGM/main/40%2B7/40-2-002.JPG" alt="實務訓練 II 課表第二頁" class="agenda-image">
             <img src="https://raw.githubusercontent.com/guguguuuuu/chimeiGM/main/40%2B7/40-2-003.JPG" alt="實務訓練 II 課表第三頁" class="agenda-image">
