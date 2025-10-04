@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>奇美醫院一般內科醫學訓練示範中心</title>
+    <style>
+        /* --- 整體頁面樣式 --- */
+        body {
+            /* 使用常見的無襯線字體，提供更好的可讀性 */
+            font-family: 'Microsoft JhengHei', '微軟正黑體', 'PingFang TC', sans-serif;
+            background-color: #f7f8fc; /* 使用柔和的淺灰色背景 */
+            margin: 0;
+            padding: 4rem 1rem; /* 在頁面周圍留出一些空間 */
+            box-sizing: border-box;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+
+        /* --- 主要內容容器 --- */
+        .container {
+            max-width: 1000px; /* 增加最大寬度以容納更多按鈕 */
+            width: 100%;
+            margin: 0 auto; /* 水平居中 */
+        }
+
+        /* --- 大標題樣式 --- */
+        h1 {
+            color: #333333; /* 深灰色文字 */
+            font-size: 2.5rem; /* 標題字體大小 */
+            font-weight: bold; /* 將字體加粗 */
+            margin-bottom: 3rem; /* 與下方內容的間距 */
+            text-align: center;
+        }
+        
+        /* --- 小標題樣式 (h2) --- */
+        h2 {
+            color: #4a4a4a;
+            font-size: 1.6rem;
+            font-weight: bold;
+            margin-top: 3.5rem; /* 與上一個區塊的間距 */
+            margin-bottom: 2rem; /* 與下方按鈕的間距 */
+            text-align: left;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        
+        /* --- 次小標題樣式 (h3) --- */
+        h3 {
+            color: #555;
+            font-size: 1.25rem;
+            font-weight: bold;
+            text-align: left;
+        }
+
+        /* --- 按鈕連結的容器 --- */
+        .schedule-links {
+            display: flex; /* 使用 Flexbox 進行排版 */
+            gap: 1.5rem; /* 調整按鈕之間的間距 */
+            flex-wrap: wrap; /* 在小螢幕上時，允許按鈕換行 */
+        }
+        
+        .pgym-links {
+            justify-content: center; /* 畢業後訓練按鈕維持置中 */
+        }
+
+        /* --- 師資培育計畫區塊的新樣式 --- */
+        .plan-container {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            align-items: stretch; /* 讓格子等高 */
+        }
+
+        .plan-grid {
+            background-color: #ffffff;
+            border: 1px solid #e0e0e0;
+            border-radius: 16px;
+            padding: 1.5rem;
+            flex: 1; /* 讓格子平均分配空間 */
+            min-width: 300px; /* 每個格子的最小寬度 */
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        
+        .plan-grid h3 {
+            text-align: center; /* 置中次標題 */
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .plan-grid .schedule-links {
+            justify-content: center; /* 置中按鈕 */
+        }
+
+        /* --- 月份按鈕樣式 --- */
+        .month-button {
+            display: flex;
+            flex-direction: column; /* 將圖示和文字垂直排列 */
+            justify-content: center;
+            align-items: center;
+            gap: 0;
+            text-decoration: none; /* 移除超連結的底線 */
+            border-radius: 16px; /* 增加圓角 */
+            width: 160px;
+            height: 140px; /* 增加高度以容納大數字 */
+            color: #5f6368; /* 改為深灰色文字以搭配淺色背景 */
+            /* 加入平滑的過渡效果，讓互動更流暢 */
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        /* --- 月份大數字樣式 --- */
+        .month-digit {
+            font-size: 4.5rem;
+            font-weight: 700;
+            line-height: 1.1;
+        }
+
+        /* --- "月" 和年份文字樣式 --- */
+        .month-label {
+            font-size: 1.1rem;
+            font-weight: bold; /* 將字體加粗 */
+        }
+        
+        /* --- 日期按鈕的特殊樣式 --- */
+        .date-button .date-label {
+             font-size: 1.75rem; /* 調整日期字體大小 */
+             font-weight: 700;
+             color: #5f6368;
+        }
+        
+        /* --- 為不同月份按鈕設定繽紛的馬卡龍背景顏色 --- */
+        .bg-august { background-color: #ffdac1; } /* 馬卡龍橘 */
+        .bg-september { background-color: #e2f0cb; } /* 馬卡龍綠 */
+        .bg-october { background-color: #fff2b2; } /* 馬卡龍黃 */
+        .bg-november { background-color: #e8dff5; } /* 馬卡龍紫 */
+        .bg-december { background-color: #c9e4f7; } /* 馬卡龍藍 */
+        .bg-plan-i { background-color: #f9d1d1; } /* 馬卡龍粉 */
+        .bg-plan-ii { background-color: #d4f0f0; } /* 馬卡龍青 */
+        .bg-workshop { background-color: #bde0fe; } /* 新增一個研習營的顏色 */
+
+
+        /* --- 滑鼠懸停在按鈕上的互動效果 --- */
+        .month-button:hover {
+            transform: translateY(-5px); /* 向上移動更多以突顯 */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12); /* 加入更明顯的陰影 */
+        }
+        
+        /* --- 按鈕被點擊時的互動效果 --- */
+        .month-button:active {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* --- 聯絡資訊樣式 --- */
+        .contact-info {
+            margin-top: 4rem; /* 與上方按鈕的間距 */
+            padding-top: 2rem;
+            border-top: 1px solid #e0e0e0; /* 加入分隔線 */
+            color: #5f6368;
+            font-size: 1rem;
+            line-height: 1.7; /* 增加行高 */
+            text-align: left; /* 將文字靠左對齊 */
+        }
+
+        .contact-info p {
+            margin: 0.4rem 0; /* 調整行間距 */
+        }
+
+        /* --- 響應式設計：針對手機等小螢幕的樣式調整 --- */
+        @media (max-width: 920px) {
+            .container {
+                max-width: 600px;
+            }
+             .schedule-links {
+                gap: 1.2rem;
+            }
+            .month-button {
+                width: 140px;
+                height: 120px;
+            }
+            .month-digit {
+                font-size: 3.5rem;
+            }
+            h2 {
+                 text-align: center;
+            }
+        }
+
+        @media (max-width: 720px) {
+            .plan-container {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 520px) {
+            body {
+                padding: 2.5rem 1rem;
+            }
+            h1 {
+                font-size: 1.8rem; /* 在小螢幕上縮小標題 */
+            }
+            .schedule-links {
+                flex-direction: column; /* 將按鈕改為垂直排列 */
+                gap: 1.5rem; /* 調整垂直間距 */
+            }
+            .month-button {
+                width: 100%;
+                max-width: 280px; /* 設定最大寬度，避免在手機上過寬 */
+                height: 110px;
+            }
+             .pgym-links {
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>奇美醫院一般內科醫學訓練示範中心</h1>
+
+        <!-- 第一個區塊: 畢業後一般內科醫學訓練 -->
+        <div class="training-section">
+            <h2>畢業後一般內科醫學訓練</h2>
+            <div class="schedule-links pgym-links">
+                <!-- 8月按鈕 -->
+                <a href="#" class="month-button bg-august">
+                    <span class="month-digit">8</span>
+                    <span class="month-label">114年 August</span>
+                </a>
+                <!-- 9月按鈕 -->
+                <a href="#" class="month-button bg-september">
+                    <span class="month-digit">9</span>
+                    <span class="month-label">114年 September</span>
+                </a>
+                <!-- 10月按鈕 -->
+                <a href="#" class="month-button bg-october">
+                    <span class="month-digit">10</span>
+                    <span class="month-label">114年 October</span>
+                </a>
+                <!-- 11月按鈕 -->
+                <a href="#" class="month-button bg-november">
+                    <span class="month-digit">11</span>
+                    <span class="month-label">114年 November</span>
+                </a>
+                <!-- 12月按鈕 -->
+                <a href="#" class="month-button bg-december">
+                    <span class="month-digit">12</span>
+                    <span class="month-label">114年 December</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- 第二個區塊: 一般醫學師資培育計畫 -->
+        <div class="training-section">
+            <h2>一般醫學師資培育計畫</h2>
+            <div class="plan-container">
+                <!-- 第一格 -->
+                <div class="plan-grid">
+                    <h3>一般醫學教師研習營</h3>
+                    <div class="schedule-links">
+                        <a href="#" class="month-button date-button bg-workshop">
+                            <span class="date-label">114.5.24</span>
+                        </a>
+                    </div>
+                </div>
+                <!-- 第二格 -->
+                <div class="plan-grid">
+                    <h3>臨床教學實務訓練</h3>
+                    <div class="schedule-links">
+                        <a href="#" class="month-button bg-plan-i">
+                            <span class="month-digit">I</span>
+                            <span class="month-label">114.5-7月</span>
+                        </a>
+                        <a href="#" class="month-button bg-plan-ii">
+                            <span class="month-digit">II</span>
+                            <span class="month-label">114.7-9月</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 聯絡資訊區塊 -->
+        <div class="contact-info">
+            <p>教學部  王嬿茹</p>
+            <p>電話：06-2812811分機57427</p>
+            <p>Email：a11017@mail.chimei.org.tw</p>
+        </div>
+    </div>
+
+</body>
+</html>
+
