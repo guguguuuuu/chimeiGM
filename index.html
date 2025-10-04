@@ -110,6 +110,7 @@
             color: #5f6368; /* 改為深灰色文字以搭配淺色背景 */
             /* 加入平滑的過渡效果，讓互動更流暢 */
             transition: transform 0.2s ease, box-shadow 0.2s ease;
+            flex-shrink: 0; /* 避免按鈕在 flex 容器中被壓縮 */
         }
         
         /* --- 月份大數字樣式 --- */
@@ -138,6 +139,9 @@
         .bg-october { background-color: #fff2b2; } /* 馬卡龍黃 */
         .bg-november { background-color: #e8dff5; } /* 馬卡龍紫 */
         .bg-december { background-color: #c9e4f7; } /* 馬卡龍藍 */
+        .bg-january { background-color: #f7c6c7; } /* 新增顏色 */
+        .bg-february { background-color: #c3e6cb; } /* 新增顏色 */
+        .bg-march { background-color: #fde2a3; }    /* 新增顏色 */
         .bg-plan-i { background-color: #f9d1d1; } /* 馬卡龍粉 */
         .bg-plan-ii { background-color: #d4f0f0; } /* 馬卡龍青 */
         .bg-workshop { background-color: #bde0fe; } /* 新增一個研習營的顏色 */
@@ -154,6 +158,52 @@
             transform: translateY(-2px);
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
+
+        /* --- 輪播 (Carousel) 樣式 --- */
+        .carousel {
+            position: relative;
+        }
+        .carousel-container {
+            overflow: hidden;
+        }
+        .carousel-track {
+            display: flex;
+            gap: 1.5rem;
+            padding: 1rem 0;
+            transition: transform 0.5s ease-in-out;
+            justify-content: flex-start; /* 從左邊開始排 */
+        }
+        .carousel-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            z-index: 10;
+            font-size: 1.5rem;
+            color: #555;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .carousel-button:hover {
+            background-color: #f5f5f5;
+        }
+        .carousel-button--left {
+            left: -20px;
+        }
+        .carousel-button--right {
+            right: -20px;
+        }
+        .carousel-button.is-hidden {
+            display: none;
+        }
+
 
         /* --- 聯絡資訊樣式 --- */
         .contact-info {
@@ -194,6 +244,12 @@
             .plan-container {
                 flex-direction: column;
             }
+            .carousel-button--left {
+                left: -10px;
+            }
+            .carousel-button--right {
+                right: -10px;
+            }
         }
 
         @media (max-width: 520px) {
@@ -214,6 +270,7 @@
             }
              .pgym-links {
                 align-items: center;
+                flex-direction: row; /* 在輪播中強制維持水平 */
             }
         }
     </style>
@@ -226,32 +283,53 @@
         <!-- 第一個區塊: 畢業後一般內科醫學訓練 -->
         <div class="training-section">
             <h2>畢業後一般內科醫學訓練</h2>
-            <div class="schedule-links pgym-links">
-                <!-- 8月按鈕 -->
-                <a href="https://guguguuuuu.github.io/chimeiGM/August" class="month-button bg-august">
-                    <span class="month-digit">8</span>
-                    <span class="month-label">114年 August</span>
-                </a>
-                <!-- 9月按鈕 -->
-                <a href="#" class="month-button bg-september">
-                    <span class="month-digit">9</span>
-                    <span class="month-label">114年 September</span>
-                </a>
-                <!-- 10月按鈕 -->
-                <a href="#" class="month-button bg-october">
-                    <span class="month-digit">10</span>
-                    <span class="month-label">114年 October</span>
-                </a>
-                <!-- 11月按鈕 -->
-                <a href="#" class="month-button bg-november">
-                    <span class="month-digit">11</span>
-                    <span class="month-label">114年 November</span>
-                </a>
-                <!-- 12月按鈕 -->
-                <a href="#" class="month-button bg-december">
-                    <span class="month-digit">12</span>
-                    <span class="month-label">114年 December</span>
-                </a>
+            <div class="carousel">
+                <div class="carousel-container">
+                    <div class="carousel-track pgym-links">
+                        <!-- 8月按鈕 -->
+                        <a href="https://guguguuuuu.github.io/chimeiGM/August" class="month-button bg-august">
+                            <span class="month-digit">8</span>
+                            <span class="month-label">114年 August</span>
+                        </a>
+                        <!-- 9月按鈕 -->
+                        <a href="https://guguguuuuu.github.io/chimeiGM/September" class="month-button bg-september">
+                            <span class="month-digit">9</span>
+                            <span class="month-label">114年 September</span>
+                        </a>
+                        <!-- 10月按鈕 -->
+                        <a href="https://guguguuuuu.github.io/chimeiGM/October" class="month-button bg-october">
+                            <span class="month-digit">10</span>
+                            <span class="month-label">114年 October</span>
+                        </a>
+                        <!-- 11月按鈕 -->
+                        <a href="#" class="month-button bg-november">
+                            <span class="month-digit">11</span>
+                            <span class="month-label">114年 November</span>
+                        </a>
+                        <!-- 12月按鈕 -->
+                        <a href="#" class="month-button bg-december">
+                            <span class="month-digit">12</span>
+                            <span class="month-label">114年 December</span>
+                        </a>
+                         <!-- 1月按鈕 (範例) -->
+                        <a href="#" class="month-button bg-january">
+                            <span class="month-digit">1</span>
+                            <span class="month-label">115年 January</span>
+                        </a>
+                         <!-- 2月按鈕 (範例) -->
+                        <a href="#" class="month-button bg-february">
+                            <span class="month-digit">2</span>
+                            <span class="month-label">115年 February</span>
+                        </a>
+                         <!-- 3月按鈕 (範例) -->
+                        <a href="#" class="month-button bg-march">
+                            <span class="month-digit">3</span>
+                            <span class="month-label">115年 March</span>
+                        </a>
+                    </div>
+                </div>
+                <button class="carousel-button carousel-button--left">&lt;</button>
+                <button class="carousel-button carousel-button--right">&gt;</button>
             </div>
         </div>
 
@@ -292,6 +370,103 @@
             <p>Email：a11017@mail.chimei.org.tw</p>
         </div>
     </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const carousel = document.querySelector('.carousel');
+            if (carousel) {
+                const track = carousel.querySelector('.carousel-track');
+                const prevButton = carousel.querySelector('.carousel-button--left');
+                const nextButton = carousel.querySelector('.carousel-button--right');
+                const slides = Array.from(track.children);
+                const container = carousel.querySelector('.carousel-container');
+
+                let currentIndex = 0;
+
+                const updateButtons = () => {
+                    const containerWidth = container.getBoundingClientRect().width;
+                    const trackWidth = track.scrollWidth;
+
+                    if (currentIndex === 0) {
+                        prevButton.classList.add('is-hidden');
+                    } else {
+                        prevButton.classList.remove('is-hidden');
+                    }
+
+                    if (track.getBoundingClientRect().right <= container.getBoundingClientRect().right + 10) {
+                        nextButton.classList.add('is-hidden');
+                    } else {
+                        nextButton.classList.remove('is-hidden');
+                    }
+                     // 如果總寬度小於容器寬度，隱藏所有按鈕
+                    if (trackWidth <= containerWidth) {
+                        prevButton.classList.add('is-hidden');
+                        nextButton.classList.add('is-hidden');
+                    }
+                };
+                
+                const moveToSlide = (targetIndex) => {
+                    if (targetIndex < 0 || targetIndex >= slides.length) return;
+
+                    const currentSlide = slides[currentIndex];
+                    const amountToMove = slides[targetIndex].getBoundingClientRect().left - slides[0].getBoundingClientRect().left;
+                    
+                    track.style.transform = `translateX(-${amountToMove}px)`;
+                    currentIndex = targetIndex;
+                    updateButtons();
+                }
+
+                nextButton.addEventListener('click', e => {
+                    // 找到下一個超出可見範圍的 slide
+                    let nextIndex = -1;
+                    for(let i = currentIndex; i < slides.length; i++) {
+                        if (slides[i].getBoundingClientRect().right > container.getBoundingClientRect().right) {
+                            nextIndex = i;
+                            break;
+                        }
+                    }
+                    if (nextIndex !== -1) {
+                         moveToSlide(nextIndex);
+                    }
+                });
+
+                prevButton.addEventListener('click', e => {
+                    // 找到上一個超出可見範圍的 slide
+                    let prevIndex = -1;
+                    for (let i = currentIndex - 1; i >= 0; i--) {
+                       if (slides[i].getBoundingClientRect().left < container.getBoundingClientRect().left) {
+                           const containerWidth = container.getBoundingClientRect().width;
+                           let widthSum = 0;
+                           let targetIndex = i;
+                           for (let j = i; j >= 0; j--) {
+                               widthSum += slides[j].getBoundingClientRect().width + 1.5 * 16; // width + gap
+                               if(widthSum > containerWidth) break;
+                               targetIndex = j;
+                           }
+                           prevIndex = targetIndex;
+                           break;
+                       }
+                    }
+                    
+                    if(prevIndex !== -1) {
+                         moveToSlide(prevIndex);
+                    } else if (currentIndex > 0) {
+                         moveToSlide(0);
+                    }
+                });
+
+                // 初始狀態
+                updateButtons();
+                // 視窗大小改變時重新計算
+                window.addEventListener('resize', () => {
+                    track.style.transition = 'none'; // 避免 resize 時有動畫
+                    moveToSlide(0); // 回到起點
+                    track.style.transition = 'transform 0.5s ease-in-out';
+                    updateButtons();
+                });
+            }
+        });
+    </script>
 
 </body>
 </html>
