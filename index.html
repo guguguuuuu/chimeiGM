@@ -62,10 +62,6 @@
             flex-wrap: wrap; /* 在小螢幕上時，允許按鈕換行 */
         }
         
-        .pgym-links {
-            justify-content: center; /* 畢業後訓練按鈕維持置中 */
-        }
-
         /* --- 師資培育計畫區塊的新樣式 --- */
         .plan-container {
             display: flex;
@@ -134,14 +130,6 @@
         }
         
         /* --- 為不同月份按鈕設定繽紛的馬卡龍背景顏色 --- */
-        .bg-august { background-color: #ffdac1; } /* 馬卡龍橘 */
-        .bg-september { background-color: #e2f0cb; } /* 馬卡龍綠 */
-        .bg-october { background-color: #fff2b2; } /* 馬卡龍黃 */
-        .bg-november { background-color: #e8dff5; } /* 馬卡龍紫 */
-        .bg-december { background-color: #c9e4f7; } /* 馬卡龍藍 */
-        .bg-january { background-color: #f7c6c7; } /* 新增顏色 */
-        .bg-february { background-color: #c3e6cb; } /* 新增顏色 */
-        .bg-march { background-color: #fde2a3; }    /* 新增顏色 */
         .bg-plan-i { background-color: #f9d1d1; } /* 馬卡龍粉 */
         .bg-plan-ii { background-color: #d4f0f0; } /* 馬卡龍青 */
         .bg-workshop { background-color: #bde0fe; } /* 新增一個研習營的顏色 */
@@ -159,51 +147,27 @@
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
 
-        /* --- 輪播 (Carousel) 樣式 --- */
-        .carousel {
-            position: relative;
-        }
-        .carousel-container {
-            overflow: hidden;
-        }
-        .carousel-track {
-            display: flex;
-            gap: 1.5rem;
-            padding: 1rem 0;
-            transition: transform 0.5s ease-in-out;
-            justify-content: flex-start; /* 從左邊開始排 */
-        }
-        .carousel-button {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background-color: white;
-            border: 1px solid #ddd;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            cursor: pointer;
-            z-index: 10;
-            font-size: 1.5rem;
-            color: #555;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        /* --- 下拉式選單樣式 --- */
+        .dropdown-section {
             display: flex;
             justify-content: center;
             align-items: center;
+            padding: 1rem 0; /* 減少上下間距 */
         }
-        .carousel-button:hover {
-            background-color: #f5f5f5;
+        .dropdown-label {
+            font-size: 1.1rem;
+            color: #4a4a4a;
+            margin-right: 1rem;
         }
-        .carousel-button--left {
-            left: -20px;
+        .month-select {
+            font-size: 1.1rem;
+            padding: 0.6rem 1rem;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            min-width: 280px;
+            cursor: pointer;
         }
-        .carousel-button--right {
-            right: -20px;
-        }
-        .carousel-button.is-hidden {
-            display: none;
-        }
-
 
         /* --- 聯絡資訊樣式 --- */
         .contact-info {
@@ -225,16 +189,6 @@
             .container {
                 max-width: 600px;
             }
-             .schedule-links {
-                gap: 1.2rem;
-            }
-            .month-button {
-                width: 140px;
-                height: 120px;
-            }
-            .month-digit {
-                font-size: 3.5rem;
-            }
             h2 {
                  text-align: center;
             }
@@ -243,12 +197,6 @@
         @media (max-width: 720px) {
             .plan-container {
                 flex-direction: column;
-            }
-            .carousel-button--left {
-                left: -10px;
-            }
-            .carousel-button--right {
-                right: -10px;
             }
         }
 
@@ -259,18 +207,16 @@
             h1 {
                 font-size: 1.8rem; /* 在小螢幕上縮小標題 */
             }
-            .schedule-links {
-                flex-direction: column; /* 將按鈕改為垂直排列 */
-                gap: 1.5rem; /* 調整垂直間距 */
+            .dropdown-section {
+                flex-direction: column;
+                gap: 1rem;
             }
-            .month-button {
+            .month-select {
                 width: 100%;
-                max-width: 280px; /* 設定最大寬度，避免在手機上過寬 */
-                height: 110px;
             }
-             .pgym-links {
+            .schedule-links {
+                flex-direction: column;
                 align-items: center;
-                flex-direction: row; /* 在輪播中強制維持水平 */
             }
         }
     </style>
@@ -283,54 +229,33 @@
         <!-- 第一個區塊: 畢業後一般內科醫學訓練 -->
         <div class="training-section">
             <h2>畢業後一般內科醫學訓練</h2>
-            <div class="carousel">
-                <div class="carousel-container">
-                    <div class="carousel-track pgym-links">
-                        <!-- 8月按鈕 -->
-                        <a href="https://guguguuuuu.github.io/chimeiGM/August" class="month-button bg-august">
-                            <span class="month-digit">8</span>
-                            <span class="month-label">114年 August</span>
-                        </a>
-                        <!-- 9月按鈕 -->
-                        <a href="https://guguguuuuu.github.io/chimeiGM/September" class="month-button bg-september">
-                            <span class="month-digit">9</span>
-                            <span class="month-label">114年 September</span>
-                        </a>
-                        <!-- 10月按鈕 -->
-                        <a href="https://guguguuuuu.github.io/chimeiGM/October" class="month-button bg-october">
-                            <span class="month-digit">10</span>
-                            <span class="month-label">114年 October</span>
-                        </a>
-                        <!-- 11月按鈕 -->
-                        <a href="#" class="month-button bg-november">
-                            <span class="month-digit">11</span>
-                            <span class="month-label">114年 November</span>
-                        </a>
-                        <!-- 12月按鈕 -->
-                        <a href="#" class="month-button bg-december">
-                            <span class="month-digit">12</span>
-                            <span class="month-label">114年 December</span>
-                        </a>
-                         <!-- 1月按鈕 (範例) -->
-                        <a href="#" class="month-button bg-january">
-                            <span class="month-digit">1</span>
-                            <span class="month-label">115年 January</span>
-                        </a>
-                         <!-- 2月按鈕 (範例) -->
-                        <a href="#" class="month-button bg-february">
-                            <span class="month-digit">2</span>
-                            <span class="month-label">115年 February</span>
-                        </a>
-                         <!-- 3月按鈕 (範例) -->
-                        <a href="#" class="month-button bg-march">
-                            <span class="month-digit">3</span>
-                            <span class="month-label">115年 March</span>
-                        </a>
-                    </div>
-                </div>
-                <button class="carousel-button carousel-button--left">&lt;</button>
-                <button class="carousel-button carousel-button--right">&gt;</button>
+            
+            <!-- 114年 下拉選單 -->
+            <div class="dropdown-section">
+                <label for="month-select-114" class="dropdown-label">114年：</label>
+                <select id="month-select-114" class="month-select">
+                    <option value="">-- 查看課表 --</option>
+                    <option value="https://guguguuuuu.github.io/chimeiGM/August">8月 August</option>
+                    <option value="https://guguguuuuu.github.io/chimeiGM/September">9月 September</option>
+                    <option value="https://guguguuuuu.github.io/chimeiGM/October">10月 October</option>
+                    <!-- 未來有課表時，可將此處的註解移除 -->
+                    <!-- <option value="#">11月 November</option> -->
+                    <!-- <option value="#">12月 December</option> -->
+                </select>
             </div>
+            
+            <!-- 115年 下拉選單 (範例) -->
+            <div class="dropdown-section">
+                <label for="month-select-115" class="dropdown-label">115年：</label>
+                <select id="month-select-115" class="month-select">
+                    <option value="">-- 查看課表 --</option>
+                    <!-- 未來有課表時，可將此處的註解移除 -->
+                    <!-- <option value="#">1月 January</option> -->
+                    <!-- <option value="#">2月 February</option> -->
+                    <!-- <option value="#">3月 March</option> -->
+                </select>
+            </div>
+
         </div>
 
         <!-- 第二個區塊: 一般醫學師資培育計畫 -->
@@ -373,98 +298,19 @@
     
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const carousel = document.querySelector('.carousel');
-            if (carousel) {
-                const track = carousel.querySelector('.carousel-track');
-                const prevButton = carousel.querySelector('.carousel-button--left');
-                const nextButton = carousel.querySelector('.carousel-button--right');
-                const slides = Array.from(track.children);
-                const container = carousel.querySelector('.carousel-container');
-
-                let currentIndex = 0;
-
-                const updateButtons = () => {
-                    const containerWidth = container.getBoundingClientRect().width;
-                    const trackWidth = track.scrollWidth;
-
-                    if (currentIndex === 0) {
-                        prevButton.classList.add('is-hidden');
-                    } else {
-                        prevButton.classList.remove('is-hidden');
-                    }
-
-                    if (track.getBoundingClientRect().right <= container.getBoundingClientRect().right + 10) {
-                        nextButton.classList.add('is-hidden');
-                    } else {
-                        nextButton.classList.remove('is-hidden');
-                    }
-                     // 如果總寬度小於容器寬度，隱藏所有按鈕
-                    if (trackWidth <= containerWidth) {
-                        prevButton.classList.add('is-hidden');
-                        nextButton.classList.add('is-hidden');
-                    }
-                };
-                
-                const moveToSlide = (targetIndex) => {
-                    if (targetIndex < 0 || targetIndex >= slides.length) return;
-
-                    const currentSlide = slides[currentIndex];
-                    const amountToMove = slides[targetIndex].getBoundingClientRect().left - slides[0].getBoundingClientRect().left;
-                    
-                    track.style.transform = `translateX(-${amountToMove}px)`;
-                    currentIndex = targetIndex;
-                    updateButtons();
-                }
-
-                nextButton.addEventListener('click', e => {
-                    // 找到下一個超出可見範圍的 slide
-                    let nextIndex = -1;
-                    for(let i = currentIndex; i < slides.length; i++) {
-                        if (slides[i].getBoundingClientRect().right > container.getBoundingClientRect().right) {
-                            nextIndex = i;
-                            break;
-                        }
-                    }
-                    if (nextIndex !== -1) {
-                         moveToSlide(nextIndex);
+            // 選取所有 class 為 month-select 的下拉選單
+            const allSelects = document.querySelectorAll('.month-select');
+            
+            // 針對每一個選單，都加上事件監聽
+            allSelects.forEach(function(selectElement) {
+                selectElement.addEventListener('change', function() {
+                    const selectedUrl = this.value;
+                    if (selectedUrl) {
+                        window.open(selectedUrl, '_blank'); // 在新分頁開啟連結
+                        this.value = ''; // 重設下拉選單，方便下次選擇
                     }
                 });
-
-                prevButton.addEventListener('click', e => {
-                    // 找到上一個超出可見範圍的 slide
-                    let prevIndex = -1;
-                    for (let i = currentIndex - 1; i >= 0; i--) {
-                       if (slides[i].getBoundingClientRect().left < container.getBoundingClientRect().left) {
-                           const containerWidth = container.getBoundingClientRect().width;
-                           let widthSum = 0;
-                           let targetIndex = i;
-                           for (let j = i; j >= 0; j--) {
-                               widthSum += slides[j].getBoundingClientRect().width + 1.5 * 16; // width + gap
-                               if(widthSum > containerWidth) break;
-                               targetIndex = j;
-                           }
-                           prevIndex = targetIndex;
-                           break;
-                       }
-                    }
-                    
-                    if(prevIndex !== -1) {
-                         moveToSlide(prevIndex);
-                    } else if (currentIndex > 0) {
-                         moveToSlide(0);
-                    }
-                });
-
-                // 初始狀態
-                updateButtons();
-                // 視窗大小改變時重新計算
-                window.addEventListener('resize', () => {
-                    track.style.transition = 'none'; // 避免 resize 時有動畫
-                    moveToSlide(0); // 回到起點
-                    track.style.transition = 'transform 0.5s ease-in-out';
-                    updateButtons();
-                });
-            }
+            });
         });
     </script>
 
