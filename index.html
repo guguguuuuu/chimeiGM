@@ -245,16 +245,22 @@
             </div>
             
             <!-- 115年 下拉選單 (範例) -->
+            <!--
             <div class="dropdown-section">
                 <label for="month-select-115" class="dropdown-label">115年：</label>
                 <select id="month-select-115" class="month-select">
                     <option value="">-- 查看課表 --</option>
+                    -->
                     <!-- 未來有課表時，可將此處的註解移除 -->
-                    <!-- <option value="#">1月 January</option> -->
-                    <!-- <option value="#">2月 February</option> -->
-                    <!-- <option value="#">3月 March</option> -->
+                    <!--
+                    <option value="#">1月 January</option>
+                    <option value="#">2月 February</option>
+                    <option value="#">3月 March</option>
+                    -->
+                <!--
                 </select>
             </div>
+            -->
 
         </div>
 
@@ -306,8 +312,8 @@
                 selectElement.addEventListener('change', function() {
                     const selectedUrl = this.value;
                     if (selectedUrl) {
-                        window.open(selectedUrl, '_blank'); // 在新分頁開啟連結
-                        this.value = ''; // 重設下拉選單，方便下次選擇
+                        // 改為直接跳轉，以避免被手機瀏覽器阻擋
+                        window.location.href = selectedUrl;
                     }
                 });
             });
