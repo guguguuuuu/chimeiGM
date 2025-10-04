@@ -43,6 +43,14 @@
             color: #4f46e5;
             background-color: #eef2ff;
         }
+        .dept-summary-card {
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+        }
+        .dept-summary-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
     </style>
 </head>
 <body class="bg-gray-100 p-4 sm:p-6 lg:p-8">
@@ -59,6 +67,9 @@
                     課程行事曆
                 </button>
                 <button id="tab-schedule" class="tab text-gray-500 hover:text-gray-700 px-3 py-2 font-medium text-sm rounded-md border-b-2 border-transparent">
+                    醫師名單
+                </button>
+                 <button id="tab-oncall" class="tab text-gray-500 hover:text-gray-700 px-3 py-2 font-medium text-sm rounded-md border-b-2 border-transparent">
                     醫師班表
                 </button>
             </nav>
@@ -72,6 +83,13 @@
 
         <div id="schedule-panel" class="tab-panel hidden p-4 sm:p-6">
             <!-- Doctor's schedule content will be generated here -->
+        </div>
+        
+        <div id="oncall-panel" class="tab-panel hidden p-4 sm:p-6">
+            <div class="space-y-4">
+                <img src="https://raw.githubusercontent.com/guguguuuuu/chimeiGM/main/11410001.jpg" alt="值班表第一頁" class="w-full h-auto rounded-lg shadow-md">
+                <img src="https://raw.githubusercontent.com/guguguuuuu/chimeiGM/main/11410002.jpg" alt="值班表第二頁" class="w-full h-auto rounded-lg shadow-md">
+            </div>
         </div>
     </div>
 
@@ -147,41 +165,45 @@
         ];
 
         var doctorSchedule = {
+            pgy_cr: [
+                { student: '蕭柏文6676', teacher: '內科部 R3', period: '', department: 'PGY CR' }
+            ],
             pgy1: [
-                { teacher: '郭妍伶5052', student: '顧安安2079', period: '114.08-114.10' },
-                { teacher: '王淑慎6496', student: '沈哲民2090', period: '114.10-114.12' },
-                { teacher: '黃琪雅3856', student: '陳奕宏2077', period: '114.08-114.10' },
-                { teacher: '楊翊群3554', student: '莊硯宇2053', period: '' },
-                { teacher: '張庭嘉3827', student: '陳建廷2076', period: '' },
-                { teacher: '林泱瀚6393', student: '吳思賢2052', period: '' },
-                { teacher: '陳鋭溢6463', student: '陳韋杉2054', period: '' },
-                { teacher: '楊翼寧3791', student: '洪景文2072', period: '' },
-                { teacher: '黃筠婷3948', student: '程禹碩2060', period: '' },
-                { teacher: '張瑄元3372', student: '吳帛承2059', period: '114.08-114.10' },
-                { teacher: '王宿鴻3635', student: '李思葳3209', period: '' },
-                { teacher: '湯宏仁5146', student: '廖胤傑2071', period: '' },
-                { teacher: '蘇柏安5702', student: '高品霓2055', period: '' },
-                { teacher: '蔡家宏6904', student: '張萓秦2080', period: '' },
-                { teacher: '陳宏睿5515', student: '曾柏皓2607', period: '' },
-                { teacher: '楊勝翔6619, 林冠宏6714', student: '吳婕寧2086', period: '114.09-114.11' },
-                { teacher: '謝孟倉6502, 呂冠嫻3879', student: '蔡伯慶2074', period: '114.08-114.10' },
-                { teacher: '楊浚銘5464, 黃至誠6810', student: '嚴楷舜2088', period: '' },
-                { teacher: '葉珀秀5150, 鄭天浚5356, 林慧娟5537', student: '盧俊佑3201', period: '' },
-                { teacher: '林志憲3820, 涂冠杰3352, 鄭成泉5301', student: '吳沂蓁2051', period: '' },
+                { student: '顧安安2079', teacher: '郭妍伶5052', period: '114.08-114.10', department: '一般內' },
+                { student: '沈哲民2090', teacher: '王淑慎6496', period: '114.10-114.12', department: '一般內' },
+                { student: '陳奕宏2077', teacher: '黃琪雅3856', period: '114.08-114.10', department: '一般內' },
+                { student: '莊硯宇2053', teacher: '楊翊群3554', period: '', department: '胸腔' },
+                { student: '陳建廷2076', teacher: '張庭嘉3827', period: '', department: '胸腔' },
+                { student: '吳思賢2052', teacher: '林泱瀚6393', period: '', department: '胸腔' },
+                { student: '陳韋杉2054', teacher: '陳鋭溢6463', period: '', department: '腎臟' },
+                { student: '洪景文2072', teacher: '楊翼寧3791', period: '', department: '腎臟' },
+                { student: '程禹碩2060', teacher: '黃筠婷3948', period: '', department: '腎臟' },
+                { student: '吳帛承2059', teacher: '張瑄元3372', period: '114.08-114.10', department: '胃腸' },
+                { student: '李思葳3209', teacher: '王宿鴻3635', period: '', department: '胃腸' },
+                { student: '廖胤傑2071', teacher: '湯宏仁5146', period: '', department: '感染' },
+                { student: '高品霓2055', teacher: '蘇柏安5702', period: '', department: '感染' },
+                { student: '張萓秦2080', teacher: '蔡家宏6904', period: '', department: '感染' },
+                { student: '曾柏皓2607', teacher: '陳宏睿5515', period: '', department: '感染' },
+                { student: '吳婕寧2086', teacher: '楊勝翔6619, 林冠宏6714', period: '114.09-114.11', department: '神內' },
+                { student: '蔡伯慶2074', teacher: '謝孟倉6502, 呂冠嫻3879', period: '114.08-114.10', department: '神內' },
+                { student: '嚴楷舜2088', teacher: '楊浚銘5464, 黃至誠6810', period: '', department: '神內' },
+                { student: '盧俊佑3201', teacher: '葉珀秀5150, 鄭天浚5356, 林慧娟5537', period: '', department: '神內' },
+                { student: '吳沂蓁2051', teacher: '林志憲3820, 涂冠杰3352, 鄭成泉5301', period: '', department: '心內' },
             ],
             pgy2: [
-                { teacher: '陳威宇7220', student: '朱怡綸2624', period: '114.09-114.11' },
-                { teacher: '康乃文3611', student: '張力中2712', period: '114.08-114.10' },
-                { teacher: '鄭舒帆5243', student: '黃湘涵2745', period: '114.08-114.11' },
-                { teacher: '楊翊群3554', student: '蔡芝蓉2633', period: '114.10-114.12' },
-                { teacher: '陳宏睿5515', student: '尤威儒2631', period: '114.08-114.10' },
-                { teacher: '馮意哲5765', student: '黃傳傑2632', period: '114.08-114.11' },
-                { teacher: '黃沛頡6658, 曾宣靈6018', student: '盧思云2619', period: '114.10-114.12' },
-                { teacher: '吳文憲5320, 蔣俊彥6007, 周銘霆5294', student: '張凱柏2601', period: '114.08-114.10' },
+                { student: '朱怡綸2624', teacher: '陳威宇7220', period: '114.09-114.11', department: '血腫' },
+                { student: '張力中2712', teacher: '康乃文3611', period: '114.08-114.10', department: '血腫' },
+                { student: '黃湘涵2745', teacher: '鄭舒帆5243', period: '114.08-114.11', department: '胸腔' },
+                { student: '蔡芝蓉2633', teacher: '楊翊群3554', period: '114.10-114.12', department: '胸腔' },
+                { student: '尤威儒2631', teacher: '陳宏睿5515', period: '114.08-114.10', department: '感染' },
+                { student: '黃傳傑2632', teacher: '馮意哲5765', period: '114.08-114.11', department: '胃腸' },
+                { student: '盧思云2619', teacher: '黃沛頡6658, 曾宣靈6018', period: '114.10-114.12', department: '心內' },
+                { student: '張凱柏2601', teacher: '吳文憲5320, 蔣俊彥6007, 周銘霆5294', period: '114.08-114.10', department: '心內' },
+            ],
+            ugy: [
+                { student: '北醫六年級陳思翰(6114)', teacher: '葉正發6359', period: '9/22-10/3', department: '一般內' }
             ],
             other: [
-                'PGY CR蕭柏文6676',
-                'UGY北醫六年級陳思翰(6114)：9/22-10/3葉正發',
                 '10/8-10/26 葉正發醫師休假'
             ]
         };
@@ -355,7 +377,7 @@
             if (d.participants && d.participants.length) {
                 bodyHTML += `<div class="border-t pt-3 mt-3">
                     <div class="flex items-start">
-                        <div class="w-6 text-center mr-2 mt-0.5"><svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg></div>
+                        <div class="w-6 text-center mr-2 mt-0.5"><svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283-.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg></div>
                         <div>
                             <strong class="font-semibold text-gray-700 text-sm">參與學員</strong>
                             <div class="text-gray-600 text-sm grid grid-cols-2 sm:grid-cols-3 gap-x-4 gap-y-1 mt-1">${d.participants.map(p => `<span>${p}</span>`).join('')}</div>
@@ -375,17 +397,137 @@
             return bodyHTML;
         }
 
+        function createDeptTooltipContent(dept) {
+            const allDoctors = [...doctorSchedule.pgy_cr, ...doctorSchedule.pgy1, ...doctorSchedule.pgy2, ...doctorSchedule.ugy];
+            const deptMembers = allDoctors.filter(d => d.department === dept);
+
+            let content = `<div class="p-4 text-left max-w-md w-screen space-y-3">
+                             <h3 class="text-xl font-bold text-gray-900 mb-3">${dept}</h3>
+                             <div class="space-y-4">`;
+            
+            deptMembers.forEach(member => {
+                let role = '';
+                let roleColor = 'bg-gray-200 text-gray-700';
+                if (doctorSchedule.pgy_cr.includes(member)) { role = 'PGY CR'; roleColor = 'bg-purple-100 text-purple-700'; }
+                if (doctorSchedule.pgy1.includes(member)) { role = 'PGY1'; roleColor = 'bg-indigo-100 text-indigo-700'; }
+                if (doctorSchedule.pgy2.includes(member)) { role = 'PGY2'; roleColor = 'bg-teal-100 text-teal-700'; }
+                if (doctorSchedule.ugy.includes(member)) { role = 'UGY'; roleColor = 'bg-orange-100 text-orange-700'; }
+
+                content += `
+                    <div class="border-t pt-3">
+                        <div class="flex justify-between items-start">
+                           <div>
+                                <p class="font-semibold text-gray-800">${member.student}</p>
+                                <p class="text-sm text-gray-600 mt-1"><strong>臨床教師：</strong> ${member.teacher}</p>
+                                <p class="text-sm text-gray-600"><strong>訓練期間：</strong> ${member.period || '114.08-114.10'}</p>
+                           </div>
+                           <span class="text-xs font-medium ${roleColor} px-2 py-0.5 rounded-full">${role}</span>
+                        </div>
+                    </div>
+                `;
+            });
+
+            content += `</div></div>`;
+            return content;
+        }
+        
         function generateScheduleView() {
             const container = document.getElementById('schedule-panel');
-             // Fill in empty periods
-            doctorSchedule.pgy1.forEach(item => { if (!item.period) item.period = '114.08-114.10'; });
-            doctorSchedule.pgy2.forEach(item => { if (!item.period) item.period = '114.08-114.10'; });
-
+            const allDoctors = [...doctorSchedule.pgy_cr, ...doctorSchedule.pgy1, ...doctorSchedule.pgy2, ...doctorSchedule.ugy];
+            
             let scheduleHTML = `<div class="space-y-6">`;
+
+            // Department Summary Section
+            let deptSummary = {};
+            const deptIcons = {
+                '一般內': 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z',
+                '胸腔': 'M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2h8a2 2 0 002-2v-1a2 2 0 012-2h1.945C21.055 11 21 11.555 21 12c0 4.418-4.03 8-9 8s-9-3.582-9-8c0-.445.055-1 .11-1.555zM6.94 6.94a.5.5 0 01.707 0L12 11.293l4.354-4.353a.5.5 0 11.707.707L12.707 12l4.353 4.354a.5.5 0 01-.707.707L12 12.707l-4.354 4.353a.5.5 0 01-.707-.707L11.293 12 6.94 7.646a.5.5 0 010-.707z',
+                '腎臟': 'M9 4.5A2.5 2.5 0 016.5 2H5a2 2 0 00-2 2v12a2 2 0 002 2h14a2 2 0 002-2V4a2 2 0 00-2-2h-1.5A2.5 2.5 0 0115 4.5V6h-2V4.5a.5.5 0 00-.5-.5h-5a.5.5 0 00-.5.5V6H5V4.5zM4 10.5a.5.5 0 01.5-.5h15a.5.5 0 010 1H4.5a.5.5 0 01-.5-.5z',
+                '胃腸': 'M8 2.5a.5.5 0 01.5.5v1a.5.5 0 01-1 0v-1a.5.5 0 01.5-.5zM12 2.5a.5.5 0 01.5.5v1a.5.5 0 01-1 0v-1a.5.5 0 01.5-.5zM16 2.5a.5.5 0 01.5.5v1a.5.5 0 01-1 0v-1a.5.5 0 01.5-.5zM3 7a1 1 0 011-1h16a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h16a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h16a1 1 0 110 2H4a1 1 0 01-1-1z',
+                '感染': 'M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-2H9v-2h2v-2H9V9h2V7h2v2h2v2h-2v2h2v2h-2v2h-2z',
+                '神內': 'M12 2a5.5 5.5 0 00-5.5 5.5c0 2.21 1.25 4.14 3 5.08V17H8v2h8v-2h-1.5v-4.42c1.75-.94 3-2.87 3-5.08A5.5 5.5 0 0012 2z',
+                '心內': 'M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z',
+                '血腫': 'M12 2a9.96 9.96 0 00-5 1.48 4 4 0 012.83 2.83A10 10 0 0012 2zm0 20a9.96 9.96 0 005-1.48 4 4 0 01-2.83-2.83A10 10 0 0012 22zm5-1.48A9.96 9.96 0 0022 12a10 10 0 00-6.32-9.29 4 4 0 01-2.83 2.83A9.96 9.96 0 0017 12zm-10 0a9.96 9.96 0 00-2.29-6.32 4 4 0 012.83-2.83A10 10 0 002 12a9.96 9.96 0 002.71 6.68z'
+            };
+            const deptColors = {
+                '一般內': 'bg-blue-100 text-blue-800 border-blue-500', 
+                '胸腔': 'bg-sky-100 text-sky-800 border-sky-500', 
+                '腎臟': 'bg-green-100 text-green-800 border-green-500',
+                '胃腸': 'bg-amber-100 text-amber-800 border-amber-500', 
+                '感染': 'bg-red-100 text-red-800 border-red-500', 
+                '神內': 'bg-purple-100 text-purple-800 border-purple-500',
+                '心內': 'bg-pink-100 text-pink-800 border-pink-500', 
+                '血腫': 'bg-rose-100 text-rose-800 border-rose-500'
+            };
+
+            allDoctors.forEach(d => {
+                if (d.department && d.department !== 'PGY CR') {
+                    if (!deptSummary[d.department]) {
+                        deptSummary[d.department] = { pgy1: 0, pgy2: 0, ugy: 0, total: 0 };
+                    }
+                    deptSummary[d.department].total++;
+                    if (doctorSchedule.pgy1.includes(d)) deptSummary[d.department].pgy1++;
+                    if (doctorSchedule.pgy2.includes(d)) deptSummary[d.department].pgy2++;
+                    if (doctorSchedule.ugy.includes(d)) deptSummary[d.department].ugy++;
+                }
+            });
+
+            scheduleHTML += `<div>
+                <h2 class="text-2xl font-bold text-gray-800 mb-4 border-l-4 border-gray-500 pl-3">科別總覽</h2>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">`;
+            
+            Object.keys(deptSummary).forEach(dept => {
+                const summary = deptSummary[dept];
+                const colors = deptColors[dept] || 'bg-gray-100 text-gray-800 border-gray-500';
+                scheduleHTML += `
+                    <div class="dept-summary-card bg-white rounded-lg border-l-4 ${colors.split(' ')[2]} shadow-sm flex flex-col justify-between" data-dept="${dept}">
+                        <div class="p-4 text-center">
+                             <div class="w-16 h-16 rounded-full ${colors.split(' ')[0]} flex items-center justify-center mx-auto">
+                               <svg class="w-8 h-8 ${colors.split(' ')[1]}" fill="currentColor" viewBox="0 0 24 24">${deptIcons[dept] || ''}</svg>
+                            </div>
+                            <h3 class="font-bold text-2xl text-gray-800 mt-3">${dept}</h3>
+                            <p class="font-semibold text-lg text-gray-500">共 ${summary.total} 人</p>
+                        </div>
+                        <div class="bg-gray-50 p-2 rounded-b-lg mt-2 flex justify-center space-x-2">
+                            ${summary.pgy1 > 0 ? `<div class="text-center px-2"><div class="font-bold text-indigo-800 text-3xl">${summary.pgy1}</div><div class="text-xs text-indigo-700">PGY1</div></div>` : ''}
+                            ${summary.pgy2 > 0 ? `<div class="text-center px-2"><div class="font-bold text-teal-800 text-3xl">${summary.pgy2}</div><div class="text-xs text-teal-700">PGY2</div></div>` : ''}
+                            ${summary.ugy > 0 ? `<div class="text-center px-2"><div class="font-bold text-orange-800 text-3xl">${summary.ugy}</div><div class="text-xs text-orange-700">UGY</div></div>` : ''}
+                        </div>
+                    </div>
+                `;
+            });
+            scheduleHTML += `</div></div>`;
+
+
+            // PGY CR Section
+            scheduleHTML += `
+                <div>
+                    <div class="w-full text-left bg-gray-100 text-gray-800 font-bold p-4 rounded-lg flex justify-between items-center">
+                        <div class="flex items-center">
+                            <h2 class="text-2xl font-bold text-purple-600">PGY CR</h2>
+                        </div>
+                    </div>
+                    <div class="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                         <div class="bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden" data-dept="PGY CR">
+                            <div class="p-5">
+                                <div class="flex items-start space-x-4">
+                                    <div class="flex-shrink-0 w-12 h-12 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center">
+                                        <span class="font-bold text-lg">R3</span>
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <p class="text-base font-bold text-gray-900">蕭柏文6676</p>
+                                        <div class="mt-1"><p class="text-sm text-gray-500">內科部 R3</p></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>`;
+
 
             // PGY1 Collapsible Section
             scheduleHTML += `
-                <div>
+                <div data-dept-group="pgy1">
                     <button id="toggle-pgy1" class="w-full text-left bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold p-4 rounded-lg flex justify-between items-center transition">
                         <div class="flex items-center">
                             <h2 class="text-2xl font-bold text-indigo-600">PGY1</h2>
@@ -395,22 +537,24 @@
                     </button>
                     <div id="pgy1-content" class="hidden mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">`;
             doctorSchedule.pgy1.forEach(item => {
+                const teachersHTML = item.teacher.split(', ').map(t => `<p class="text-sm text-gray-500">${t}</p>`).join('');
                 scheduleHTML += `
-                    <div class="bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden">
+                    <div class="bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden" data-dept="${item.department}">
                         <div class="p-5">
-                            <div class="flex items-center space-x-4">
+                            <div class="flex items-start space-x-4">
                                 <div class="flex-shrink-0 w-12 h-12 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center">
                                     <span class="font-bold text-lg">Y1</span>
                                 </div>
                                 <div class="flex-1 min-w-0">
-                                    <p class="text-base font-bold text-gray-900 truncate">${item.student}</p>
-                                    <p class="text-sm text-gray-500 mt-1 truncate">臨床教師: ${item.teacher}</p>
+                                    <p class="text-base font-bold text-gray-900">${item.student}</p>
+                                    <div class="text-xs font-semibold text-indigo-600 bg-indigo-100 inline-block px-2 py-0.5 rounded-full my-1">${item.department}</div>
+                                    <div class="mt-1">${teachersHTML}</div>
                                 </div>
                             </div>
                         </div>
                         <div class="bg-gray-50 px-5 py-3 border-t border-gray-200 flex items-center text-sm text-gray-600">
                            <svg class="w-4 h-4 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                            <span>訓練期間: ${item.period}</span>
+                            <span>訓練期間: ${item.period || '114.08-114.10'}</span>
                         </div>
                     </div>`;
             });
@@ -418,7 +562,7 @@
             
             // PGY2 Collapsible Section
             scheduleHTML += `
-                <div>
+                <div data-dept-group="pgy2">
                     <button id="toggle-pgy2" class="w-full text-left bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold p-4 rounded-lg flex justify-between items-center transition">
                         <div class="flex items-center">
                             <h2 class="text-2xl font-bold text-teal-600">PGY2</h2>
@@ -428,31 +572,67 @@
                     </button>
                     <div id="pgy2-content" class="hidden mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">`;
             doctorSchedule.pgy2.forEach(item => {
+                const teachersHTML = item.teacher.split(', ').map(t => `<p class="text-sm text-gray-500">${t}</p>`).join('');
                 scheduleHTML += `
-                     <div class="bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden">
+                     <div class="bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden" data-dept="${item.department}">
                         <div class="p-5">
-                            <div class="flex items-center space-x-4">
+                            <div class="flex items-start space-x-4">
                                 <div class="flex-shrink-0 w-12 h-12 rounded-full bg-teal-100 text-teal-600 flex items-center justify-center">
                                     <span class="font-bold text-lg">Y2</span>
                                 </div>
                                 <div class="flex-1 min-w-0">
-                                    <p class="text-base font-bold text-gray-900 truncate">${item.student}</p>
-                                    <p class="text-sm text-gray-500 mt-1 truncate">臨床教師: ${item.teacher}</p>
+                                    <p class="text-base font-bold text-gray-900">${item.student}</p>
+                                    <div class="text-xs font-semibold text-teal-600 bg-teal-100 inline-block px-2 py-0.5 rounded-full my-1">${item.department}</div>
+                                    <div class="mt-1">${teachersHTML}</div>
                                 </div>
                             </div>
                         </div>
                         <div class="bg-gray-50 px-5 py-3 border-t border-gray-200 flex items-center text-sm text-gray-600">
                            <svg class="w-4 h-4 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                            <span>訓練期間: ${item.period}</span>
+                            <span>訓練期間: ${item.period || '114.08-114.10'}</span>
                         </div>
                     </div>`;
             });
             scheduleHTML += `</div></div>`;
+            
+             // UGY Collapsible Section
+            scheduleHTML += `
+                <div data-dept-group="ugy">
+                    <button id="toggle-ugy" class="w-full text-left bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold p-4 rounded-lg flex justify-between items-center transition">
+                        <div class="flex items-center">
+                            <h2 class="text-2xl font-bold text-orange-600">UGY</h2>
+                            <span class="ml-3 bg-orange-200 text-orange-800 text-sm font-semibold px-2.5 py-0.5 rounded-full">共 1 人</span>
+                        </div>
+                        <svg id="toggle-icon-ugy" class="w-6 h-6 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div id="ugy-content" class="hidden mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                         <div class="bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden" data-dept="一般內">
+                            <div class="p-5">
+                                <div class="flex items-start space-x-4">
+                                    <div class="flex-shrink-0 w-12 h-12 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center">
+                                        <span class="font-bold text-base">UGY</span>
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <p class="text-base font-bold text-gray-900">北醫六年級陳思翰(6114)</p>
+                                        <div class="text-xs font-semibold text-orange-600 bg-orange-100 inline-block px-2 py-0.5 rounded-full my-1">一般內</div>
+                                        <div class="mt-1"><p class="text-sm text-gray-500">臨床教師: 葉正發6359</p></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bg-gray-50 px-5 py-3 border-t border-gray-200 flex items-center text-sm text-gray-600">
+                               <svg class="w-4 h-4 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                                <span>訓練期間: 9/22-10/3</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>`;
+
 
             // Other Info
             scheduleHTML += `<div class="mt-8"><h2 class="text-2xl font-bold text-gray-800 mb-4 border-l-4 border-amber-500 pl-3">其他</h2>
                              <div class="bg-gray-50 p-4 rounded-lg border border-gray-200"><ul class="list-disc list-inside space-y-2 text-gray-700">`;
             doctorSchedule.other.forEach(item => {
+                 if (item.includes('PGY CR') || item.includes('UGY')) return; // Filter out moved items
                  scheduleHTML += `<li>${item}</li>`;
             });
             scheduleHTML += `</ul></div></div>`;
@@ -515,20 +695,39 @@
             });
 
             // Setup listeners for the collapsible schedule sections
-            const togglePgy1 = document.getElementById('toggle-pgy1');
-            if (togglePgy1) {
-                togglePgy1.addEventListener('click', () => {
-                    document.getElementById('pgy1-content').classList.toggle('hidden');
-                    document.getElementById('toggle-icon-pgy1').classList.toggle('rotate-180');
+            ['pgy1', 'pgy2', 'ugy'].forEach(type => {
+                const button = document.getElementById(`toggle-${type}`);
+                if (button) {
+                    button.addEventListener('click', () => {
+                        document.getElementById(`${type}-content`).classList.toggle('hidden');
+                        document.getElementById(`toggle-icon-${type}`).classList.toggle('rotate-180');
+                    });
+                }
+            });
+
+            // Department popup functionality
+            const deptCards = document.querySelectorAll('.dept-summary-card');
+            let deptTippyInstances = [];
+
+            deptCards.forEach(card => {
+                const dept = card.dataset.dept;
+                const instance = tippy(card, {
+                    content: createDeptTooltipContent(dept),
+                    allowHTML: true,
+                    theme: 'light',
+                    interactive: true,
+                    animation: 'scale-subtle',
+                    placement: 'bottom',
+                    trigger: 'click',
+                    hideOnClick: true,
+                     onShow() {
+                        deptTippyInstances.forEach(i => {
+                            if (i !== instance) i.hide();
+                        });
+                    }
                 });
-            }
-            const togglePgy2 = document.getElementById('toggle-pgy2');
-            if (togglePgy2) {
-                togglePgy2.addEventListener('click', () => {
-                    document.getElementById('pgy2-content').classList.toggle('hidden');
-                    document.getElementById('toggle-icon-pgy2').classList.toggle('rotate-180');
-                });
-            }
+                deptTippyInstances.push(instance);
+            });
         });
     </script>
 </body>
