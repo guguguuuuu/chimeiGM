@@ -29,10 +29,15 @@
         /* --- 大標題樣式 --- */
         h1 {
             color: #333333; /* 深灰色文字 */
-            font-size: 2.5rem; /* 標題字體大小 */
-            font-weight: bold; /* 將字體加粗 */
             margin-bottom: 3rem; /* 與下方內容的間距 */
             text-align: center;
+            line-height: 1.4;
+        }
+        .main-title,
+        .sub-title {
+            display: block;
+            font-size: 1.8rem; /* 統一字體大小 */
+            font-weight: bold;   /* 統一字體粗細 */
         }
         
         /* --- 小標題樣式 (h2) --- */
@@ -257,8 +262,9 @@
             body {
                 padding: 2.5rem 1rem;
             }
-            h1 {
-                font-size: 1.6rem; /* 縮小手機版標題字體以防止跑版 */
+            .main-title,
+            .sub-title {
+                font-size: 1.3rem; /* 統一手機版字體大小 */
             }
             /* 師資計畫按鈕預設垂直排列 */
             .plan-grid .schedule-links {
@@ -290,7 +296,10 @@
 <body>
 
     <div class="container">
-        <h1>奇美醫院一般內科醫學訓練示範中心</h1>
+        <h1>
+            <span class="main-title">奇美醫療財團法人奇美醫院</span>
+            <span class="sub-title">一般內科醫學訓練示範中心</span>
+        </h1>
 
         <!-- 第一個區塊: 畢業後一般內科醫學訓練 -->
         <div class="training-section">
