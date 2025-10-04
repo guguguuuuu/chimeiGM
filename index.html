@@ -183,6 +183,57 @@
         .contact-info p {
             margin: 0.4rem 0; /* 調整行間距 */
         }
+        
+        /* --- 彈出式視窗 (Modal) 樣式 --- */
+        .modal {
+            display: none; /* 預設隱藏 */
+            position: fixed; /* 固定在畫面上 */
+            z-index: 100; /* 確保在最上層 */
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto; /* 如果內容過多，允許滾動 */
+            background-color: rgba(0,0,0,0.6); /* 半透明黑色背景 */
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 2rem;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 800px;
+            border-radius: 10px;
+            position: relative;
+        }
+        .modal-close {
+            color: #aaa;
+            font-size: 28px;
+            font-weight: bold;
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            cursor: pointer;
+        }
+        .modal-close:hover,
+        .modal-close:focus {
+            color: black;
+            text-decoration: none;
+        }
+        .modal h2 {
+            text-align: center;
+            margin-top: 0;
+            border: none;
+        }
+        .agenda-image {
+            width: 100%;
+            height: auto;
+            display: block;
+            margin-bottom: 1rem;
+        }
+
 
         /* --- 響應式設計：針對手機等小螢幕的樣式調整 --- */
         @media (max-width: 920px) {
@@ -254,7 +305,7 @@
                 <div class="plan-grid">
                     <h3>一般醫學教師研習營</h3>
                     <div class="schedule-links">
-                        <a href="./workshop.html" class="month-button date-button bg-workshop">
+                        <a href="#" data-modal-target="workshop-modal" class="month-button date-button bg-workshop">
                             <span class="date-label">114.5.24</span>
                         </a>
                     </div>
@@ -263,11 +314,11 @@
                 <div class="plan-grid">
                     <h3>臨床教學實務訓練</h3>
                     <div class="schedule-links">
-                        <a href="#" class="month-button bg-plan-i">
+                        <a href="#" data-modal-target="practice-i-modal" class="month-button bg-plan-i">
                             <span class="month-digit">I</span>
                             <span class="month-label">114.5-7月</span>
                         </a>
-                        <a href="#" class="month-button bg-plan-ii">
+                        <a href="#" data-modal-target="practice-ii-modal" class="month-button bg-plan-ii">
                             <span class="month-digit">II</span>
                             <span class="month-label">114.7-9月</span>
                         </a>
@@ -284,18 +335,81 @@
         </div>
     </div>
     
+    <!-- 研習營照片的彈出視窗 -->
+    <div id="workshop-modal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <h2>一般醫學教師研習營 (114.5.24)</h2>
+            <img src="https://raw.githubusercontent.com/guguguuuuu/chimeiGM/main/40%2B7/7-ACGME01.jpg" alt="研習營議程第一頁" class="agenda-image">
+            <img src="https://raw.githubusercontent.com/guguguuuuu/chimeiGM/main/40%2B7/7-ACGME02.jpg" alt="研習營議程第二頁" class="agenda-image">
+        </div>
+    </div>
+
+    <!-- 臨床教學實務訓練 I 的彈出視窗 -->
+    <div id="practice-i-modal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <h2>臨床教學實務訓練 I (114.5-7月)</h2>
+            <img src="https://raw.githubusercontent.com/guguguuuuu/chimeiGM/main/40%2B7/40-1-001.JPG" alt="實務訓練 I 課表第一頁" class="agenda-image">
+            <img src="https://raw.githubusercontent.com/guguguuuuu/chimeiGM/main/40%2B7/40-1-002.JPG" alt="實務訓練 I 課表第二頁" class="agenda-image">
+            <img src="https://raw.githubusercontent.com/guguguuuuu/chimeiGM/main/40%2B7/40-1-003.JPG" alt="實務訓練 I 課表第三頁" class="agenda-image">
+            <img src="https://raw.githubusercontent.com/guguguuuuu/chimeiGM/main/40%2B7/40-1-004.JPG" alt="實務訓練 I 課表第四頁" class="agenda-image">
+            <img src="https://raw.githubusercontent.com/guguguuuuu/chimeiGM/main/40%2B7/40-1-005.JPG" alt="實務訓練 I 課表第五頁" class="agenda-image">
+        </div>
+    </div>
+
+    <!-- 臨床教學實務訓練 II 的彈出視窗 -->
+    <div id="practice-ii-modal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <h2>臨床教學實務訓練 II (114.7-9月)</h2>
+            <img src="https://raw.githubusercontent.com/guguguuuuu/chimeiGM/main/40%2B7/40-2-001.JPG" alt="實務訓練 II 課表第一頁" class="agenda-image">
+            <img src="https://raw.githubusercontent.com/guguguuuuu/chimeiGM/main/40%2B7/40-2-002.JPG" alt="實務訓練 II 課表第二頁" class="agenda-image">
+            <img src="https://raw.githubusercontent.com/guguguuuuu/chimeiGM/main/40%2B7/40-2-003.JPG" alt="實務訓練 II 課表第三頁" class="agenda-image">
+            <img src="https://raw.githubusercontent.com/guguguuuuu/chimeiGM/main/40%2B7/40-2-004.JPG" alt="實務訓練 II 課表第四頁" class="agenda-image">
+            <img src="https://raw.githubusercontent.com/guguguuuuu/chimeiGM/main/40%2B7/40-2-005.JPG" alt="實務訓練 II 課表第五頁" class="agenda-image">
+        </div>
+    </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // 選取所有 class 為 month-select 的下拉選單
+            // --- 下拉選單功能 ---
             const allSelects = document.querySelectorAll('.month-select');
-            
-            // 針對每一個選單，都加上事件監聽
             allSelects.forEach(function(selectElement) {
                 selectElement.addEventListener('change', function() {
                     const selectedUrl = this.value;
                     if (selectedUrl) {
-                        // 改為直接跳轉，以避免被手機瀏覽器阻擋
                         window.location.href = selectedUrl;
+                    }
+                });
+            });
+
+            // --- 通用彈出視窗功能 ---
+            const openModalButtons = document.querySelectorAll('[data-modal-target]');
+            
+            openModalButtons.forEach(button => {
+                button.addEventListener('click', (event) => {
+                    event.preventDefault(); // 防止 <a> 標籤跳轉
+                    const modalId = button.getAttribute('data-modal-target');
+                    const modal = document.getElementById(modalId);
+                    if (modal) {
+                        modal.style.display = 'flex';
+                    }
+                });
+            });
+
+            const allModals = document.querySelectorAll('.modal');
+            allModals.forEach(modal => {
+                const closeBtn = modal.querySelector('.modal-close');
+                if (closeBtn) {
+                    closeBtn.addEventListener('click', () => {
+                        modal.style.display = 'none';
+                    });
+                }
+                // 點擊視窗外部也可關閉
+                window.addEventListener('click', (event) => {
+                    if (event.target == modal) {
+                        modal.style.display = 'none';
                     }
                 });
             });
