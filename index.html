@@ -248,25 +248,26 @@
             h1 {
                 font-size: 1.8rem; /* 在小螢幕上縮小標題 */
             }
-            /* 預設垂直排列 */
-            .schedule-links {
+            /* 師資計畫按鈕預設垂直排列 */
+            .plan-grid .schedule-links {
                 flex-direction: column;
                 align-items: center;
             }
-            /* 針對畢業後訓練區塊，改回水平排列並縮小按鈕 */
+            /* 針對畢業後訓練區塊，改為三欄式排版並縮小按鈕 */
             .pgym-links {
                 flex-direction: row;
                 justify-content: center;
+                gap: 0.75rem; /* 縮小按鈕間距 */
             }
             .pgym-links .month-button {
-                width: 120px;
-                height: 100px;
+                width: 100px; /* 縮小按鈕寬度 */
+                height: 90px; /* 縮小按鈕高度 */
             }
             .pgym-links .month-digit {
-                font-size: 2.8rem;
+                font-size: 2.5rem; /* 縮小數字字體 */
             }
             .pgym-links .month-label {
-                font-size: 0.9rem;
+                font-size: 0.8rem; /* 縮小標籤字體 */
             }
         }
     </style>
