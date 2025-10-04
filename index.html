@@ -76,7 +76,7 @@
     </div>
 
     <script>
-        const events = [
+        var events = [
             { date: 1, time: '08:00-09:00', title: '值班案例論會', type: 'conference', location: '九樓空橋', details: { instructors: ['蕭柏文醫師'], participants: ['9A全體學員', '一般內UGY'] } },
             { date: 2, time: '08:00', title: '病例討論會(全英)', type: 'morning', location: '九樓空橋', details: { instructors: ['蕭柏文醫師'], presenter: 'UGY陳思翰', recorder: 'UGY陳思翰', participants: ['GM全體學員'] } },
             { date: 2, time: '11:00-12:00', title: '整合病房出備暨跨領域團隊會議', type: 'meeting', location: '九樓空橋', details: { participants: ['9A全體學員', '一般內UGY'] } },
@@ -146,7 +146,7 @@
             { date: 31, time: '09:00-12:00', title: '教學門診', type: 'clinic', location: '21號診間', details: { instructors: ['葉正發醫師'], participants: ['Y2盧思云2619', 'Y1沈哲民2090', 'Y1高品霓2055'] } },
         ];
 
-        const doctorSchedule = {
+        var doctorSchedule = {
             pgy1: [
                 { teacher: '郭妍伶5052', student: '顧安安2079', period: '114.08-114.10' },
                 { teacher: '王淑慎6496', student: '沈哲民2090', period: '114.10-114.12' },
@@ -186,7 +186,7 @@
             ]
         };
         
-        const eventTypeColors = {
+        var eventTypeColors = {
             conference: 'bg-red-100 text-red-800 border-red-200',
             lecture: 'bg-purple-100 text-purple-800 border-purple-200',
             course: 'bg-green-100 text-green-800 border-green-200',
@@ -204,10 +204,10 @@
             default: 'bg-gray-100 text-gray-800 border-gray-200'
         };
 
-        const year = 2025;
-        const month = 9;
+        var year = 2025;
+        var month = 9;
         
-        const holidays = {
+        var holidays = {
             6: { name: '中秋節', icon: '🌕' },
             10: { name: '國慶日', icon: '🔟' },
             24: { name: '光復節補假', icon: '🇹🇼' }
@@ -381,11 +381,19 @@
             doctorSchedule.pgy1.forEach(item => { if (!item.period) item.period = '114.08-114.10'; });
             doctorSchedule.pgy2.forEach(item => { if (!item.period) item.period = '114.08-114.10'; });
 
-            let scheduleHTML = `<div class="space-y-10">`;
+            let scheduleHTML = `<div class="space-y-6">`;
 
-            // PGY1 Section
-            scheduleHTML += `<div><h2 class="text-2xl font-bold text-gray-800 mb-4 border-l-4 border-indigo-500 pl-3">PGY1</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">`;
+            // PGY1 Collapsible Section
+            scheduleHTML += `
+                <div>
+                    <button id="toggle-pgy1" class="w-full text-left bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold p-4 rounded-lg flex justify-between items-center transition">
+                        <div class="flex items-center">
+                            <h2 class="text-2xl font-bold text-indigo-600">PGY1</h2>
+                            <span class="ml-3 bg-indigo-200 text-indigo-800 text-sm font-semibold px-2.5 py-0.5 rounded-full">共 ${doctorSchedule.pgy1.length} 人</span>
+                        </div>
+                        <svg id="toggle-icon-pgy1" class="w-6 h-6 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div id="pgy1-content" class="hidden mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">`;
             doctorSchedule.pgy1.forEach(item => {
                 scheduleHTML += `
                     <div class="bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden">
@@ -394,9 +402,9 @@
                                 <div class="flex-shrink-0 w-12 h-12 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center">
                                     <span class="font-bold text-lg">Y1</span>
                                 </div>
-                                <div class="flex-1">
-                                    <p class="text-base font-bold text-gray-900">${item.student}</p>
-                                    <p class="text-sm text-gray-500 mt-1">臨床教師: ${item.teacher}</p>
+                                <div class="flex-1 min-w-0">
+                                    <p class="text-base font-bold text-gray-900 truncate">${item.student}</p>
+                                    <p class="text-sm text-gray-500 mt-1 truncate">臨床教師: ${item.teacher}</p>
                                 </div>
                             </div>
                         </div>
@@ -408,9 +416,17 @@
             });
             scheduleHTML += `</div></div>`;
             
-            // PGY2 Section
-            scheduleHTML += `<div><h2 class="text-2xl font-bold text-gray-800 mb-4 border-l-4 border-teal-500 pl-3">PGY2</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">`;
+            // PGY2 Collapsible Section
+            scheduleHTML += `
+                <div>
+                    <button id="toggle-pgy2" class="w-full text-left bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold p-4 rounded-lg flex justify-between items-center transition">
+                        <div class="flex items-center">
+                            <h2 class="text-2xl font-bold text-teal-600">PGY2</h2>
+                            <span class="ml-3 bg-teal-100 text-teal-800 text-sm font-semibold px-2.5 py-0.5 rounded-full">共 ${doctorSchedule.pgy2.length} 人</span>
+                        </div>
+                        <svg id="toggle-icon-pgy2" class="w-6 h-6 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div id="pgy2-content" class="hidden mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">`;
             doctorSchedule.pgy2.forEach(item => {
                 scheduleHTML += `
                      <div class="bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden">
@@ -419,9 +435,9 @@
                                 <div class="flex-shrink-0 w-12 h-12 rounded-full bg-teal-100 text-teal-600 flex items-center justify-center">
                                     <span class="font-bold text-lg">Y2</span>
                                 </div>
-                                <div class="flex-1">
-                                    <p class="text-base font-bold text-gray-900">${item.student}</p>
-                                    <p class="text-sm text-gray-500 mt-1">臨床教師: ${item.teacher}</p>
+                                <div class="flex-1 min-w-0">
+                                    <p class="text-base font-bold text-gray-900 truncate">${item.student}</p>
+                                    <p class="text-sm text-gray-500 mt-1 truncate">臨床教師: ${item.teacher}</p>
                                 </div>
                             </div>
                         </div>
@@ -497,6 +513,22 @@
                     document.getElementById(panelId).classList.remove('hidden');
                 });
             });
+
+            // Setup listeners for the collapsible schedule sections
+            const togglePgy1 = document.getElementById('toggle-pgy1');
+            if (togglePgy1) {
+                togglePgy1.addEventListener('click', () => {
+                    document.getElementById('pgy1-content').classList.toggle('hidden');
+                    document.getElementById('toggle-icon-pgy1').classList.toggle('rotate-180');
+                });
+            }
+            const togglePgy2 = document.getElementById('toggle-pgy2');
+            if (togglePgy2) {
+                togglePgy2.addEventListener('click', () => {
+                    document.getElementById('pgy2-content').classList.toggle('hidden');
+                    document.getElementById('toggle-icon-pgy2').classList.toggle('rotate-180');
+                });
+            }
         });
     </script>
 </body>
