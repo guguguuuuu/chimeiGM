@@ -44,14 +44,19 @@
             text-align: center;
             line-height: 1.4;
         }
-        .main-title,
-        .sub-title {
+        .main-title {
             display: block;
             font-size: 2.4rem; /* 放大字體 */
-            font-weight: bold;   /* 統一字體粗細 */
+            font-weight: bold;
+        }
+        .sub-title {
+            display: block;
+            font-size: 2.2rem; /* 副標題稍小 */
+            font-weight: bold;
+            color: #444;
         }
         
-        /* --- 小標題樣式 (h2) --- */
+        /* --- 中標樣式 (h2) --- */
         h2 {
             color: #4a4a4a;
             font-size: 1.8rem; /* 調整字體大小 */
@@ -66,7 +71,7 @@
             gap: 0.75rem; /* 圖示與文字的間距 */
         }
         
-        /* --- 次小標題樣式 (h3) --- */
+        /* --- 小標樣式 (h3) --- */
         h3 {
             color: #555;
             font-size: 1.25rem;
@@ -294,10 +299,16 @@
                 max-width: 280px;
             }
             .main-title {
-                font-size: 1.7rem; /* 放大手機版字體 */
+                font-size: 1.8rem; /* 手機版主標題 */
             }
             .sub-title {
-                font-size: 1.5rem; /* 讓副標題小一點 */
+                font-size: 1.5rem; /* 手機版副標題 */
+            }
+            h2 {
+                font-size: 1.4rem; /* 手機版中標 */
+            }
+            h3 {
+                font-size: 1.15rem; /* 手機版小標 */
             }
             /* 師資計畫按鈕改為水平排列 */
             .plan-grid .schedule-links {
