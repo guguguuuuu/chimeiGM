@@ -37,23 +37,18 @@
             display: block;
         }
 
-        /* --- 大標題樣式 --- */
+        /* --- 大標題樣式 (h1) --- */
         h1 {
             color: #333333; /* 深灰色文字 */
             margin-bottom: 3rem; /* 與下方內容的間距 */
             text-align: center;
             line-height: 1.4;
         }
-        .main-title {
-            display: block;
-            font-size: 2.4rem; /* 放大字體 */
-            font-weight: bold;
-        }
+        .main-title,
         .sub-title {
             display: block;
-            font-size: 2.2rem; /* 副標題稍小 */
+            font-size: 2.4rem; /* 統一字體大小 */
             font-weight: bold;
-            color: #444;
         }
         
         /* --- 中標樣式 (h2) --- */
@@ -137,10 +132,11 @@
             border-radius: 16px; /* 增加圓角 */
             width: 160px;
             height: 140px; /* 增加高度以容納大數字 */
-            color: #5f6368; /* 改為深灰色文字以搭配淺色背景 */
+            color: #333; /* 加深文字顏色以搭配漸層 */
             /* 加入平滑的過渡效果，讓互動更流暢 */
             transition: transform 0.2s ease, box-shadow 0.2s ease;
             flex-shrink: 0; /* 避免按鈕在 flex 容器中被壓縮 */
+            border: 1px solid rgba(0, 0, 0, 0.05); /* subtle border */
         }
         
         /* --- 月份大數字樣式 --- */
@@ -148,6 +144,7 @@
             font-size: 3.5rem; /* 調整字體大小以容納更多文字 */
             font-weight: 700;
             line-height: 1.1;
+            text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.7);
         }
 
         /* --- 按鈕內文字樣式 --- */
@@ -164,8 +161,8 @@
         .date-button .date-main {
              font-size: 2.8rem;
              font-weight: 700;
-             color: #5f6368;
              line-height: 1.2;
+             text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.7);
         }
         .date-button .date-year {
             font-size: 1.1rem;
@@ -180,13 +177,13 @@
             padding: 0 0.5rem;
         }
         
-        /* --- 為不同月份按鈕設定繽紛的馬卡龍背景顏色 --- */
-        .bg-august { background-color: #ffdac1; } /* 馬卡龍橘 */
-        .bg-september { background-color: #e2f0cb; } /* 馬卡龍綠 */
-        .bg-october { background-color: #fff2b2; } /* 馬卡龍黃 */
-        .bg-plan-i { background-color: #f9d1d1; } /* 馬卡龍粉 */
-        .bg-plan-ii { background-color: #d4f0f0; } /* 馬卡龍青 */
-        .bg-workshop { background-color: #bde0fe; } /* 新增一個研習營的顏色 */
+        /* --- 為不同月份按鈕設定豐富的漸層色彩 --- */
+        .bg-august { background-image: linear-gradient(135deg, #ffdac1 0%, #ffb28e 100%); }
+        .bg-september { background-image: linear-gradient(135deg, #e2f0cb 0%, #b5e083 100%); }
+        .bg-october { background-image: linear-gradient(135deg, #fff2b2 0%, #ffd972 100%); }
+        .bg-plan-i { background-image: linear-gradient(135deg, #f9d1d1 0%, #f7baba 100%); }
+        .bg-plan-ii { background-image: linear-gradient(135deg, #d4f0f0 0%, #afeeee 100%); }
+        .bg-workshop { background-image: linear-gradient(135deg, #bde0fe 0%, #a2d2ff 100%); }
 
 
         /* --- 滑鼠懸停在按鈕上的互動效果 --- */
@@ -298,17 +295,16 @@
             .header-logo {
                 max-width: 280px;
             }
-            .main-title {
-                font-size: 1.8rem; /* 手機版主標題 */
-            }
+            /* --- 手機版標題層級調整 --- */
+            .main-title,
             .sub-title {
-                font-size: 1.5rem; /* 手機版副標題 */
+                font-size: 1.7rem; /* 手機版大標 */
             }
             h2 {
                 font-size: 1.4rem; /* 手機版中標 */
             }
             h3 {
-                font-size: 1.15rem; /* 手機版小標 */
+                font-size: 1.1rem; /* 手機版小標 */
             }
             /* 師資計畫按鈕改為水平排列 */
             .plan-grid .schedule-links {
