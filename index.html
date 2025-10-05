@@ -4,12 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>奇美醫院一般內科醫學訓練示範中心</title>
+    <!-- Font Awesome CDN for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         /* --- 整體頁面樣式 --- */
         body {
             /* 使用常見的無襯線字體，提供更好的可讀性 */
             font-family: 'Microsoft JhengHei', '微軟正黑體', 'PingFang TC', sans-serif;
-            background-color: #f7f8fc; /* 使用柔和的淺灰色背景 */
+            background-color: #f7f8fc; /* Fallback */
+            background-image: linear-gradient(to top, #f7f8fc 0%, #eef1f5 100%); /* Subtle gradient */
             margin: 0;
             padding: 4rem 1rem; /* 在頁面周圍留出一些空間 */
             box-sizing: border-box;
@@ -28,7 +31,7 @@
 
         /* --- Logo 樣式 --- */
         .header-logo {
-            max-width: 350px; /* 控制 Logo 最大寬度 */
+            max-width: 400px; /* 控制 Logo 最大寬度 */
             height: auto;
             margin: 0 auto 2rem auto; /* 水平居中並與下方標題間隔 */
             display: block;
@@ -44,20 +47,23 @@
         .main-title,
         .sub-title {
             display: block;
-            font-size: 2.2rem; /* 放大字體 */
+            font-size: 2.4rem; /* 放大字體 */
             font-weight: bold;   /* 統一字體粗細 */
         }
         
         /* --- 小標題樣式 (h2) --- */
         h2 {
             color: #4a4a4a;
-            font-size: 1.6rem;
+            font-size: 1.8rem; /* 調整字體大小 */
             font-weight: bold;
             margin-top: 3.5rem; /* 與上一個區塊的間距 */
             margin-bottom: 2rem; /* 與下方按鈕的間距 */
             text-align: left;
             padding-bottom: 0.5rem;
             border-bottom: 2px solid #e0e0e0;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem; /* 圖示與文字的間距 */
         }
         
         /* --- 次小標題樣式 (h3) --- */
@@ -94,7 +100,13 @@
             padding: 1.5rem;
             flex: 1; /* 讓格子平均分配空間 */
             min-width: 300px; /* 每個格子的最小寬度 */
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.07); /* Enhanced shadow */
+            transition: all 0.3s ease;
+        }
+        
+        .plan-grid:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.09);
         }
         
         .plan-grid h3 {
@@ -196,7 +208,14 @@
         }
 
         .contact-info p {
-            margin: 0.4rem 0; /* 調整行間距 */
+            margin: 0.5rem 0; /* 調整行間距 */
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .contact-info i {
+            width: 20px;
+            text-align: center;
         }
         
         /* --- 彈出式視窗 (Modal) 樣式 --- */
@@ -257,6 +276,7 @@
             }
             h2 {
                  text-align: center;
+                 justify-content: center;
             }
         }
 
@@ -271,11 +291,11 @@
                 padding: 2.5rem 1rem;
             }
             .header-logo {
-                max-width: 250px;
+                max-width: 280px;
             }
             .main-title,
             .sub-title {
-                font-size: 1.5rem; /* 放大手機版字體 */
+                font-size: 1.7rem; /* 放大手機版字體 */
             }
             /* 師資計畫按鈕改為水平排列 */
             .plan-grid .schedule-links {
@@ -330,7 +350,7 @@
 
         <!-- 第一個區塊: 畢業後一般內科醫學訓練 -->
         <div class="training-section">
-            <h2>畢業後一般內科醫學訓練</h2>
+            <h2><i class="fa-solid fa-graduation-cap" style="color: #1d72b1;"></i>畢業後一般內科醫學訓練</h2>
             <div class="schedule-links pgym-links">
                 <!-- 10月按鈕 -->
                 <a href="https://guguguuuuu.github.io/chimeiGM/October" class="month-button bg-october">
@@ -355,7 +375,7 @@
 
         <!-- 第二個區塊: 一般醫學師資培育計畫 -->
         <div class="training-section">
-            <h2>一般醫學師資培育計畫</h2>
+            <h2><i class="fa-solid fa-chalkboard-user" style="color: #2a9d8f;"></i>一般醫學師資培育計畫</h2>
             <div class="plan-container">
                 <!-- 第一格 -->
                 <div class="plan-grid">
@@ -386,9 +406,9 @@
         
         <!-- 聯絡資訊區塊 -->
         <div class="contact-info">
-            <p>教學部  王嬿茹</p>
-            <p>電話：06-2812811分機57427</p>
-            <p>Email：a11017@mail.chimei.org.tw</p>
+            <p><i class="fa-solid fa-user" style="color: #6c757d;"></i>教學部  王嬿茹</p>
+            <p><i class="fa-solid fa-phone" style="color: #2a9d8f;"></i>電話：06-2812811分機57427</p>
+            <p><i class="fa-solid fa-envelope" style="color: #e76f51;"></i>Email：a11017@mail.chimei.org.tw</p>
         </div>
     </div>
     
