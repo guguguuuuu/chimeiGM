@@ -201,22 +201,31 @@
 
         /* --- 聯絡資訊樣式 --- */
         .contact-info {
-            margin-top: 4rem; /* 與上方按鈕的間距 */
-            padding-top: 2rem;
-            border-top: 1px solid #e0e0e0; /* 加入分隔線 */
-            color: #5f6368;
-            font-size: 1rem;
-            line-height: 1.7; /* 增加行高 */
-            text-align: left; /* 將文字靠左對齊 */
+            margin-top: 4rem;
+            padding: 2rem;
+            border-top: 1px solid #e0e0e0;
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            background-color: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.07);
         }
-
-        .contact-info p {
-            margin: 0.5rem 0; /* 調整行間距 */
+        .contact-logo {
+            max-width: 100px;
+            height: auto;
+            flex-shrink: 0;
+        }
+        .contact-details p {
+            margin: 0.5rem 0;
             display: flex;
             align-items: center;
             gap: 0.75rem;
+            color: #5f6368;
+            font-size: 1rem;
+            line-height: 1.7;
         }
-        .contact-info i {
+        .contact-details i {
             width: 20px;
             text-align: center;
         }
@@ -347,6 +356,14 @@
             .pgym-links .month-year {
                 font-size: 0.8rem;
             }
+            .contact-info {
+                flex-direction: column;
+                text-align: center;
+                gap: 1.5rem;
+            }
+            .contact-details p {
+                justify-content: center;
+            }
         }
     </style>
 </head>
@@ -419,9 +436,12 @@
         
         <!-- 聯絡資訊區塊 -->
         <div class="contact-info">
-            <p><i class="fa-solid fa-user" style="color: #6c757d;"></i>教學部  王嬿茹</p>
-            <p><i class="fa-solid fa-phone" style="color: #2a9d8f;"></i>電話：06-2812811分機57427</p>
-            <p><i class="fa-solid fa-envelope" style="color: #e76f51;"></i>Email：a11017@mail.chimei.org.tw</p>
+            <img src="https://raw.githubusercontent.com/guguguuuuu/chimeiGM/main/4200-LOGO%20BLUE1.png" alt="教學部 Logo" class="contact-logo">
+            <div class="contact-details">
+                <p><i class="fa-solid fa-user" style="color: #6c757d;"></i>教學部  王嬿茹</p>
+                <p><i class="fa-solid fa-phone" style="color: #2a9d8f;"></i>電話：06-2812811分機57427</p>
+                <p><i class="fa-solid fa-envelope" style="color: #e76f51;"></i>Email：a11017@mail.chimei.org.tw</p>
+            </div>
         </div>
     </div>
     
