@@ -46,6 +46,7 @@
         .dept-summary-card {
             cursor: pointer;
             transition: all 0.2s ease-in-out;
+            overflow: hidden;
         }
         .dept-summary-card:hover {
             transform: translateY(-4px);
@@ -96,31 +97,26 @@
     <script>
         var events = [
             { date: 1, time: '08:00-09:00', title: '值班案例論會', type: 'conference', location: '九樓空橋', details: { instructors: ['蕭柏文醫師'], participants: ['9A全體學員', '一般內UGY'] } },
-            { date: 2, time: '08:00', title: '病例討論會(全英)', type: 'morning', location: '九樓空橋', details: { instructors: ['蕭柏文醫師'], presenter: 'UGY陳思翰', recorder: 'UGY陳思翰', participants: ['GM全體學員'] } },
+            { date: 2, time: '08:00-09:00', title: '病例討論會(全英)', type: 'morning', location: '九樓空橋', details: { instructors: ['蕭柏文醫師'], presenter: 'UGY陳思翰', recorder: 'UGY陳思翰', participants: ['GM全體學員'] } },
             { date: 2, time: '11:00-12:00', title: '整合病房出備暨跨領域團隊會議', type: 'meeting', location: '九樓空橋', details: { participants: ['9A全體學員', '一般內UGY'] } },
             { date: 3, time: '07:30', title: '全院性學術演講', type: 'lecture', location: '國際會議廳', details: { instructors: ['吳秀珍主任'], notes: '主題：芳香療法在安寧療護常見症狀照護的實證與應用' } },
             { date: 3, time: '09:00-12:00', title: '教學門診', type: 'clinic', location: '21號診間', details: { instructors: ['葉正發醫師'], participants: ['Y2張力中2712', 'Y2朱怡綸2624', 'Y1陳奕宏2077'] } },
             { date: 3, time: '15:00-16:00', title: '洗腎原理', type: 'course', location: '十樓空橋', details: { instructors: ['葉子瑄醫師(F)'], notes: '主題：洗腎原理' } },
-            { date: 7, time: '08:00', title: '內科部Grand Round', type: 'grand_round', location: '國際會議廳', details: {} },
             { date: 7, time: '09:00-12:00', title: '教學門診', type: 'clinic', location: '21號診間', details: { instructors: ['楊浚銘醫師'], participants: ['Y1沈哲民2090', 'Y1嚴楷舜2088'] } },
             { date: 7, time: '14:00-17:00', title: '教學門診', type: 'clinic', location: '21號診間', details: { instructors: ['王淑慎醫師'], participants: ['Y1曾柏皓2607', 'Y1高品霓2055', 'Y1李思葳3209'] } },
-            { date: 7, time: '11:00-12:00', title: '資深主治醫師臨床案例教學', type: 'teaching', location: '十樓空橋', details: { instructors: ['吳鴻昌醫師'], recorder: '張力中' } },
-            { date: 7, time: '14:30-16:30', title: 'PGY1臨床技能演練 (CVC超音波)', type: 'skill', location: '教學大樓4F臨床技能中心', details: { instructors: ['陳伯榕醫師'], participants: ['吳思賢2052', '洪景文2072', '嚴楷舜2088', '吳婕寧2086', '張萓秦2080', '莊硯宇2053', '陳建廷2076', '吳沂蓁2051', '蔡伯慶2074', '陳奕宏2077'] } },
-            { date: 8, time: '08:00', title: '病例討論會', type: 'morning', location: '九樓空橋', details: { instructors: ['蕭柏文醫師'], presenter: 'PGY1陳奕宏', participants: ['GM全體學員'] } },
+            { date: 7, time: '14:30-16:30', title: 'PGY1臨床技能演練 (CVC超音波)', type: 'skill', location: '教學大樓3F教學部討論室', details: { instructors: ['陳伯榕醫師'], participants: ['吳思賢2052', '洪景文2072', '嚴楷舜2088', '吳婕寧2086', '張萓秦2080', '莊硯宇2053', '陳建廷2076', '吳沂蓁2051', '蔡伯慶2074', '陳奕宏2077'] } },
+            { date: 8, time: '08:00-09:00', title: '病例討論會', type: 'morning', location: '九樓空橋', details: { instructors: ['蕭柏文醫師'], presenter: 'PGY1陳奕宏', participants: ['GM全體學員'] } },
             { date: 8, time: '14:00-17:00', title: '教學門診', type: 'clinic', location: '21號診間', details: { instructors: ['郭妍伶醫師'], participants: ['Y2黃湘涵2745', 'Y2黃傳傑2632', 'Y1廖胤傑2071'] } },
-            { date: 8, time: '09:00-12:00', title: '神經內科教學門診', type: 'clinic', location: '21號門診間', details: { instructors: ['楊勝翔醫師'], participants: ['R盧家宇6221', 'Y1盧俊佑3201', '吳婕寧2086', 'UGY謝允筑6123', '黃鉦晏6169'] } },
+            { date: 8, time: '09:00-12:00', title: '神經內科教學門診', type: 'clinic', location: '21號診間', details: { instructors: ['楊勝翔醫師'], participants: ['R盧家宇6221', 'Y1盧俊佑3201', '吳婕寧2086', 'UGY謝允筑6123', '黃鉦晏6169'] } },
             { date: 9, time: '08:00-09:00', title: '實證醫學期刊討論會', type: 'journal', location: '九樓空橋', details: { instructors: ['郭妍伶主任'], presenter: '顧安安', participants: ['9A全體學員', '一般內UGY'] } },
             { date: 9, time: '11:00-12:00', title: '整合病房出備暨跨領域團隊會議', type: 'meeting', location: '九樓空橋', details: { participants: ['9A全體學員', '一般內UGY'] } },
-            { date: 13, time: '08:00', title: '值班案例論會', type: 'conference', location: '九樓空橋', details: { instructors: ['蕭柏文醫師'], participants: ['9A全體學員', '一般內UGY'] } },
+            { date: 13, time: '08:00-09:00', title: '值班案例論會', type: 'conference', location: '九樓空橋', details: { instructors: ['蕭柏文醫師'], participants: ['9A全體學員', '一般內UGY'] } },
             { date: 13, time: '09:00-12:00', title: '教學門診', type: 'clinic', location: '21號診間', details: { instructors: ['黃琪雅醫師'], participants: ['Y1陳韋杉2054', 'Y1程禹碩2060'] } },
             { date: 13, time: '15:00-16:00', title: '常見GI complaint與急症', type: 'course', location: '九樓空橋', details: { instructors: ['楊峻嘉醫師(F)'], notes: '主題：常見GI complaint與急症' } },
-            { date: 14, time: '08:00', title: '內科部Grand Round', type: 'grand_round', location: '國際會議廳', details: {} },
-            { date: 14, time: '09:00-12:00', title: '教學門診', type: 'clinic', location: '21號診間', details: { instructors: ['楊浚銘醫師'], participants: ['Y1顧安安2079', 'Y1盧俊佑3201', 'Y1李思葳3209'] } },
-            { date: 14, time: '14:00-17:00', title: '教學門診', type: 'clinic', location: '21號診間', details: { instructors: ['王淑慎醫師'], participants: ['Y2蔡芝蓉2633', 'Y1洪景文2072'] } },
-            { date: 14, time: '12:00-13:00', title: '資深主治醫師巴林團體', type: 'balint', location: '九樓空橋', details: { instructors: ['張榮哲主任'], participants: ['一般內科UGY全體PGY1'] } },
-            { date: 14, time: '14:00-17:00', title: '內分泌科教學門診', type: 'clinic', location: '41號門診間', details: { instructors: ['洪晧彰醫師'], participants: ['Y1吳思賢2052', '吳帛承2059', '蔡伯慶2074', 'UGY盧孟展6319', '張曜宇6113'] } },
+            { date: 14, time: '08:00-09:00', title: '內科部Grand Round', type: 'grand_round', location: '國際會議廳', details: {} },
+            { date: 14, time: '14:00-17:00', title: '內分泌科教學門診', type: 'clinic', location: '41號診間', details: { instructors: ['洪晧彰醫師'], participants: ['Y1吳帛承2059', '蔡伯慶2074', 'UGY盧孟展6319', '張曜宇6113'] } },
             { date: 15, time: '14:00-17:00', title: '教學門診', type: 'clinic', location: '21號診間', details: { instructors: ['郭妍伶醫師'], participants: ['Y2張力中2712', 'Y1張萓秦2080', 'Y1莊硯宇2053'] } },
-            { date: 15, time: '09:00-12:00', title: '心臟內科教學門診', type: 'clinic', location: '21號門診間', details: { instructors: ['黃沛頡醫師'], participants: ['R何欣哲6514', 'Y2張凱柏2601', '盧思云2619', 'Y1吳沂蓁2051', 'UGY吳柏君6170', '廖珮妤6168'] } },
+            { date: 15, time: '09:00-12:00', title: '心臟內科教學門診', type: 'clinic', location: '21號診間', details: { instructors: ['黃沛頡醫師'], participants: ['R何欣哲6514', 'Y2張凱柏2601', '盧思云2619', 'Y1吳沂蓁2051', 'UGY吳柏君6170', '廖珮妤6168'] } },
             { date: 16, time: '08:00-09:00', title: '病歷教學及品質檢討會', type: 'quality', location: '九樓空橋', details: { instructors: ['黃琪雅醫師'], recorder: '陳奕宏', participants: ['9A全體學員', '一般內UGY'] } },
             { date: 16, time: '11:00-12:00', title: '整合病房出備暨跨領域團隊會議', type: 'meeting', location: '九樓空橋', details: { participants: ['9A全體學員', '一般內UGY'] } },
             { date: 16, time: '13:30-15:30', title: 'PGY1臨床技能演練 (呼吸道擬真)', type: 'skill', location: '教學大樓4F臨床技能中心', details: { instructors: ['李季恆醫師', '陳伯榕醫師'], participants: ['張萓秦2080', '陳韋杉2054', '吳婕寧2086'] } },
@@ -128,11 +124,12 @@
             { date: 17, time: '13:00-14:00', title: '聯合討論會 (跨領域)', type: 'combined', location: '九樓空橋', details: { instructors: ['王淑慎醫師'], presenter: '沈哲民', participants: ['全體學員', '內科UGY'] } },
             { date: 17, time: '13:30-15:30', title: 'PGY1臨床技能演練 (呼吸道擬真)', type: 'skill', location: '教學大樓4F臨床技能中心', details: { instructors: ['李季恆醫師', '陳伯榕醫師'], participants: ['高品霓2055', '李思葳3209', '莊硯宇2053'] } },
             { date: 17, time: '15:00-16:00', title: 'Pneumonia', type: 'course', location: '九樓空橋', details: { instructors: ['楊皓文醫師(F)'], notes: '主題：Pneumonia' } },
-            { date: 20, time: '08:00', title: '值班案例論會', type: 'conference', location: '九樓空橋', details: { instructors: ['蕭柏文醫師'], participants: ['9A全體學員', '一般內UGY'] } },
+            { date: 20, time: '08:00-09:00', title: '值班案例論會', type: 'conference', location: '九樓空橋', details: { instructors: ['蕭柏文醫師'], participants: ['9A全體學員', '一般內UGY'] } },
             { date: 20, time: '09:00-12:00', title: '教學門診', type: 'clinic', location: '21號診間', details: { instructors: ['黃琪雅醫師'], participants: ['Y1廖胤傑2071', 'Y1吳思賢2052'] } },
             { date: 20, time: '13:00-14:00', title: 'PGY訓練學員檢討會', type: 'meeting', location: '九樓空橋', details: { instructors: ['郭妍伶主任', '王淑慎醫師', '黃琪雅醫師'], participants: ['吳婕寧', '曾柏皓', '李思葳', '盧俊佑', '吳帛承', '陳建廷', '程禹碩', '陳奕宏', '吳沂蓁', '蔡伯慶', '高品霓', '顧安安', '洪景文', '莊硯宇', '張萓秦', '廖胤傑', '吳思賢', '陳韋杉', '嚴楷舜', '沈哲民', '張力中', '張凱柏', '黃傳傑', '黃湘涵', '尤威儒', '朱怡綸', '蔡芝蓉', '盧思云'] } },
             { date: 20, time: '15:00-16:00', title: '甲狀腺亢進', type: 'course', location: '九樓空橋', details: { instructors: ['葉美成醫師(VS)'], notes: '主題：甲狀腺亢進' } },
-            { date: 21, time: '08:00', title: '內科部Grand Round', type: 'grand_round', location: '國際會議廳', details: {} },
+            { date: 21, time: '08:00-09:00', title: '內科部Grand Round', type: 'grand_round', location: '國際會議廳', details: {} },
+            { date: 21, time: '11:00-12:00', title: '資深主治醫師臨床案例教學', type: 'teaching', location: '八樓空橋', details: { instructors: ['吳鴻昌醫師'], recorder: '張力中' } },
             { date: 21, time: '09:00-12:00', title: '教學門診', type: 'clinic', location: '21號診間', details: { instructors: ['楊浚銘醫師'], participants: ['Y1陳奕宏2077', 'Y1曾柏皓2607', 'Y1蔡伯慶2074'] } },
             { date: 21, time: '14:00-17:00', title: '教學門診', type: 'clinic', location: '21號診間', details: { instructors: ['王淑慎醫師'], participants: ['Y2尤威儒2631', 'Y1顧安安2079', 'Y1張萓秦2080'] } },
             { date: 21, time: '13:30-15:30', title: 'PGY1臨床技能演練 (呼吸道擬真)', type: 'skill', location: '教學大樓4F臨床技能中心', details: { instructors: ['李季恆醫師', '陳伯榕醫師'], participants: ['嚴楷舜2088', '吳思賢2052', '洪景文2072'] } },
@@ -140,27 +137,27 @@
             { date: 22, time: '14:00-17:00', title: '教學門診', type: 'clinic', location: '21號診間', details: { instructors: ['郭妍伶醫師'], participants: ['Y2盧思云2619', 'Y1吳沂蓁2051'] } },
             { date: 22, time: '10:30-11:30', title: '資深主治醫師臨床案例教學', type: 'teaching', location: '九樓空橋', details: { instructors: ['甘偉志主任'], recorder: '程禹碩', participants: ['全體學員', '內科UGY'] } },
             { date: 22, time: '15:00-16:00', title: 'Skin and soft tissue infection', type: 'course', location: '九樓空橋', details: { instructors: ['李承翰醫師(F)'], notes: '主題：Skin and soft tissue infection' } },
-            { date: 22, time: '09:00-12:00', title: '胸腔內科教學門診', type: 'clinic', location: '21號門診間', details: { instructors: ['王保山醫師'], participants: ['Y2蔡芝蓉2633', '黃湘涵2745', 'Y1莊硯宇2053', '陳建廷2076', 'UGY鄧敬蓉6158'] } },
+            { date: 22, time: '09:00-12:00', title: '胸腔內科教學門診', type: 'clinic', location: '21號診間', details: { instructors: ['王保山醫師'], participants: ['Y2蔡芝蓉2633', '黃湘涵2745', 'Y1莊硯宇2053', '陳建廷2076', 'UGY鄧敬蓉6158'] } },
             { date: 23, time: '08:00-09:00', title: '實證醫學期刊討論會', type: 'journal', location: '九樓空橋', details: { instructors: ['郭妍伶主任'], presenter: 'PGY1陳奕宏', participants: ['9A全體學員', '一般內UGY'] } },
             { date: 23, time: '11:00-12:00', title: '整合病房出備暨跨領域團隊會議', type: 'meeting', location: '九樓空橋', details: { participants: ['9A全體學員', '一般內UGY'] } },
             { date: 23, time: '13:00-14:00', title: '聯合討論會 (放射)', type: 'combined', location: '九樓空橋', details: { instructors: ['蕭柏文醫師', '蔡嘉玲醫師'], presenter: '吳沂蓁', participants: ['全體學員', '內科UGY'] } },
-            { date: 23, time: '09:00-12:00', title: '胃腸科教學門診', type: 'clinic', location: '21號門診間', details: { instructors: ['吳佩叡醫師'], participants: ['R林卲娗2738', 'UGY陳昱伶3184', '鍾薔薇3192', '蕭詠霖6296', '劉書豪6134', '林亮余6160'] } },
-            { date: 27, time: '08:00', title: '值班案例論會', type: 'conference', location: '九樓空橋', details: { instructors: ['蕭柏文醫師'], participants: ['9A全體學員', '一般內UGY'] } },
+            { date: 23, time: '09:00-12:00', title: '胃腸科教學門診', type: 'clinic', location: '21號診間', details: { instructors: ['吳佩叡醫師'], participants: ['R林卲娗2738', 'UGY陳昱伶3184', '鍾薔薇3192', '蕭詠霖6296', '劉書豪6134', '林亮余6160'] } },
+            { date: 27, time: '08:00-09:00', title: '值班案例論會', type: 'conference', location: '九樓空橋', details: { instructors: ['蕭柏文醫師'], participants: ['9A全體學員', '一般內UGY'] } },
             { date: 27, time: '09:00-12:00', title: '教學門診', type: 'clinic', location: '21號診間', details: { instructors: ['黃琪雅醫師'], participants: ['Y1洪景文2072', 'Y1吳帛承2059'] } },
             { date: 27, time: '13:00-14:00', title: '主題式教學', type: 'teaching', location: '九樓空橋', details: { instructors: ['陳鋭溢醫師'], notes: '主題：低血鈉鑑別診斷', participants: ['全體學員', '一般內UGY'] } },
             { date: 27, time: '15:00-16:00', title: 'Urine analysis', type: 'course', location: '九樓空橋', details: { instructors: ['黃琪雅醫師(VS)'], notes: '主題：Urine analysis' } },
-            { date: 28, time: '08:00', title: '內科部Grand Round', type: 'grand_round', location: '國際會議廳', details: {} },
+            { date: 28, time: '08:00-09:00', title: '內科部Grand Round', type: 'grand_round', location: '國際會議廳', details: {} },
             { date: 28, time: '09:00-12:00', title: '教學門診', type: 'clinic', location: '21號診間', details: { instructors: ['楊浚銘醫師'], participants: ['Y2尤威儒2631', 'Y1吳婕寧2086'] } },
             { date: 28, time: '14:00-17:00', title: '教學門診', type: 'clinic', location: '21號診間', details: { instructors: ['王淑慎醫師'], participants: ['Y2黃傳傑2632', 'Y2張凱柏2601'] } },
             { date: 28, time: '12:00-13:00', title: '資深主治醫師巴林團體', type: 'balint', location: '九樓空橋', details: { instructors: ['張榮哲主任'], participants: ['一般內科UGY全體PGY1'] } },
             { date: 28, time: '14:30-16:30', title: 'PGY1臨床技能演練 (CVC超音波)', type: 'skill', location: '教學大樓4F臨床技能中心', details: { instructors: ['陳伯榕醫師'], participants: ['曾柏皓2607', '高品霓2055', '李思葳3209', '沈哲民2090', '程禹碩2060', '陳韋杉2054', '顧安安2079', '盧俊佑3201', '廖胤傑2071'] } },
-            { date: 29, time: '08:00', title: '病例討論會', type: 'morning', location: '九樓空橋', details: { instructors: ['蕭柏文醫師'], presenter: 'PGY1沈哲民', participants: ['GM全體學員'] } },
+            { date: 29, time: '08:00-09:00', title: '病例討論會', type: 'morning', location: '九樓空橋', details: { instructors: ['蕭柏文醫師'], presenter: 'PGY1沈哲民', participants: ['GM全體學員'] } },
             { date: 29, time: '14:00-17:00', title: '教學門診', type: 'clinic', location: '21號診間', details: { instructors: ['郭妍伶醫師'], participants: ['Y2朱怡綸2624', 'Y1吳思賢2052', 'Y1陳建廷2076'] } },
             { date: 29, time: '13:00-14:00', title: '醫病溝通互動演練工作坊', type: 'workshop', location: '九樓空橋', details: { instructors: ['王淑慎醫師', '鄭夙雅社工師', '楊素璧標準病人'], participants: ['張力中2712', '朱怡綸2624', '張凱柏2601', '黃湘涵2745', '黃傳傑2632', '盧思云2619', '蔡芝蓉2633', '尤威儒2631'] } },
-            { date: 29, time: '09:00-12:00', title: '腎臟科教學門診', type: 'clinic', location: '21號門診間', details: { instructors: ['陳鋭溢醫師'], participants: ['R陳柏瑞2856', '陳辰睿6713', 'Y1程禹碩2060', '陳韋杉2054', 'UGY葛宇安6284', '張恩瑋6159'] } },
+            { date: 29, time: '09:00-12:00', title: '腎臟科教學門診', type: 'clinic', location: '21號診間', details: { instructors: ['陳鋭溢醫師'], participants: ['R陳柏瑞2856', '陳辰睿6713', 'Y1程禹碩2060', '陳韋杉2054', 'UGY葛宇安6284', '張恩瑋6159'] } },
             { date: 30, time: '08:00-09:00', title: 'M&M Conference', type: 'conference', location: '九樓空橋', details: { instructors: ['蕭柏文醫師'], presenter: '顧安安', recorder: '顧安安', participants: ['9A全體學員', '一般內UGY'], notes: 'Y1顧安安以Healthcare Matrix方式報告記錄' } },
             { date: 30, time: '11:00-12:00', title: '整合病房出備暨跨領域團隊會議', type: 'meeting', location: '九樓空橋', details: { participants: ['9A全體學員', '一般內UGY'] } },
-            { date: 30, time: '09:00-12:00', title: '風濕免疫科教學門診', type: 'clinic', location: '39號門診間', details: { instructors: ['陳宏安醫師'], participants: ['Y1嚴楷舜2088', 'UGY劉佳雯6286', '魏廷霖3181', '陳筱婷6135', '葉品岑6320'] } },
+            { date: 30, time: '09:00-12:00', title: '風濕免疫科教學門診', type: 'clinic', location: '39號診間', details: { instructors: ['陳宏安醫師'], participants: ['Y1嚴楷舜2088', 'UGY劉佳雯6286', '魏廷霖3181', '陳筱婷6135', '葉品岑6320'] } },
             { date: 31, time: '09:00-12:00', title: '教學門診', type: 'clinic', location: '21號診間', details: { instructors: ['葉正發醫師'], participants: ['Y2盧思云2619', 'Y1沈哲民2090', 'Y1高品霓2055'] } },
         ];
 
@@ -257,7 +254,7 @@
                 const dayOfWeek = new Date(year, month, day).getDay();
                 if (dayOfWeek === 6 || dayOfWeek === 0) continue;
 
-                const dayEvents = events.filter(e => e.date === day);
+                const dayEvents = events.filter(e => e.date === day).sort((a,b) => (a.time || '0').localeCompare(b.time || '0'));
                 const holidayInfo = holidays[day];
                 
                 calendarHTML += `<div class="day-cell border border-gray-200 ${holidayInfo ? 'bg-gray-50' : 'bg-white'} rounded-lg p-2 flex flex-col relative">
@@ -281,7 +278,7 @@
 
         function generateListView() {
             const container = document.getElementById('list-view-container');
-            const today = new Date(2025, 9, 4); // Set to Oct 4, 2025
+            const today = new Date(2025, 9, 7); // Set to Oct 7, 2025
             const currentDay = today.getDate();
             const daysInMonth = new Date(year, month + 1, 0).getDate();
             const weekdays = ["日", "一", "二", "三", "四", "五", "六"];
@@ -293,7 +290,7 @@
                 const currentDate = new Date(year, month, day);
                 if (currentDate.getDay() === 0 || currentDate.getDay() === 6) continue;
                 
-                const dayEvents = events.filter(e => e.date === day);
+                const dayEvents = events.filter(e => e.date === day).sort((a,b) => (a.time || '0').localeCompare(b.time || '0'));
                 const holidayInfo = holidays[day];
                 let dayHTML = '';
 
@@ -396,7 +393,7 @@
             bodyHTML += `</div>`;
             return bodyHTML;
         }
-
+        
         function createDeptTooltipContent(dept) {
             const allDoctors = [...doctorSchedule.pgy_cr, ...doctorSchedule.pgy1, ...doctorSchedule.pgy2, ...doctorSchedule.ugy];
             const deptMembers = allDoctors.filter(d => d.department === dept);
@@ -408,19 +405,21 @@
             deptMembers.forEach(member => {
                 let role = '';
                 let roleColor = 'bg-gray-200 text-gray-700';
-                if (doctorSchedule.pgy_cr.includes(member)) { role = 'PGY CR'; roleColor = 'bg-purple-200 text-purple-800'; }
-                if (doctorSchedule.pgy1.includes(member)) { role = 'PGY1'; roleColor = 'bg-indigo-200 text-indigo-800'; }
-                if (doctorSchedule.pgy2.includes(member)) { role = 'PGY2'; roleColor = 'bg-teal-200 text-teal-800'; }
-                if (doctorSchedule.ugy.includes(member)) { role = 'UGY'; roleColor = 'bg-orange-200 text-orange-800'; }
+                if (doctorSchedule.pgy_cr.includes(member)) { role = 'PGY CR'; roleColor = 'bg-purple-100 text-purple-700'; }
+                if (doctorSchedule.pgy1.includes(member)) { role = 'PGY1'; roleColor = 'bg-indigo-100 text-indigo-700'; }
+                if (doctorSchedule.pgy2.includes(member)) { role = 'PGY2'; roleColor = 'bg-teal-100 text-teal-700'; }
+                if (doctorSchedule.ugy.includes(member)) { role = 'UGY'; roleColor = 'bg-orange-100 text-orange-700'; }
 
                 content += `
-                    <div class="border-t pt-4">
-                        <div class="flex items-center mb-2">
-                            <p class="font-semibold text-gray-800">${member.student}</p>
-                            ${role ? `<span class="ml-2 text-xs font-bold ${roleColor} px-2 py-1 rounded-md">${role}</span>` : ''}
+                    <div class="border-t pt-3">
+                        <div class="flex justify-between items-start">
+                           <div>
+                                <p class="font-semibold text-gray-800">${member.student}</p>
+                                <p class="text-sm text-gray-600 mt-1"><strong>臨床教師：</strong> ${member.teacher}</p>
+                                <p class="text-sm text-gray-600"><strong>訓練期間：</strong> ${member.period || '114.08-114.10'}</p>
+                           </div>
+                           <span class="text-xs font-medium ${roleColor} px-2 py-0.5 rounded-full">${role}</span>
                         </div>
-                        <p class="text-sm text-gray-600 mt-1"><strong>臨床教師：</strong> ${member.teacher}</p>
-                        <p class="text-sm text-gray-600 mt-1"><strong>訓練期間：</strong> ${member.period || '114.08-114.10'}</p>
                     </div>
                 `;
             });
@@ -428,12 +427,74 @@
             content += `</div></div>`;
             return content;
         }
-        
+
         function generateScheduleView() {
             const container = document.getElementById('schedule-panel');
             const allDoctors = [...doctorSchedule.pgy_cr, ...doctorSchedule.pgy1, ...doctorSchedule.pgy2, ...doctorSchedule.ugy];
             
             let scheduleHTML = `<div class="space-y-6">`;
+
+            // Department Summary Section
+            let deptSummary = {};
+            const deptIcons = {
+                '一般內': 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z',
+                '胸腔': 'M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2h8a2 2 0 002-2v-1a2 2 0 012-2h1.945C21.055 11 21 11.555 21 12c0 4.418-4.03 8-9 8s-9-3.582-9-8c0-.445.055-1 .11-1.555zM6.94 6.94a.5.5 0 01.707 0L12 11.293l4.354-4.353a.5.5 0 11.707.707L12.707 12l4.353 4.354a.5.5 0 01-.707.707L12 12.707l-4.354 4.353a.5.5 0 01-.707-.707L11.293 12 6.94 7.646a.5.5 0 010-.707z',
+                '腎臟': 'M9 4.5A2.5 2.5 0 016.5 2H5a2 2 0 00-2 2v12a2 2 0 002 2h14a2 2 0 002-2V4a2 2 0 00-2-2h-1.5A2.5 2.5 0 0115 4.5V6h-2V4.5a.5.5 0 00-.5-.5h-5a.5.5 0 00-.5.5V6H5V4.5zM4 10.5a.5.5 0 01.5-.5h15a.5.5 0 010 1H4.5a.5.5 0 01-.5-.5z',
+                '胃腸': 'M8 2.5a.5.5 0 01.5.5v1a.5.5 0 01-1 0v-1a.5.5 0 01.5-.5zM12 2.5a.5.5 0 01.5.5v1a.5.5 0 01-1 0v-1a.5.5 0 01.5-.5zM16 2.5a.5.5 0 01.5.5v1a.5.5 0 01-1 0v-1a.5.5 0 01.5-.5zM3 7a1 1 0 011-1h16a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h16a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h16a1 1 0 110 2H4a1 1 0 01-1-1z',
+                '感染': 'M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-2H9v-2h2v-2H9V9h2V7h2v2h2v2h-2v2h2v2h-2v2h-2z',
+                '神內': 'M12 2a5.5 5.5 0 00-5.5 5.5c0 2.21 1.25 4.14 3 5.08V17H8v2h8v-2h-1.5v-4.42c1.75-.94 3-2.87 3-5.08A5.5 5.5 0 0012 2z',
+                '心內': 'M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z',
+                '血腫': 'M12 2a9.96 9.96 0 00-5 1.48 4 4 0 012.83 2.83A10 10 0 0012 2zm0 20a9.96 9.96 0 005-1.48 4 4 0 01-2.83-2.83A10 10 0 0012 22zm5-1.48A9.96 9.96 0 0022 12a10 10 0 00-6.32-9.29 4 4 0 01-2.83 2.83A9.96 9.96 0 0017 12zm-10 0a9.96 9.96 0 00-2.29-6.32 4 4 0 012.83-2.83A10 10 0 002 12a9.96 9.96 0 002.71 6.68z'
+            };
+            const deptColors = {
+                '一般內': 'bg-blue-100 text-blue-800 border-blue-500', 
+                '胸腔': 'bg-sky-100 text-sky-800 border-sky-500', 
+                '腎臟': 'bg-green-100 text-green-800 border-green-500',
+                '胃腸': 'bg-amber-100 text-amber-800 border-amber-500', 
+                '感染': 'bg-red-100 text-red-800 border-red-500', 
+                '神內': 'bg-purple-100 text-purple-800 border-purple-500',
+                '心內': 'bg-pink-100 text-pink-800 border-pink-500', 
+                '血腫': 'bg-rose-100 text-rose-800 border-rose-500'
+            };
+
+            allDoctors.forEach(d => {
+                if (d.department && d.department !== 'PGY CR') {
+                    if (!deptSummary[d.department]) {
+                        deptSummary[d.department] = { pgy1: 0, pgy2: 0, ugy: 0, total: 0 };
+                    }
+                    deptSummary[d.department].total++;
+                    if (doctorSchedule.pgy1.includes(d)) deptSummary[d.department].pgy1++;
+                    if (doctorSchedule.pgy2.includes(d)) deptSummary[d.department].pgy2++;
+                    if (doctorSchedule.ugy.includes(d)) deptSummary[d.department].ugy++;
+                }
+            });
+
+            scheduleHTML += `<div>
+                <h2 class="text-2xl font-bold text-gray-800 mb-4 border-l-4 border-gray-500 pl-3">科別總覽</h2>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">`;
+            
+            Object.keys(deptSummary).forEach(dept => {
+                const summary = deptSummary[dept];
+                const colors = deptColors[dept] || 'bg-gray-100 text-gray-800 border-gray-500';
+                scheduleHTML += `
+                    <div class="dept-summary-card bg-white rounded-lg border-l-4 ${colors.split(' ')[2]} shadow-sm flex flex-col justify-between" data-dept="${dept}">
+                        <div class="p-4 text-center">
+                             <div class="w-16 h-16 rounded-full ${colors.split(' ')[0]} flex items-center justify-center mx-auto">
+                               <svg class="w-8 h-8 ${colors.split(' ')[1]}" fill="none" stroke="currentColor" viewBox="0 0 24 24">${deptIcons[dept] || ''}</svg>
+                            </div>
+                            <h3 class="font-bold text-2xl text-gray-800 mt-3">${dept}</h3>
+                            <p class="font-semibold text-lg text-gray-500">共 ${summary.total} 人</p>
+                        </div>
+                        <div class="bg-gray-50 p-2 rounded-b-lg mt-2 flex justify-center space-x-2">
+                            ${summary.pgy1 > 0 ? `<div class="text-center px-2"><div class="font-bold text-indigo-800 text-3xl">${summary.pgy1}</div><div class="text-xs text-indigo-700">PGY1</div></div>` : ''}
+                            ${summary.pgy2 > 0 ? `<div class="text-center px-2"><div class="font-bold text-teal-800 text-3xl">${summary.pgy2}</div><div class="text-xs text-teal-700">PGY2</div></div>` : ''}
+                            ${summary.ugy > 0 ? `<div class="text-center px-2"><div class="font-bold text-orange-800 text-3xl">${summary.ugy}</div><div class="text-xs text-orange-700">UGY</div></div>` : ''}
+                        </div>
+                    </div>
+                `;
+            });
+            scheduleHTML += `</div></div>`;
+
 
             // PGY CR Section
             scheduleHTML += `
@@ -562,67 +623,7 @@
                         </div>
                     </div>
                 </div>`;
-            
-            // Department Summary Section
-            let deptSummary = {};
-            const deptIcons = {
-                '一般內': 'https://raw.githubusercontent.com/guguguuuuu/chimeiGM/main/CM-GM.png',
-                '胸腔': 'https://raw.githubusercontent.com/guguguuuuu/chimeiGM/main/CM-Chest.png',
-                '腎臟': 'https://raw.githubusercontent.com/guguguuuuu/chimeiGM/main/CM-Nephro.png',
-                '胃腸': 'https://raw.githubusercontent.com/guguguuuuu/chimeiGM/main/CM-GI.png',
-                '感染': 'https://raw.githubusercontent.com/guguguuuuu/chimeiGM/main/CM-INF.png',
-                '神內': 'https://raw.githubusercontent.com/guguguuuuu/chimeiGM/main/CM-neurology.png',
-                '心內': 'https://raw.githubusercontent.com/guguguuuuu/chimeiGM/main/CM-CV.png',
-                '血腫': 'https://raw.githubusercontent.com/guguguuuuu/chimeiGM/main/CM-Oncology.png'
-            };
-            const deptColors = {
-                '一般內': 'bg-blue-100 text-blue-800 border-blue-500', 
-                '胸腔': 'bg-sky-100 text-sky-800 border-sky-500', 
-                '腎臟': 'bg-green-100 text-green-800 border-green-500',
-                '胃腸': 'bg-amber-100 text-amber-800 border-amber-500', 
-                '感染': 'bg-red-100 text-red-800 border-red-500', 
-                '神內': 'bg-purple-100 text-purple-800 border-purple-500',
-                '心內': 'bg-pink-100 text-pink-800 border-pink-500', 
-                '血腫': 'bg-rose-100 text-rose-800 border-rose-500'
-            };
 
-            allDoctors.forEach(d => {
-                if (d.department && d.department !== 'PGY CR') {
-                    if (!deptSummary[d.department]) {
-                        deptSummary[d.department] = { pgy1: 0, pgy2: 0, ugy: 0, total: 0 };
-                    }
-                    deptSummary[d.department].total++;
-                    if (doctorSchedule.pgy1.includes(d)) deptSummary[d.department].pgy1++;
-                    if (doctorSchedule.pgy2.includes(d)) deptSummary[d.department].pgy2++;
-                    if (doctorSchedule.ugy.includes(d)) deptSummary[d.department].ugy++;
-                }
-            });
-
-            scheduleHTML += `<div>
-                <h2 class="text-2xl font-bold text-gray-800 mb-4 border-l-4 border-gray-500 pl-3">科別總覽</h2>
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">`;
-            
-            Object.keys(deptSummary).forEach(dept => {
-                const summary = deptSummary[dept];
-                const colors = deptColors[dept] || 'bg-gray-100 text-gray-800 border-gray-500';
-                scheduleHTML += `
-                    <div class="dept-summary-card bg-white rounded-lg border-l-4 ${colors.split(' ')[2]} shadow-sm flex flex-col justify-between" data-dept="${dept}">
-                        <div class="p-4 text-center">
-                             <div class="w-16 h-16 rounded-full ${colors.split(' ')[0]} flex items-center justify-center mx-auto">
-                               <img src="${deptIcons[dept] || ''}" alt="${dept} icon" class="w-10 h-10 object-contain">
-                            </div>
-                            <h3 class="font-bold text-2xl text-gray-800 mt-3">${dept}</h3>
-                            <p class="font-semibold text-lg text-gray-500">共 ${summary.total} 人</p>
-                        </div>
-                        <div class="bg-gray-50 p-2 rounded-b-lg mt-2 flex justify-center space-x-2">
-                            ${summary.pgy1 > 0 ? `<div class="text-center px-2"><div class="font-bold text-indigo-800 text-3xl">${summary.pgy1}</div><div class="text-xs text-indigo-700">PGY1</div></div>` : ''}
-                            ${summary.pgy2 > 0 ? `<div class="text-center px-2"><div class="font-bold text-teal-800 text-3xl">${summary.pgy2}</div><div class="text-xs text-teal-700">PGY2</div></div>` : ''}
-                            ${summary.ugy > 0 ? `<div class="text-center px-2"><div class="font-bold text-orange-800 text-3xl">${summary.ugy}</div><div class="text-xs text-orange-700">UGY</div></div>` : ''}
-                        </div>
-                    </div>
-                `;
-            });
-            scheduleHTML += `</div></div>`;
 
             // Other Info
             scheduleHTML += `<div class="mt-8"><h2 class="text-2xl font-bold text-gray-800 mb-4 border-l-4 border-amber-500 pl-3">其他</h2>
