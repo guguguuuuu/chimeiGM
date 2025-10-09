@@ -279,16 +279,19 @@
 
         function generateListView() {
             const container = document.getElementById('list-view-container');
-            const today = new Date(2025, 9, 7); // Set to Oct 7, 2025
-            const currentDay = today.getDate();
+            const today = new Date();
+            const todayDateOnly = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+
             const daysInMonth = new Date(year, month + 1, 0).getDate();
             const weekdays = ["日", "一", "二", "三", "四", "五", "六"];
             
-            let pastEventsHTML = '';
             let upcomingEventsHTML = '';
 
             for (let day = 1; day <= daysInMonth; day++) {
                 const currentDate = new Date(year, month, day);
+                if (currentDate < todayDateOnly) {
+                    continue; // Skip past dates
+                }
                 if (currentDate.getDay() === 0 || currentDate.getDay() === 6) continue;
                 
                 const dayEvents = events.filter(e => e.date === day).sort((a,b) => (a.time || '0').localeCompare(b.time || '0'));
@@ -301,32 +304,14 @@
                     dayEvents.forEach(event => {
                         const tooltipContent = createTooltipContent(event);
                         const colorClasses = eventTypeColors[event.type] || eventTypeColors.default;
-                        dayHTML += `<div data-tippy-content='${tooltipContent.replace(/'/g, "&apos;")}' class="event ${colorClasses} rounded-lg p-3 text-sm border cursor-pointer"><p class="font-semibold">${event.title}</p><p class="text-sm opacity-80">${event.time}</p><p class="text-sm font-medium text-gray-600 mt-1 flex items-center"><svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0zM15 11a3 3 0 11-6 0 3 3 0 014 0z"></path></svg><span>${event.location}</span></p></div>`;
+                        dayHTML += `<div data-tippy-content='${tooltipContent.replace(/'/g, "&apos;")}' class="event ${colorClasses} rounded-lg p-3 text-sm border cursor-pointer"><p class="font-semibold">${event.title}</p><p class="text-sm opacity-80">${event.time}</p><p class="text-sm font-medium text-gray-600 mt-1 flex items-center"><svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0zM15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg><span>${event.location}</span></p></div>`;
                     });
                     dayHTML += '</div></div>';
                 }
-
-                if (day < currentDay) {
-                    pastEventsHTML += dayHTML;
-                } else {
-                    upcomingEventsHTML += dayHTML;
-                }
+                upcomingEventsHTML += dayHTML;
             }
 
             let finalHTML = '<div class="block md:hidden space-y-4">';
-            if (pastEventsHTML) {
-                finalHTML += `
-                    <div>
-                        <button id="toggle-past-events" class="w-full text-left bg-gray-200 text-gray-700 font-semibold p-3 rounded-lg flex justify-between items-center">
-                            <span>顯示已過期課程</span>
-                            <svg id="toggle-icon" class="w-5 h-5 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path></svg>
-                        </button>
-                        <div id="past-events-content" class="hidden mt-2 space-y-4">
-                            ${pastEventsHTML}
-                        </div>
-                    </div>
-                `;
-            }
             finalHTML += upcomingEventsHTML;
             finalHTML += '</div>';
             container.innerHTML = finalHTML;
@@ -375,7 +360,7 @@
             if (d.participants && d.participants.length) {
                 bodyHTML += `<div class="border-t pt-3 mt-3">
                     <div class="flex items-start">
-                        <div class="w-6 text-center mr-2 mt-0.5"><svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283-.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg></div>
+                        <div class="w-6 text-center mr-2 mt-0.5"><svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656-.126-1.283-.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg></div>
                         <div>
                             <strong class="font-semibold text-gray-700 text-sm">參與學員</strong>
                             <div class="text-gray-600 text-sm grid grid-cols-2 sm:grid-cols-3 gap-x-4 gap-y-1 mt-1">${d.participants.map(p => `<span>${p}</span>`).join('')}</div>
@@ -659,22 +644,6 @@
                 hideOnClick: true,
             });
 
-            // Setup listener for the collapsible section in mobile view
-            const toggleButton = document.getElementById('toggle-past-events');
-            if (toggleButton) {
-                toggleButton.addEventListener('click', () => {
-                    const content = document.getElementById('past-events-content');
-                    const icon = document.getElementById('toggle-icon');
-                    content.classList.toggle('hidden');
-                    icon.classList.toggle('rotate-180');
-                    if(content.classList.contains('hidden')) {
-                        toggleButton.querySelector('span').textContent = '顯示已過期課程';
-                    } else {
-                        toggleButton.querySelector('span').textContent = '隱藏已過期課程';
-                    }
-                });
-            }
-
             // Tab functionality
             const tabs = document.querySelectorAll('.tab');
             const panels = document.querySelectorAll('.tab-panel');
@@ -728,4 +697,3 @@
     </script>
 </body>
 </html>
-
