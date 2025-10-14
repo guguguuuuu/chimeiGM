@@ -115,7 +115,7 @@
             { date: 13, time: '15:00-16:00', title: '常見GI complaint與急症', type: 'course', location: '九樓空橋', details: { instructors: ['楊峻嘉醫師(F)'], notes: '主題：常見GI complaint與急症' } },
             { date: 14, time: '08:00-09:00', title: '內科部Grand Round', type: 'grand_round', location: '國際會議廳', details: {} },
             { date: 14, time: '12:00-13:00', title: '資深主治醫師巴林團體', type: 'balint', location: '九樓空橋', details: { instructors: ['張榮哲主任'], participants: ['一般內科UGY全體PGY1'] } },
-            { date: 14, time: '14:00-17:00', title: '內分泌科教學門診', type: 'clinic', location: '41號診間', details: { instructors: ['洪晧彰醫師'], participants: ['Y1吳帛承2059', '蔡伯慶2074', 'UGY盧孟展6319', '張曜宇6113'] } },
+            { date: 14, time: '14:00-17:00', title: '內分泌科教學門診', type: 'clinic', location: '112號診間', details: { instructors: ['洪晧彰醫師'], participants: ['Y1吳帛承2059', '蔡伯慶2074', 'UGY盧孟展6319', '張曜宇6113'] } },
             { date: 15, time: '14:00-17:00', title: '教學門診', type: 'clinic', location: '21號診間', details: { instructors: ['郭妍伶醫師'], participants: ['Y2張力中2712', 'Y1張萓秦2080', 'Y1莊硯宇2053'] } },
             { date: 15, time: '09:00-12:00', title: '心臟內科教學門診', type: 'clinic', location: '21號診間', details: { instructors: ['黃沛頡醫師'], participants: ['R何欣哲6514', 'Y2張凱柏2601', '盧思云2619', 'Y1吳沂蓁2051', 'UGY吳柏君6170', '廖珮妤6168'] } },
             { date: 16, time: '08:00-09:00', title: '病歷教學及品質檢討會', type: 'quality', location: '九樓空橋', details: { instructors: ['黃琪雅醫師'], recorder: '陳奕宏', participants: ['9A全體學員', '一般內UGY'] } },
@@ -359,12 +359,19 @@
             }
             
             if (d.participants && d.participants.length) {
+                const isSkillCourse = event.title === 'PGY1臨床技能演練 (呼吸道擬真)';
+                const participantsHTML = d.participants.map(p => `<span>${p}</span>`).join('');
+                let participantTitleHTML = `<strong class="font-semibold text-gray-700 text-sm">參與學員</strong>`;
+                if(isSkillCourse){
+                    participantTitleHTML += `<div class="text-red-600 text-sm mt-1">待教師各別通知</div>`;
+                }
+
                 bodyHTML += `<div class="border-t pt-3 mt-3">
                     <div class="flex items-start">
                         <div class="w-6 text-center mr-2 mt-0.5"><svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656-.126-1.283-.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg></div>
                         <div>
-                            <strong class="font-semibold text-gray-700 text-sm">參與學員</strong>
-                            <div class="text-gray-600 text-sm grid grid-cols-2 sm:grid-cols-3 gap-x-4 gap-y-1 mt-1">${d.participants.map(p => `<span>${p}</span>`).join('')}</div>
+                            ${participantTitleHTML}
+                            <div class="text-gray-600 text-sm grid grid-cols-2 sm:grid-cols-3 gap-x-4 gap-y-1 mt-1">${participantsHTML}</div>
                         </div>
                     </div>
                 </div>`;
@@ -698,6 +705,8 @@
     </script>
 </body>
 </html>
+
+
 
 
 
