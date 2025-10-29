@@ -335,11 +335,12 @@
                 font-size: 0.9rem;
             }
             
-            /* 針對畢業後訓練區塊，改為三欄式排版並縮小按鈕 */
+            /* 針對畢業後訓練區塊，改為更整齊的網格排版 */
             .pgym-links {
-                flex-direction: row;
-                justify-content: center;
+                display: grid; /* 使用 Grid 排版 */
+                grid-template-columns: repeat(3, 1fr); /* 固定三欄 */
                 gap: 0.75rem; /* 縮小按鈕間距 */
+                justify-items: center; /* 水平居中 */
             }
             .pgym-links .month-button {
                 width: 100px; /* 縮小按鈕寬度 */
