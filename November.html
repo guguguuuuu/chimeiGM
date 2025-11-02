@@ -6,8 +6,7 @@
     <title>奇美醫院內科課表 (含醫師班表)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
-    <!-- Tooltip library -->
-    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <!-- Tooltip library --><script src="https://unpkg.com/@popperjs/core@2"></script>
     <script src="https://unpkg.com/tippy.js@6"></script>
     <style>
         body {
@@ -61,8 +60,7 @@
             <p class="text-xl text-indigo-600 font-semibold">一般醫學內科訓練課程時程表</p>
         </div>
 
-        <!-- Tabs Navigation -->
-        <div class="px-4 sm:px-6 pt-4 border-b border-gray-200">
+        <!-- Tabs Navigation --><div class="px-4 sm:px-6 pt-4 border-b border-gray-200">
             <nav class="flex space-x-2 overflow-x-auto whitespace-nowrap pb-2" aria-label="Tabs">
                 <button id="tab-calendar" class="tab active text-gray-500 hover:text-gray-700 px-3 py-2 font-medium text-sm rounded-md border-b-2 border-transparent flex-shrink-0">
                     課程行事曆
@@ -71,36 +69,25 @@
                     醫師名單
                 </button>
                  <button id="tab-oncall" class="tab text-gray-500 hover:text-gray-700 px-3 py-2 font-medium text-sm rounded-md border-b-2 border-transparent flex-shrink-0">
-                    醫師班表 (尚無資料)
+                    醫師班表
                 </button>
             </nav>
         </div>
 
 
-        <!-- Tab Content Panels -->
-        <div id="calendar-panel" class="tab-panel p-4 sm:p-6">
+        <!-- Tab Content Panels --><div id="calendar-panel" class="tab-panel p-4 sm:p-6">
             <div id="month-view-container"></div>
             <div id="list-view-container"></div>
         </div>
 
         <div id="schedule-panel" class="tab-panel hidden p-4 sm:p-6">
-            <!-- Doctor's schedule content will be generated here -->
-        </div>
+            <!-- Doctor's schedule content will be generated here --></div>
 
         <div id="oncall-panel" class="tab-panel hidden p-4 sm:p-6">
-             <div class="text-center text-gray-500 py-10">
-                <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                    <path vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h14a2 2 0 012 2v10a2 2 0 01-2 2H4a2 2 0 01-2-2z" />
-                </svg>
-                <h3 class="mt-2 text-sm font-medium text-gray-900">尚無11月份醫師班表</h3>
-                <p class="mt-1 text-sm text-gray-500">取得班表後將會更新。</p>
-            </div>
-            <!--
             <div class="space-y-4">
-                <img src="URL_TO_NOVEMBER_ONCALL_SHEET_1" alt="值班表第一頁" class="w-full h-auto rounded-lg shadow-md">
-                <img src="URL_TO_NOVEMBER_ONCALL_SHEET_2" alt="值班表第二頁" class="w-full h-auto rounded-lg shadow-md">
+                <img src="https://raw.githubusercontent.com/guguguuuuu/chimeiGM/main/7300Schedule/11411001.jpg" alt="11月份醫師班表第一頁" class="w-full h-auto rounded-lg shadow-md">
+                <img src="https://raw.githubusercontent.com/guguguuuuu/chimeiGM/main/7300Schedule/11411002.jpg" alt="11月份醫師班表第二頁" class="w-full h-auto rounded-lg shadow-md">
             </div>
-            -->
         </div>
     </div>
 
@@ -751,4 +738,5 @@
     </script>
 </body>
 </html>
+
 
