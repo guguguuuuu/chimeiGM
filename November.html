@@ -108,10 +108,12 @@
             { date: 11, time: '08:00-09:00', title: '內科部Grand Round', type: 'grand_round', location: '國際會議廳', details: {} },
             { date: 11, time: '12:00-13:00', title: 'PGY1資深主治醫師巴林團體', type: 'balint', location: '九樓空橋', details: { instructors: ['張榮哲主任'], participants: ['一般內科UGY', '全體PGY1(已備午餐)'] } }, // Updated title
             { date: 11, time: '14:00-15:00', title: '資深主治醫師指導教學', type: 'teaching', location: '十樓空橋', details: { instructors: ['吳鴻昌主任'], recorder: '蔡芝蓉', participants: ['全體學員', '內科UGY'] } }, // Added recorder
-            { date: 12, time: '08:00-09:00', title: '值班案例論會', type: 'conference', location: '九樓空橋', details: { instructors: ['溫振甫醫師'], participants: ['9A全體學員', '一般內UGY'] } },
-            { date: 12, time: '15:00-16:00', title: 'EKG判讀', type: 'course', location: '十樓空橋', details: { instructors: ['楊其臻醫師(F)'], notes: '主題：EKG判讀' } },
+            
+            // 11/12 Events Removed (Typhoon)
+
             { date: 13, time: '08:00-09:00', title: '實證醫學期刊討論會', type: 'journal', location: '九樓空橋', details: { instructors: ['葉正發醫師'], presenter: '陳揚恩', recorder: '陳揚恩', participants: ['9A全體學員', '一般內UGY'] } }, // Added recorder
             { date: 13, time: '11:00-12:00', title: '整合病房出備暨跨領域團隊會議', type: 'meeting', location: '九樓空橋', details: { participants: ['9A全體學員', '一般內UGY'] } },
+            { date: 13, time: '12:00-13:00', title: '資深主治醫師指導教學', type: 'teaching', location: '九樓空橋', details: { instructors: ['湯宏仁 副院長'], participants: ['全體學員', '內科UGY'] } },
             { date: 14, time: '11:00-12:00', title: '聯合討論會 (安寧)', type: 'combined', location: '九樓空橋', details: { instructors: ['葉正發醫師'], presenter: '曾宇暘', recorder: '曾宇暘', participants: ['全體學員', '內科UGY'] } }, // Added recorder
             { date: 14, time: '11:00-12:00', title: '甲狀腺亢進', type: 'course', location: '五樓空橋', details: { instructors: ['葉美成醫師(VS)'], notes: '主題：甲狀腺亢進' } },
             { date: 17, time: '08:00-09:00', title: '14天再入院討論會', type: 'quality', location: '九樓空橋', details: { instructors: ['溫振甫醫師'], presenter: '溫振甫/蔡旻錡', recorder: '溫振甫/蔡旻錡', participants: ['9A全體學員', '一般內UGY'] } }, // Added recorder
@@ -140,7 +142,7 @@
 
             // PGY1臨床技能演練 (Corrected time format)
             { date: 4, time: '13:30-15:30', title: 'PGY1臨床技能演練 (急性呼吸道處置)', type: 'skill', location: '臨床技能中心', details: { instructors: ['陳伯榕醫師'], participants: ['劉紹弘2057', '黄亭禎2058', '蔡旻錡2078', '黃崢璵3203', '沈哲民2090', '吳婕寧2086'] } },
-            { date: 12, time: '13:30-15:30', title: 'PGY1臨床技能演練 (急性呼吸道處置)', type: 'skill', location: '臨床技能中心', details: { instructors: ['陳伯榕醫師'], participants: ['陳揚恩2082', '曾麟斐3206', '王亭尹3207', '劉祐辰2056', '曾宇暘2061'] } },
+            { date: 21, time: '13:30-15:30', title: 'PGY1臨床技能演練 (急性呼吸道處置)', type: 'skill', location: '臨床技能中心', details: { instructors: ['陳伯榕醫師'], participants: ['陳揚恩2082', '曾麟斐3206', '王亭尹3207', '劉祐辰2056', '曾宇暘2061'] } },
             { date: 18, time: '13:30-15:30', title: 'PGY1臨床技能演練 (休克處置)', type: 'skill', location: '臨床技能中心', details: { instructors: ['陳伯榕醫師'], participants: ['王亭尹3207', '蔡旻錡2078'] } },
             { date: 25, time: '13:30-15:30', title: 'PGY1臨床技能演練 (休克處置)', type: 'skill', location: '臨床技能中心', details: { instructors: ['陳伯榕醫師'], participants: ['陳揚恩2082', '曾宇暘2061', '黃崢璵3203', '曾麟斐3206', '劉紹弘2057', '劉祐辰2056', '沈哲民2090', '黄亭禎2058'] } },
 
@@ -152,21 +154,27 @@
             { date: 10, time: '14:00-17:00', title: '一般醫學內科教學門診', type: 'clinic', location: '21號診間', details: { instructors: ['黃琪雅醫師'], participants: ['Y1陳揚恩2082', 'Y2何信賢2744'] } },
             { date: 11, time: '09:00-12:00', title: '一般醫學內科教學門診', type: 'clinic', location: '21號診間', details: { instructors: ['楊浚銘主任'], participants: ['Y2盧思云2619'] } },
             { date: 11, time: '14:00-17:00', title: '一般醫學內科教學門診', type: 'clinic', location: '21號診間', details: { instructors: ['王淑慎醫師'], participants: ['Y1吳婕寧2086', 'Y2曾菀榆2608'] } },
-            { date: 12, time: '14:00-17:00', title: '一般醫學內科教學門診', type: 'clinic', location: '21號診間', details: { instructors: ['郭妍伶主任'], participants: ['Y1黃崢璵3203'] } },
-            { date: 14, time: '09:00-12:00', title: '一般醫學內科教學門診', type: 'clinic', location: '21號診間', details: { instructors: ['葉正發醫師'], participants: ['Y1黄亭禎2058'] } },
+            
+            // 11/12 clinic removed
+            
+            { date: 14, time: '09:00-12:00', title: '一般醫學內科教學門診', type: 'clinic', location: '21號診間', details: { instructors: ['葉正發醫師'], participants: ['Y1黄亭禎2058', 'Y1黃崢璵3203'] } },
             { date: 17, time: '14:00-17:00', title: '一般醫學內科教學門診', type: 'clinic', location: '21號診間', details: { instructors: ['黃琪雅醫師'], participants: ['Y1曾宇暘2061', 'Y1王亭尹3207'] } },
             { date: 18, time: '09:00-12:00', title: '一般醫學內科教學門診', type: 'clinic', location: '21號診間', details: { instructors: ['楊浚銘主任'], participants: ['Y1陳揚恩2082'] } },
-            { date: 18, time: '14:00-17:00', title: '一般醫學內科教學門診', type: 'clinic', location: '21號診間', details: { instructors: ['王淑慎醫師'], participants: ['Y2蔡鎧鴻2702'] } },
+            { date: 18, time: '14:00-17:00', title: '一般醫學內科教學門診', type: 'clinic', location: '21號診間', details: { instructors: ['王淑慎醫師'], participants: ['Y2蔡鎧鴻2702', 'Y2番懷槿2602'] } },
             { date: 19, time: '14:00-17:00', title: '一般醫學內科教學門診', type: 'clinic', location: '21號診間', details: { instructors: ['郭妍伶主任'], participants: ['Y1蔡旻錡2078', 'Y2朱怡綸2624'] } },
             { date: 21, time: '09:00-12:00', title: '一般醫學內科教學門診', type: 'clinic', location: '21號診間', details: { instructors: ['葉正發醫師'], participants: ['Y2蔡芝蓉2633'] } },
             { date: 24, time: '14:00-17:00', title: '一般醫學內科教學門診', type: 'clinic', location: '21號診間', details: { instructors: ['黃琪雅醫師'], participants: ['Y1吳婕寧2086', 'Y2尤威儒2631'] } },
-            { date: 25, time: '09:00-12:00', title: '一般醫學內科教學門診', type: 'clinic', location: '21號診間', details: { instructors: ['楊浚銘主任'], participants: ['Y2番懷槿2602'] } },
+            
+            // 11/25 09:00-12:00 clinic removed
+            
             { date: 25, time: '14:00-17:00', title: '一般醫學內科教學門診', type: 'clinic', location: '21號診間', details: { instructors: ['王淑慎醫師'], participants: ['UGY郭禮涵3190', 'Y2黃雅麟2634'] } },
             { date: 26, time: '14:00-17:00', title: '一般醫學內科教學門診', type: 'clinic', location: '21號診間', details: { instructors: ['郭妍伶主任'], participants: ['Y1曾宇暘2061', 'Y1劉紹弘2057'] } },
             { date: 28, time: '09:00-12:00', title: '一般醫學內科教學門診', type: 'clinic', location: '21號診間', details: { instructors: ['葉正發醫師'], participants: ['Y1劉祐辰2056', 'Y1沈哲民2090'] } },
 
             // 內科部教學門診
-            { date: 12, time: '14:00-17:00', title: '心臟內科教學門診', type: 'clinic', location: '31號門診間', details: { instructors: ['洪俊聲醫師'], participants: ['R吳俊諺2708', 'Y2番懷槿2602', '黃傳傑2632', 'UGY羅穎婕3179', '林柏杉6166', '王郁葦3183', '歐陽云治3183'] } },
+            
+            // 11/12 clinic removed
+            
             { date: 13, time: '09:00-12:00', title: '感染科教學門診', type: 'clinic', location: '21號門診間', details: { instructors: ['蘇柏安醫師'], participants: ['R林卲娗2738', 'Y2蔡鎧鴻2702', '曾菀榆2608', 'Y1劉祐辰2056', '沈哲民2090', 'UGY黃詩喬6151'] } },
             { date: 14, time: '09:00-12:00', title: '胸腔內科教學門診', type: 'clinic', location: '45號門診間', details: { instructors: ['蔣士仁醫師'], participants: ['R簡碩廷2936', 'Y2黃雅麟2634', '朱怡綸2624', 'Y1黃崢璵3203', '曾麟斐3206'] } },
             { date: 21, time: '09:00-12:00', title: '神經內科教學門診', type: 'clinic', location: '45號門診間', details: { instructors: ['林冠宏醫師'], participants: ['R楊俊儀2879', '何欣哲6514', 'Y2盧思云2619', 'UGY郭勇德6118'] } },
@@ -212,8 +220,6 @@
             ],
             other: [
                 '王淑慎 10/31-11/09請假',
-                '黃俊華 11/13-11/14教召',
-                '蔡鎧鴻 11/13-11/14教召',
                 '沈哲民 11/17-11/19教召'
             ]
         };
@@ -239,7 +245,9 @@
         var year = 2025;
         var month = 10; // 0-indexed for November
 
-        var holidays = {}; // No weekday holidays in Nov 2025
+        var holidays = {
+            12: { name: '鳳凰颱風 停止上班上課', icon: '🌀' }
+        }; // No weekday holidays in Nov 2025
 
         function generateMonthView() {
             const container = document.getElementById('month-view-container');
@@ -391,7 +399,7 @@
 
             // Participants
             if (d.participants && d.participants.length > 0) {
-                const participantsHTML = d.participants.map(p => `<span>${p}</span>`).join('');
+                const participantsHTML = d.participants.map(p => `<span class="whitespace-nowrap">${p}</span>`).join('');
                 let participantTitleHTML = `<strong class="font-semibold text-gray-700 text-sm">參與學員</strong>`;
 
                 bodyHTML += `<div class="border-t pt-3 mt-3">
@@ -738,6 +746,3 @@
     </script>
 </body>
 </html>
-
-
-
