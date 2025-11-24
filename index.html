@@ -14,24 +14,92 @@
             background-color: #f7f8fc; /* Fallback */
             background-image: linear-gradient(to top, #f7f8fc 0%, #eef1f5 100%); /* Subtle gradient */
             margin: 0;
-            padding: 4rem 1rem; /* 在頁面周圍留出一些空間 */
+            padding: 0;
             box-sizing: border-box;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
             min-height: 100vh;
+            color: #333;
         }
 
-        /* --- 主要內容容器 --- */
-        .container {
-            max-width: 1000px; /* 增加最大寬度以容納更多按鈕 */
-            width: 100%;
-            margin: 0 auto; /* 水平居中 */
+        /* --- 佈局容器 (Layout Wrapper) --- */
+        .layout-wrapper {
+            display: flex;
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+            gap: 3rem;
+            align-items: flex-start;
+        }
+
+        /* --- 左側欄 (Sidebar) --- */
+        .sidebar {
+            flex: 0 0 280px; /* 固定寬度 */
+            background: #fff;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 2rem; /* 滾動時固定 */
+            border: 1px solid #e0e0e0;
+        }
+
+        .sidebar-title {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #f0f0f0;
+            text-align: center;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 1rem;
+            background-color: #f8f9fa;
+            color: #555;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .sidebar-link i {
+            font-size: 1.2rem;
+            color: #597a9d;
+            width: 24px;
+            text-align: center;
+        }
+
+        .sidebar-link:hover {
+            background-color: #eef6fc;
+            color: #1d72b1;
+            border-color: #bde0fe;
+            transform: translateX(5px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        /* --- 主要內容區域 (Main Content) --- */
+        .main-content {
+            flex: 1; /* 佔據剩餘空間 */
+            width: 100%; /* 確保內容寬度 */
+            max-width: 1000px; /* 限制內容最大寬度 */
         }
 
         /* --- Logo 樣式 --- */
         .header-logo {
-            max-width: 400px; /* 控制 Logo 最大寬度 */
+            max-width: 350px; /* 控制 Logo 最大寬度 */
             height: auto;
             margin: 0 auto 2rem auto; /* 水平居中並與下方標題間隔 */
             display: block;
@@ -47,7 +115,7 @@
         .main-title,
         .sub-title {
             display: block;
-            font-size: 2.4rem; /* 統一字體大小 */
+            font-size: 2.2rem; /* 統一字體大小 */
             font-weight: bold;
             color: #597a9d; /* 更新為指定的藍色 */
         }
@@ -57,8 +125,8 @@
             color: #4a4a4a;
             font-size: 1.8rem; /* 調整字體大小 */
             font-weight: bold;
-            margin-top: 3.5rem; /* 與上一個區塊的間距 */
-            margin-bottom: 2rem; /* 與下方按鈕的間距 */
+            margin-top: 3rem; /* 與上一個區塊的間距 */
+            margin-bottom: 1.5rem; /* 與下方按鈕的間距 */
             text-align: left;
             padding-bottom: 0.5rem;
             border-bottom: 2px solid #e0e0e0;
@@ -100,7 +168,7 @@
             border-radius: 16px;
             padding: 1.5rem;
             flex: 1; /* 讓格子平均分配空間 */
-            min-width: 300px; /* 每個格子的最小寬度 */
+            min-width: 280px; /* 每個格子的最小寬度 */
             box-shadow: 0 6px 15px rgba(0,0,0,0.07); /* Enhanced shadow */
             transition: all 0.3s ease;
         }
@@ -131,8 +199,8 @@
             gap: 0.2rem; /* 微調內部間距 */
             text-decoration: none; /* 移除超連結的底線 */
             border-radius: 16px; /* 增加圓角 */
-            width: 160px;
-            height: 140px; /* 增加高度以容納大數字 */
+            width: 150px;
+            height: 130px; /* 增加高度以容納大數字 */
             color: #333; /* 加深文字顏色以搭配漸層 */
             /* 加入平滑的過渡效果，讓互動更流暢 */
             transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -142,7 +210,7 @@
         
         /* --- 月份大數字樣式 --- */
         .month-digit {
-            font-size: 3.5rem; /* 調整字體大小以容納更多文字 */
+            font-size: 3.2rem; /* 調整字體大小以容納更多文字 */
             font-weight: 700;
             line-height: 1.1;
             text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.7);
@@ -150,36 +218,36 @@
 
         /* --- 按鈕內文字樣式 --- */
         .month-name {
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: bold;
         }
         .month-year {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             font-weight: normal;
         }
 
         /* --- 日期按鈕的新樣式 --- */
         .date-button .date-main {
-             font-size: 2.8rem;
+             font-size: 2.5rem;
              font-weight: 700;
              line-height: 1.2;
              text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.7);
         }
         .date-button .date-year {
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: bold;
         }
 
         /* --- 實務訓練按鈕標籤樣式 --- */
         .practice-label {
-            font-size: 1rem;
+            font-size: 0.9rem;
             font-weight: bold;
             text-align: center;
             padding: 0 0.5rem;
         }
         
         /* --- 為不同月份按鈕設定豐富的漸層色彩 --- */
-        .bg-november { background-image: linear-gradient(135deg, #e8dff5 0%, #d8c2f0 100%); } /* 新增11月顏色 */
+        .bg-november { background-image: linear-gradient(135deg, #e8dff5 0%, #d8c2f0 100%); }
         .bg-august { background-image: linear-gradient(135deg, #ffdac1 0%, #ffb28e 100%); }
         .bg-september { background-image: linear-gradient(135deg, #e2f0cb 0%, #b5e083 100%); }
         .bg-october { background-image: linear-gradient(135deg, #fff2b2 0%, #ffd972 100%); }
@@ -208,6 +276,8 @@
             display: flex;
             align-items: center;
             gap: 2rem;
+            flex-wrap: wrap;
+            justify-content: center;
         }
         .contact-logo {
             max-width: 100px;
@@ -280,39 +350,47 @@
 
 
         /* --- 響應式設計：針對手機等小螢幕的樣式調整 --- */
-        @media (max-width: 920px) {
-            .container {
-                max-width: 600px;
+        @media (max-width: 1024px) {
+            .layout-wrapper {
+                flex-direction: column; /* 改為垂直排列 */
+                padding: 2rem 1rem;
             }
-            h2 {
-                 text-align: left;
-                 justify-content: flex-start;
+            .sidebar {
+                position: relative; /* 取消 sticky */
+                top: 0;
+                width: 100%;
+                flex: none;
+                margin-bottom: 1rem;
             }
-            .plan-grid h3 {
-                text-align: left;
+            .main-content {
+                max-width: 100%;
             }
         }
 
-        @media (max-width: 720px) {
+        @media (max-width: 768px) {
             .plan-container {
                 flex-direction: column;
+            }
+            .contact-info {
+                flex-direction: column;
+                text-align: center;
+            }
+            .contact-details p {
+                justify-content: center;
             }
         }
 
         @media (max-width: 520px) {
-            body {
-                padding: 2.5rem 1rem;
-            }
             .header-logo {
-                max-width: 280px;
+                max-width: 250px;
             }
             /* --- 手機版標題層級調整 --- */
             .main-title,
             .sub-title {
-                font-size: 1.7rem; /* 手機版大標 */
+                font-size: 1.5rem; /* 手機版大標 */
             }
             h2 {
-                font-size: 1.4rem; /* 手機版中標 */
+                font-size: 1.3rem; /* 手機版中標 */
             }
             h3 {
                 font-size: 1.1rem; /* 手機版小標 */
@@ -325,129 +403,153 @@
             }
             /* 縮小師資計畫的按鈕 */
             .plan-grid .month-button {
-                width: 120px;
-                height: 110px;
+                width: 110px;
+                height: 100px;
             }
             .plan-grid .month-digit {
-                 font-size: 3rem;
+                 font-size: 2.5rem;
             }
             .plan-grid .practice-label {
-                font-size: 0.9rem;
+                font-size: 0.8rem;
             }
             
             /* 針對畢業後訓練區塊，改為更整齊的網格排版 */
             .pgym-links {
                 display: grid; /* 使用 Grid 排版 */
-                grid-template-columns: repeat(3, 1fr); /* 固定三欄 */
-                gap: 0.75rem; /* 縮小按鈕間距 */
+                grid-template-columns: repeat(2, 1fr); /* 固定二欄 (手機版較窄) */
+                gap: 1rem; /* 縮小按鈕間距 */
                 justify-items: center; /* 水平居中 */
             }
             .pgym-links .month-button {
-                width: 100px; /* 縮小按鈕寬度 */
-                height: 90px; /* 縮小按鈕高度 */
-            }
-            .pgym-links .month-digit {
-                font-size: 2.5rem; /* 縮小數字字體 */
-            }
-            .pgym-links .month-name {
-                font-size: 0.9rem;
-            }
-            .pgym-links .month-year {
-                font-size: 0.8rem;
-            }
-            .contact-info {
-                flex-direction: row; /* 在手機上改回水平排列 */
-                align-items: center; 
-                gap: 1.5rem;
-            }
-            .contact-details p {
-                justify-content: flex-start; /* 改為靠左對齊 */
+                width: 130px; 
+                height: 110px; 
             }
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
+    <!-- 佈局容器：包含左側欄與主要內容 -->
+    <div class="layout-wrapper">
         
-        <img src="https://raw.githubusercontent.com/guguguuuuu/chimeiGM/main/CHIMEI%20LOGO.png" alt="奇美醫院 Logo" class="header-logo">
-
-        <h1>
-            <span class="main-title">奇美醫療財團法人奇美醫院</span>
-            <span class="sub-title">一般內科醫學訓練示範中心</span>
-        </h1>
-
-        <!-- 第一個區塊: 畢業後一般內科醫學訓練 -->
-        <div class="training-section">
-            <h2><i class="fa-solid fa-graduation-cap" style="color: #1d72b1;"></i>畢業後一般內科醫學訓練</h2>
-            <div class="schedule-links pgym-links">
-                <!-- 11月按鈕 -->
-                <a href="https://guguguuuuu.github.io/chimeiGM/November" class="month-button bg-november">
-                    <span class="month-digit">11</span>
-                    <span class="month-name">November</span>
-                    <span class="month-year">2025</span>
-                </a>
-                <!-- 10月按鈕 -->
-                <a href="https://guguguuuuu.github.io/chimeiGM/October" class="month-button bg-october">
-                    <span class="month-digit">10</span>
-                    <span class="month-name">October</span>
-                    <span class="month-year">2025</span>
-                </a>
-                <!-- 9月按鈕 -->
-                <a href="https://guguguuuuu.github.io/chimeiGM/September" class="month-button bg-september">
-                    <span class="month-digit">9</span>
-                    <span class="month-name">September</span>
-                    <span class="month-year">2025</span>
-                </a>
-                <!-- 8月按鈕 -->
-                <a href="https://guguguuuuu.github.io/chimeiGM/August" class="month-button bg-august">
-                    <span class="month-digit">8</span>
-                    <span class="month-name">August</span>
-                    <span class="month-year">2025</span>
-                </a>
+        <!-- 左側欄：核心能力導向訓練 -->
+        <aside class="sidebar">
+            <div class="sidebar-title">
+                <i class="fa-solid fa-book-medical" style="color: #2a9d8f; margin-right: 8px;"></i>
+                核心能力導向訓練
             </div>
-        </div>
+            <ul class="sidebar-menu">
+                <li>
+                    <a href="https://guguguuuuu.github.io/chimeiGM/training" class="sidebar-link" target="_blank">
+                        <i class="fa-solid fa-clipboard-list"></i>
+                        <div>
+                            一般醫學內科<br>
+                            <span style="font-size: 0.85em; font-weight: normal;">核心能力導向訓練指南</span>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://guguguuuuu.github.io/chimeiGM/EPAs" class="sidebar-link" target="_blank">
+                        <i class="fa-solid fa-user-check"></i>
+                        <div>
+                            PGY臨床能力<br>
+                            <span style="font-size: 0.85em; font-weight: normal;">信賴等級 (EPAs)</span>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://guguguuuuu.github.io/chimeiGM/Milestone" class="sidebar-link" target="_blank">
+                        <i class="fa-solid fa-flag-checkered"></i>
+                        <div>
+                            PGY Milestone<br>
+                            <span style="font-size: 0.85em; font-weight: normal;">里程碑評量</span>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </aside>
 
-        <!-- 第二個區塊: 一般醫學師資培育計畫 -->
-        <div class="training-section">
-            <h2><i class="fa-solid fa-chalkboard-user" style="color: #2a9d8f;"></i>一般醫學師資培育計畫</h2>
-            <div class="plan-container">
-                <!-- 第一格 -->
-                <div class="plan-grid">
-                    <h3>一般醫學教師研習營</h3>
-                    <div class="schedule-links">
-                        <a href="#" data-modal-target="workshop-modal" class="month-button date-button bg-workshop">
-                            <span class="date-main">5/24</span>
-                            <span class="date-year">2025</span>
-                        </a>
+        <!-- 主要內容區域 -->
+        <main class="main-content">
+            <img src="https://raw.githubusercontent.com/guguguuuuu/chimeiGM/main/CHIMEI%20LOGO.png" alt="奇美醫院 Logo" class="header-logo">
+
+            <h1>
+                <span class="main-title">奇美醫療財團法人奇美醫院</span>
+                <span class="sub-title">一般內科醫學訓練示範中心</span>
+            </h1>
+
+            <!-- 第一個區塊: 畢業後一般內科醫學訓練 -->
+            <div class="training-section">
+                <h2><i class="fa-solid fa-graduation-cap" style="color: #1d72b1;"></i>畢業後一般內科醫學訓練</h2>
+                <div class="schedule-links pgym-links">
+                    <!-- 11月按鈕 -->
+                    <a href="https://guguguuuuu.github.io/chimeiGM/November" class="month-button bg-november">
+                        <span class="month-digit">11</span>
+                        <span class="month-name">November</span>
+                        <span class="month-year">2025</span>
+                    </a>
+                    <!-- 10月按鈕 -->
+                    <a href="https://guguguuuuu.github.io/chimeiGM/October" class="month-button bg-october">
+                        <span class="month-digit">10</span>
+                        <span class="month-name">October</span>
+                        <span class="month-year">2025</span>
+                    </a>
+                    <!-- 9月按鈕 -->
+                    <a href="https://guguguuuuu.github.io/chimeiGM/September" class="month-button bg-september">
+                        <span class="month-digit">9</span>
+                        <span class="month-name">September</span>
+                        <span class="month-year">2025</span>
+                    </a>
+                    <!-- 8月按鈕 -->
+                    <a href="https://guguguuuuu.github.io/chimeiGM/August" class="month-button bg-august">
+                        <span class="month-digit">8</span>
+                        <span class="month-name">August</span>
+                        <span class="month-year">2025</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- 第二個區塊: 一般醫學師資培育計畫 -->
+            <div class="training-section">
+                <h2><i class="fa-solid fa-chalkboard-user" style="color: #2a9d8f;"></i>一般醫學師資培育計畫</h2>
+                <div class="plan-container">
+                    <!-- 第一格 -->
+                    <div class="plan-grid">
+                        <h3>一般醫學教師研習營</h3>
+                        <div class="schedule-links">
+                            <a href="#" data-modal-target="workshop-modal" class="month-button date-button bg-workshop">
+                                <span class="date-main">5/24</span>
+                                <span class="date-year">2025</span>
+                            </a>
+                        </div>
+                    </div>
+                    <!-- 第二格 -->
+                    <div class="plan-grid">
+                        <h3>臨床教學實務訓練</h3>
+                        <div class="schedule-links">
+                            <a href="#" data-modal-target="practice-i-modal" class="month-button bg-plan-i">
+                                <span class="month-digit">I</span>
+                                <span class="practice-label">2025/5-7月</span>
+                            </a>
+                            <a href="#" data-modal-target="practice-ii-modal" class="month-button bg-plan-ii">
+                                <span class="month-digit">II</span>
+                                <span class="practice-label">2025/7-9月</span>
+                            </a>
+                        </div>
                     </div>
                 </div>
-                <!-- 第二格 -->
-                <div class="plan-grid">
-                    <h3>臨床教學實務訓練</h3>
-                    <div class="schedule-links">
-                        <a href="#" data-modal-target="practice-i-modal" class="month-button bg-plan-i">
-                            <span class="month-digit">I</span>
-                            <span class="practice-label">2025/5-7月</span>
-                        </a>
-                        <a href="#" data-modal-target="practice-ii-modal" class="month-button bg-plan-ii">
-                            <span class="month-digit">II</span>
-                            <span class="practice-label">2025/7-9月</span>
-                        </a>
-                    </div>
+            </div>
+            
+            <!-- 聯絡資訊區塊 -->
+            <div class="contact-info">
+                <img src="https://raw.githubusercontent.com/guguguuuuu/chimeiGM/main/4200-LOGO%20BLUE1.png" alt="教學部 Logo" class="contact-logo">
+                <div class="contact-details">
+                    <p><i class="fa-solid fa-user" style="color: #6c757d;"></i>教學部  王嬿茹</p>
+                    <p><i class="fa-solid fa-phone" style="color: #2a9d8f;"></i>06-2812811分機57427</p>
+                    <p><i class="fa-solid fa-envelope" style="color: #e76f51;"></i>a11017@mail.chimei.org.tw</p>
                 </div>
             </div>
-        </div>
-        
-        <!-- 聯絡資訊區塊 -->
-        <div class="contact-info">
-            <img src="https://raw.githubusercontent.com/guguguuuuu/chimeiGM/main/4200-LOGO%20BLUE1.png" alt="教學部 Logo" class="contact-logo">
-            <div class="contact-details">
-                <p><i class="fa-solid fa-user" style="color: #6c757d;"></i>教學部  王嬿茹</p>
-                <p><i class="fa-solid fa-phone" style="color: #2a9d8f;"></i>06-2812811分機57427</p>
-                <p><i class="fa-solid fa-envelope" style="color: #e76f51;"></i>a11017@mail.chimei.org.tw</p>
-            </div>
-        </div>
+        </main>
     </div>
     
     <!-- 研習營照片的彈出視窗 -->
@@ -488,17 +590,6 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // --- 下拉選單功能 ---
-            const allSelects = document.querySelectorAll('.month-select');
-            allSelects.forEach(function(selectElement) {
-                selectElement.addEventListener('change', function() {
-                    const selectedUrl = this.value;
-                    if (selectedUrl) {
-                        window.location.href = selectedUrl;
-                    }
-                });
-            });
-
             // --- 通用彈出視窗功能 ---
             const openModalButtons = document.querySelectorAll('[data-modal-target]');
             
@@ -533,4 +624,3 @@
 
 </body>
 </html>
-
