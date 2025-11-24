@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>奇美 PGY Milestone 導覽</title>
+    
+    <!-- 引入 Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- 引入 React 和 ReactDOM -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    
+    <!-- 引入 Babel 用於解析 JSX -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <style>
+        body {
+            font-family: "Noto Sans TC", system-ui, -apple-system, sans-serif;
+        }
+        /* 自定義滾動條樣式，讓介面更精緻 */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; 
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, cloneElement } = React;
+
+        // --- Icon Components (SVG) ---
+        // 使用 SVG 路徑繪製 Lucide 風格圖示，確保無外部依賴問題
+
+        const IconWrapper = ({ children, size = 24, className = "", ...props }) => (
+            <svg 
+                xmlns="http://www.w3.org/2000/svg" 
+                width={size} 
+                height={size} 
+                viewBox="0 0 24 24" 
+                fill="none" 
+                stroke="currentColor" 
+                strokeWidth="2" 
+                strokeLinecap="round" 
+                strokeLinejoin="round" 
+                className={className}
+                {...props}
+            >
+                {children}
+            </svg>
+        );
+
+        const Stethoscope = (props) => (
+            <IconWrapper {...props}>
+                <path d="M4.8 2.3A.3.3 0 1 0 5 2H4a2 2 0 0 0-2 2v5a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6V4a2 2 0 0 0-2-2h-1a.2.2 0 1 0 .3.3" />
+                <path d="M8 15v1a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6v-4" />
+                <circle cx="20" cy="10" r="2" />
+            </IconWrapper>
+        );
+
+        const Brain = (props) => (
+            <IconWrapper {...props}>
+                <path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2Z" />
+                <path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2Z" />
+            </IconWrapper>
+        );
+
+        const BookOpen = (props) => (
+            <IconWrapper {...props}>
+                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+            </IconWrapper>
+        );
+
+        const MessageCircle = (props) => (
+            <IconWrapper {...props}>
+                <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" />
+            </IconWrapper>
+        );
+
+        const Shield = (props) => (
+            <IconWrapper {...props}>
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+            </IconWrapper>
+        );
+
+        const Building2 = (props) => (
+            <IconWrapper {...props}>
+                <path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z" />
+                <path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2" />
+                <path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2" />
+                <path d="M10 6h4" />
+                <path d="M10 10h4" />
+                <path d="M10 14h4" />
+                <path d="M10 18h4" />
+            </IconWrapper>
+        );
+
+        const GraduationCap = (props) => (
+            <IconWrapper {...props}>
+                <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+                <path d="M6 12v5c3 3 9 3 12 0v-5" />
+            </IconWrapper>
+        );
+
+        const Sparkles = (props) => (
+            <IconWrapper {...props}>
+                <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z" />
+            </IconWrapper>
+        );
+
+        const Target = (props) => (
+            <IconWrapper {...props}>
+                <circle cx="12" cy="12" r="10" />
+                <circle cx="12" cy="12" r="6" />
+                <circle cx="12" cy="12" r="2" />
+            </IconWrapper>
+        );
+
+
+        // --- Data & Themes ---
+
+        const THEMES = {
+          blue: {
+            bg: 'bg-blue-50',
+            bgDark: 'bg-blue-100',
+            text: 'text-blue-600',
+            textDark: 'text-blue-800',
+            border: 'border-blue-200',
+            gradient: 'from-blue-600 to-cyan-500',
+            shadow: 'shadow-blue-200',
+            accent: 'bg-blue-600',
+            lightAccent: 'bg-blue-100 text-blue-700'
+          },
+          indigo: {
+            bg: 'bg-indigo-50',
+            bgDark: 'bg-indigo-100',
+            text: 'text-indigo-600',
+            textDark: 'text-indigo-800',
+            border: 'border-indigo-200',
+            gradient: 'from-indigo-600 to-purple-500',
+            shadow: 'shadow-indigo-200',
+            accent: 'bg-indigo-600',
+            lightAccent: 'bg-indigo-100 text-indigo-700'
+          },
+          emerald: {
+            bg: 'bg-emerald-50',
+            bgDark: 'bg-emerald-100',
+            text: 'text-emerald-600',
+            textDark: 'text-emerald-800',
+            border: 'border-emerald-200',
+            gradient: 'from-emerald-600 to-teal-500',
+            shadow: 'shadow-emerald-200',
+            accent: 'bg-emerald-600',
+            lightAccent: 'bg-emerald-100 text-emerald-700'
+          },
+          orange: {
+            bg: 'bg-orange-50',
+            bgDark: 'bg-orange-100',
+            text: 'text-orange-600',
+            textDark: 'text-orange-800',
+            border: 'border-orange-200',
+            gradient: 'from-orange-500 to-amber-500',
+            shadow: 'shadow-orange-200',
+            accent: 'bg-orange-600',
+            lightAccent: 'bg-orange-100 text-orange-800'
+          },
+          rose: {
+            bg: 'bg-rose-50',
+            bgDark: 'bg-rose-100',
+            text: 'text-rose-600',
+            textDark: 'text-rose-800',
+            border: 'border-rose-200',
+            gradient: 'from-rose-600 to-pink-500',
+            shadow: 'shadow-rose-200',
+            accent: 'bg-rose-600',
+            lightAccent: 'bg-rose-100 text-rose-700'
+          },
+          cyan: {
+            bg: 'bg-cyan-50',
+            bgDark: 'bg-cyan-100',
+            text: 'text-cyan-600',
+            textDark: 'text-cyan-800',
+            border: 'border-cyan-200',
+            gradient: 'from-cyan-600 to-sky-500',
+            shadow: 'shadow-cyan-200',
+            accent: 'bg-cyan-600',
+            lightAccent: 'bg-cyan-100 text-cyan-700'
+          }
+        };
+
+        const MILESTONE_DATA = {
+          PC: {
+            id: 'PC',
+            icon: <Stethoscope size={32} />,
+            color: 'blue',
+            name: '病人照護',
+            engName: 'Patient Care',
+            subTitle: 'History (病史詢問)',
+            summary: '從基本資料收集，進階到能根據情境調整，最終能指導他人。',
+            levels: {
+              1: '能透過直接詢問取得病人主訴與相關症狀等基本資訊，但可能遺漏心理社會或情境相關的重要細節。需在指導下才能組織並呈現完整且正確的病史。',
+              2: '能有條理地整理並歸納病史，以邏輯方式呈現病人資訊；能主動查找次要資料來源（如雲端病歷或家屬訪談），以補充病人訪談所得的資訊。',
+              3: '能完整且持續地蒐集病史，辨識與臨床狀況相關的關鍵資訊與脈絡。',
+              4: '能規律辨識病史中的重要模式，如糖化血色素或肌酸酐的變化趨勢，並能主動取得其他醫院的病歷以補足臨床資訊。',
+              5: '能靈活依病人、家屬及系統需求調整病史內容，納入關鍵細節。能示範並指導他人運用病史判斷診斷需求，呈現完整且具臨床深度的病史。'
+            }
+          },
+          MK: {
+            id: 'MK',
+            icon: <Brain size={32} />,
+            color: 'indigo',
+            name: '醫學知識',
+            engName: 'Medical Knowledge',
+            subTitle: 'Clinical Reasoning (臨床推理)',
+            summary: '從運用基本知識，進階到處理不確定性與複雜情境的平衡判斷。',
+            levels: {
+              1: '能運用基本醫學知識與學習資源回答臨床問題，並意識到自身知識的不足。',
+              2: '能整合基礎醫學、檢查結果與社會行為因素於臨床決策中。',
+              3: '能在臨床決策中納入病人、家屬與團隊的觀點，作出平衡的判斷。',
+              4: '能在資訊不完整或情境不確定時，整合臨床證據與病人價值，提出合適的治療計畫，並能說明自己的判斷思路。',
+              5: '能作為榜樣與教學者，引導他人面對複雜或模糊的臨床情境，展現成熟的臨床推理。'
+            }
+          },
+          PBLI: {
+            id: 'PBLI',
+            icon: <BookOpen size={32} />,
+            color: 'emerald',
+            name: '從工作中學習',
+            engName: 'Problem Based Learning',
+            subTitle: '實證與資訊導向的臨床實務',
+            summary: '從理解實證原則，進階到批判性評讀並制定臨床指引。',
+            levels: {
+              1: '能理解實證醫學原則，知道如何存取並評估文獻品質。',
+              2: '能在常規病人照護中，批判性思考臨床情境並納入病人偏好。',
+              3: '能在複雜病人照護中整合最佳實證與病人偏好。',
+              4: '在證據不一致時，仍能做出合情合理的判斷，並依病人情況靈活調整。',
+              5: '能指導他人進行批判性文獻評讀並應用於臨床照護，並能參與或制定臨床指引。'
+            }
+          },
+          ICS: {
+            id: 'ICS',
+            icon: <MessageCircle size={32} />,
+            color: 'orange',
+            name: '人際溝通技巧',
+            engName: 'Interpersonal & Communication',
+            subTitle: '以病人和家庭為中心的溝通',
+            summary: '從建立基本關係，進階到處理衝突與共同決策 (SDM)。',
+            levels: {
+              1: '能表現出尊重並建立良好關係，能察覺常見的溝通障礙，並依病人或家屬的期望調整溝通方式。',
+              2: '能在一般情況下建立良好的治療關係，能察覺較複雜的溝通問題，並主動釐清彼此的期望。',
+              3: '能在具挑戰的情況下維持良好互動，善用資源改善溝通問題，並在指導下以同理心傳達醫療資訊。',
+              4: '能從容面對複雜的病人或家庭，能主動預防並處理溝通問題，並能獨立運用共同決策制定個人化照護計畫。',
+      5: '能教導他人建立正向的溝通關係，能設計教學或輔助工具來改善溝通問題，並能在高不確定性或衝突情境中示範共同決策的技巧。'
+            }
+          },
+          PROF: {
+            id: 'PROF',
+            icon: <Shield size={32} />,
+            color: 'rose',
+            name: '專業素養',
+            engName: 'Professionalism',
+            subTitle: '專業與倫理行為',
+            summary: '從辨識倫理議題，進階到推動專業文化的制度改善。',
+            levels: {
+              1: '能辨識臨床倫理議題，並理解告知同意、代理決策、預立指示、隱私、錯誤揭露與資源運用等原則。',
+              2: '能看出可能違反專業的情況，並在一般情境中合理運用倫理原則。',
+              3: '能在一般或複雜情況下展現專業態度，並主動尋求團隊協助處理倫理問題。',
+              4: '能在衝突或高壓情況下維持專業表現，並善用倫理諮詢與風險管理等資源。',
+              5: '能主動預防自己或他人的不當行為，並參與制度改善以推動專業文化。'
+            }
+          },
+          SBP: {
+            id: 'SBP',
+            icon: <Building2 size={32} />,
+            color: 'cyan',
+            name: '制度下臨床工作',
+            engName: 'Systems Based Practice',
+            subTitle: '醫師在醫療體系中的角色',
+            summary: '從理解健保體制，進階到利用系統資源改善醫療品質與效率。',
+            levels: {
+              1: '能辨識醫療體系的組成，並能描述基本健保支付模式與執業模式差異。',
+              2: '能描述醫師角色以及不同支付模式如何影響病人照護，並能應用既有資源。',
+              3: '能分析自身實務如何影響醫療系統（如住院天數、再入院率、臨床效率），並能依病人保險模式調整照護。',
+              4: '能依據實務數據調整個人醫療行為，並能為病人爭取資源。',
+              5: '能整合複雜醫療體系的各項資源，並在專業或社區層面推動制度改進，促進高價值照護。'
+            }
+          }
+        };
+
+        function App() {
+          const [activeTab, setActiveTab] = useState('PC');
+          const currentData = MILESTONE_DATA[activeTab];
+          const theme = THEMES[currentData.color];
+
+          // 輔助函式：根據等級和顏色生成樣式
+          const getLevelStyles = (level, color) => {
+            const styles = {
+              1: {
+                border: `border-${color}-100`,
+                numBg: `bg-${color}-50/30`,
+                numText: `text-${color}-300`,
+                badge: `bg-${color}-50 text-${color}-400`,
+                shadow: 'shadow-sm',
+                ring: ''
+              },
+              2: {
+                border: `border-${color}-200/60`,
+                numBg: `bg-${color}-50/60`,
+                numText: `text-${color}-400`,
+                badge: `bg-${color}-50 text-${color}-500`,
+                shadow: 'shadow-sm',
+                ring: ''
+              },
+              3: {
+                border: `border-${color}-200`,
+                numBg: `bg-${color}-50`,
+                numText: `text-${color}-500`,
+                badge: `bg-${color}-100 text-${color}-600`,
+                shadow: 'shadow-md',
+                ring: ''
+              },
+              4: {
+                border: `border-${color}-300`,
+                numBg: `bg-${color}-100`,
+                numText: `text-${color}-600`,
+                badge: `bg-${color}-100 text-${color}-700`,
+                shadow: 'shadow-lg',
+                ring: ''
+              },
+              5: {
+                border: `border-${color}-400`,
+                numBg: `bg-${color}-200`,
+                numText: `text-${color}-700`,
+                badge: `bg-${color}-500 text-white`,
+                shadow: 'shadow-xl',
+                ring: `ring-2 ring-${color}-100`
+              }
+            };
+            return styles[level];
+          };
+
+          return (
+            <div className="min-h-screen bg-slate-50 font-sans text-slate-800">
+              
+              {/* 頂部導航區 */}
+              <header className="bg-white/80 backdrop-blur-md border-b border-slate-200 sticky top-0 z-20">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                  <div className="flex justify-between items-center h-20">
+                    <div className="flex items-center gap-4">
+                      <div className={`p-3 rounded-xl bg-gradient-to-br ${theme.gradient} shadow-lg shadow-blue-500/20 text-white transition-all duration-500`}>
+                        <GraduationCap size={28} />
+                      </div>
+                      <div>
+                        <h1 className="text-2xl font-extrabold text-slate-800 leading-none tracking-tight">奇美 PGY Milestone</h1>
+                        <p className="text-sm text-slate-500 mt-1 font-medium">一般醫學內科訓練導覽</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </header>
+
+              <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+                <div className="flex flex-col lg:flex-row gap-10">
+                  
+                  {/* 左側選單 */}
+                  <nav className="w-full lg:w-80 flex-shrink-0 space-y-6">
+                    <div className="bg-white rounded-3xl shadow-sm border border-slate-200/60 p-3">
+                      <div className="px-4 py-4 border-b border-slate-100 mb-2">
+                         <h2 className="text-sm font-bold text-slate-400 uppercase tracking-wider">核心能力選擇</h2>
+                      </div>
+                      <div className="space-y-2">
+                        {Object.values(MILESTONE_DATA).map((item) => {
+                          const itemTheme = THEMES[item.color];
+                          const isActive = activeTab === item.id;
+                          return (
+                            <button
+                              key={item.id}
+                              onClick={() => setActiveTab(item.id)}
+                              className={`w-full flex items-center gap-4 px-5 py-4 rounded-2xl text-left transition-all duration-300 relative overflow-hidden group ${
+                                isActive 
+                                  ? `${itemTheme.bg} ${itemTheme.textDark} shadow-sm ring-1 ring-inset ${itemTheme.border}` 
+                                  : 'hover:bg-slate-50 text-slate-600'
+                              }`}
+                            >
+                              {/* Active Indicator Bar */}
+                              {isActive && <div className={`absolute left-0 top-0 bottom-0 w-2 bg-gradient-to-b ${itemTheme.gradient}`} />}
+
+                              <div className={`flex-shrink-0 p-2 rounded-xl transition-colors duration-300 ${
+                                isActive ? 'bg-white/60' : 'bg-slate-100 group-hover:bg-white group-hover:shadow-sm'
+                              } ${isActive ? itemTheme.text : 'text-slate-400'}`}>
+                                {cloneElement(item.icon, { size: 24 })}
+                              </div>
+                              <div>
+                                <div className={`text-lg font-bold ${isActive ? '' : 'group-hover:text-slate-900'}`}>{item.name}</div>
+                                <div className="text-xs opacity-60 font-medium">{item.id}</div>
+                              </div>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                    
+                    {/* 說明小卡 */}
+                    <div className="hidden lg:block bg-slate-800 text-slate-300 p-8 rounded-3xl relative overflow-hidden shadow-xl">
+                       <div className="absolute top-0 right-0 -mr-8 -mt-8 w-32 h-32 bg-white/10 rounded-full blur-3xl"></div>
+                       <h3 className="text-white text-lg font-bold mb-3 flex items-center gap-2">
+                         <Target size={20} />
+                         閱讀指南
+                       </h3>
+                       <p className="text-base leading-relaxed opacity-80">
+                         右側內容採用<span className="text-white font-bold">顏色漸層設計</span>：顏色越深，代表能力層級越高。
+                       </p>
+                    </div>
+                  </nav>
+
+                  {/* 右側內容區 */}
+                  <div className="flex-1 min-w-0">
+                    
+                    {/* Hero Section */}
+                    <div className={`relative rounded-[2rem] overflow-hidden shadow-xl mb-10 transition-all duration-500 bg-gradient-to-r ${theme.gradient}`}>
+                      {/* 背景裝飾 */}
+                      <div className="absolute top-0 right-0 p-12 opacity-10 transform translate-x-1/4 -translate-y-1/4">
+                        <div className="scale-[3] text-white rotate-12">
+                          {currentData.icon}
+                        </div>
+                      </div>
+                      <div className="absolute bottom-0 left-0 w-full h-2/3 bg-gradient-to-t from-black/30 to-transparent"></div>
+
+                      <div className="relative z-10 p-10 md:p-14 text-white">
+                        <div className="flex items-center gap-3 font-bold mb-4 opacity-90 tracking-widest text-sm uppercase">
+                          <span className="bg-white/20 px-3 py-1 rounded-lg backdrop-blur-sm shadow-sm">{currentData.id}</span>
+                          <span>Competency Framework</span>
+                        </div>
+                        
+                        <h2 className="text-5xl md:text-6xl font-black mb-3 tracking-tight drop-shadow-sm">{currentData.name}</h2>
+                        <div className="text-2xl font-medium opacity-90 mb-8">{currentData.engName}</div>
+                        
+                        <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20">
+                           <div className="text-sm uppercase opacity-80 font-bold mb-2 tracking-wide">評量重點 (Sub-competency)</div>
+                           <div className="text-2xl md:text-3xl font-bold leading-tight text-white mb-2">{currentData.subTitle}</div>
+                           <div className="w-20 h-1 bg-white/40 rounded-full my-4"></div>
+                           <div className="text-lg md:text-xl opacity-95 leading-relaxed font-light">
+                              {currentData.summary}
+                           </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* 內容卡片列表 - 每個等級都有顏色漸層 */}
+                    <div className="space-y-6">
+                      {[1, 2, 3, 4, 5].map((level) => {
+                        const styles = getLevelStyles(level, currentData.color);
+                        
+                        return (
+                          <div 
+                            key={level} 
+                            className={`relative bg-white rounded-[2rem] border transition-all duration-300 hover:-translate-y-1 ${styles.border} ${styles.shadow} ${styles.ring}`}
+                          >
+                            <div className="flex flex-col md:flex-row min-h-[180px]">
+                              
+                              {/* Level 數字區 - 顏色隨等級變深 */}
+                              <div className={`md:w-32 flex-shrink-0 flex items-center justify-center p-6 border-b md:border-b-0 md:border-r border-slate-100 rounded-t-[2rem] md:rounded-l-[2rem] md:rounded-tr-none overflow-hidden relative ${styles.numBg}`}>
+                                {/* 巨大的背景數字浮水印 */}
+                                <span className={`absolute -bottom-8 -left-4 text-9xl font-black opacity-10 select-none pointer-events-none ${styles.numText}`}>
+                                  {level}
+                                </span>
+                                
+                                <div className="relative z-10 text-center">
+                                  <div className={`text-6xl font-black leading-none tracking-tighter ${styles.numText}`}>
+                                    {level}
+                                  </div>
+                                  <div className={`text-xs font-bold uppercase tracking-widest mt-2 opacity-60 ${styles.numText}`}>Level</div>
+                                </div>
+                              </div>
+
+                              {/* 內容文字區 */}
+                              <div className="flex-1 p-8 md:p-10 flex flex-col justify-center">
+                                <div className="mb-4">
+                                   <span className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-bold tracking-wide ${styles.badge}`}>
+                                     {level === 5 && <Sparkles size={16} fill="currentColor" />}
+                                     {level <= 2 ? '初學者階段' : level <= 4 ? '能獨立執行' : '典範與導師'}
+                                   </span>
+                                </div>
+                                
+                                <p className={`text-xl md:text-2xl leading-loose tracking-wide ${
+                                  level === 5 ? 'text-slate-900 font-medium' : 'text-slate-700 font-normal'
+                                }`}>
+                                  {currentData.levels[level]}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+
+                    {/* 底部 Footer */}
+                    <div className="mt-16 text-center pb-8">
+                      <div className="inline-flex items-center gap-3 text-slate-400 text-base font-medium px-6 py-3 rounded-full bg-white border border-slate-200 shadow-sm">
+                        <div className={`w-2 h-2 rounded-full ${theme.accent} animate-pulse`}></div>
+                        持續學習，精益求精
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </main>
+            </div>
+          );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
