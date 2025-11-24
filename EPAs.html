@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>奇美一般醫學內科 PGY EPA 信賴等級</title>
+    
+    <!-- React & ReactDOM -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    
+    <!-- Babel for JSX -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <style>
+        body {
+            font-family: "Microsoft JhengHei", "PingFang TC", sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState } = React;
+
+        // 圖標組件定義 (SVG Paths from Lucide)
+        const Icons = {
+            Award: (props) => (
+                <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
+            ),
+            ShieldCheck: (props) => (
+                <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+            ),
+            CheckCircle2: (props) => (
+                <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+            ),
+            Eye: (props) => (
+                <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+            ),
+            Users: (props) => (
+                <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            ),
+            User: (props) => (
+                <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            ),
+            Stethoscope: (props) => (
+                <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4.8 2.3A.3.3 0 1 0 5 2H4a2 2 0 0 0-2 2v5a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6V4a2 2 0 0 0-2-2h-1a.2.2 0 1 0 .3.3"/><path d="M8 15v1a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6v-4"/><circle cx="20" cy="10" r="2"/></svg>
+            ),
+            GraduationCap: (props) => (
+                <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+            ),
+            ArrowUpCircle: (props) => (
+                <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="m16 12-4-4-4 4"/><path d="M12 16V8"/></svg>
+            ),
+            MessageCircle: (props) => (
+                <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m3 21 1.9-5.7a8.5 8.5 0 1 1 3.8 3.8z"/></svg>
+            ),
+            FileText: (props) => (
+                <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" x2="8" y1="13" y2="13"/><line x1="16" x2="8" y1="17" y2="17"/><line x1="10" x2="8" y1="9" y2="9"/></svg>
+            ),
+            Activity: (props) => (
+                <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            ),
+            HeartHandshake: (props) => (
+                <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/><path d="M12 5 9.04 7.96a2.17 2.17 0 0 0 0 3.08v0c.82.82 2.13.85 3 .07l2.07-1.9a2.82 2.82 0 0 1 3.18 0l2.6 2.06c.74.6 1.74.44 2.37-.3v0c.63-.75.4-1.92-.28-2.61L18 14.5"/></svg>
+            ),
+            HelpCircle: (props) => (
+                <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
+            )
+        };
+
+        const TrustLevelApp = () => {
+          const [activeGroup, setActiveGroup] = useState('all');
+
+          // 信賴等級定義數據
+          const levels = [
+            {
+              lv: 5,
+              label: 'Lv.5',
+              title: '獨立執行 / 可指導',
+              desc: '不需教師可獨立執行，甚至可指導資淺者',
+              color: 'bg-emerald-600',
+              lightColor: 'bg-emerald-50',
+              textColor: 'text-emerald-700',
+              icon: <Icons.Award className="w-6 h-6" />,
+              supervision: '獨立運作 (Supervision)',
+            },
+            {
+              lv: 4,
+              label: 'Lv.4',
+              title: '遠端監督',
+              desc: '必要時再找教師支援 (獨立執行但教師在附近)',
+              color: 'bg-blue-500',
+              lightColor: 'bg-blue-50',
+              textColor: 'text-blue-700',
+              icon: <Icons.ShieldCheck className="w-6 h-6" />,
+              supervision: '距離監督 (Distant)',
+            },
+            {
+              lv: 3,
+              label: 'Lv.3',
+              title: '事後確認',
+              desc: '教師事後重點確認 (間接監督)',
+              color: 'bg-yellow-500',
+              lightColor: 'bg-yellow-50',
+              textColor: 'text-yellow-700',
+              icon: <Icons.CheckCircle2 className="w-6 h-6" />,
+              supervision: '事後監督 (Reactive)',
+            },
+            {
+              lv: 2,
+              label: 'Lv.2',
+              title: '在旁協助',
+              desc: '教師在旁必要時協助 (直接監督)',
+              color: 'bg-orange-500',
+              lightColor: 'bg-orange-50',
+              textColor: 'text-orange-700',
+              icon: <Icons.Eye className="w-6 h-6" />,
+              supervision: '直接監督 (Direct)',
+            },
+            {
+              lv: 1,
+              label: 'Lv.1',
+              title: '共同操作',
+              desc: '教師在旁逐步共同操作',
+              color: 'bg-red-500',
+              lightColor: 'bg-red-50',
+              textColor: 'text-red-700',
+              icon: <Icons.Users className="w-6 h-6" />,
+              supervision: '共同參與 (Co-activity)',
+            },
+          ];
+
+          // 目標設定數據
+          const targets = [
+            {
+              id: 'pgy1',
+              name: 'PGY1',
+              targetLv: 3,
+              targetText: 'LEVEL 3',
+              desc: '每一項都可達到 Lv.3 為目標',
+              icon: <Icons.User className="w-5 h-5" />,
+              colorClass: 'border-yellow-500 text-yellow-700 bg-yellow-50',
+            },
+            {
+              id: 'pgy2_gen',
+              name: 'PGY2 (不分組)',
+              targetLv: 4,
+              targetText: 'LEVEL 4',
+              desc: '每一項都可達到 Lv.4 為目標',
+              icon: <Icons.Stethoscope className="w-5 h-5" />,
+              colorClass: 'border-blue-500 text-blue-700 bg-blue-50',
+            },
+            {
+              id: 'pgy2_im',
+              name: 'PGY2 (內科組)',
+              targetLv: 5, // Representing max range
+              minLv: 4,
+              targetText: 'LEVEL 4-5',
+              desc: '每一項都可達到 Lv.4 或 5 為目標',
+              icon: <Icons.GraduationCap className="w-5 h-5" />,
+              colorClass: 'border-emerald-600 text-emerald-700 bg-emerald-50',
+            },
+          ];
+
+          // EPA 學習目標數據
+          const epaGoals = [
+            {
+              id: 'epa1',
+              title: 'EPA 1: 接病人',
+              subtitle: '(收集病人資訊、確定主要問題)',
+              color: 'bg-blue-600',
+              lightColor: 'bg-blue-50',
+              icon: <Icons.User className="w-6 h-6 text-white" />,
+              items: [
+                '主動進行完整病史詢問，並能依病人主訴蒐集主觀與客觀資料。',
+                '能主動查閱病歷系統，整合過去病史、急診與門診記錄。',
+                '能完成身體檢查並詳細記錄。',
+                '能提出必要檢驗/影像檢查。',
+                '使用雲端藥歷系統檢查藥物交互作用。',
+                '可提出一至三項鑑別診斷。'
+              ]
+            },
+            {
+              id: 'epa2',
+              title: 'EPA 2: 病情掌握及處置',
+              subtitle: '',
+              color: 'bg-emerald-600',
+              lightColor: 'bg-emerald-50',
+              icon: <Icons.Activity className="w-6 h-6 text-white" />,
+              items: [
+                '完整描述病人過去病史及目前急性問題；在初步診斷後，整合檢驗與臨床資訊，擬定適切治療計畫並開立基本處方及處置。',
+                '主動追蹤檢驗結果與病程進展，根據變化即時調整計畫。',
+                '適當藥物開立；考慮藥物副作用及適當慢性病藥物調整。',
+                '運用臨床指引或實證醫學資料支持決策，並提出合理依據。',
+                '訂定合適抽血影像檢查或會診。',
+                '能在臨床中辨認出危險徵象（如休克、呼吸窘迫、意識改變），並即時告知或請示上級醫師。'
+              ]
+            },
+            {
+              id: 'epa3',
+              title: 'EPA 3: 病情說明',
+              subtitle: '',
+              color: 'bg-yellow-500',
+              lightColor: 'bg-yellow-50',
+              icon: <Icons.MessageCircle className="w-6 h-6 text-white" />,
+              items: [
+                '用淺顯語言向病人/家屬解釋疾病與治療目的，避免過多專業術語。',
+                '能在病人或家屬提出疑問後，耐心傾聽，並適度給予安撫與信息支持。',
+                '能以圖像、檢驗數據、衛教單張輔助病情說明。',
+                '能於困難情境（如病危通知、壞消息告知）中，維持專業與同理態度，避免爭執或不當情緒。',
+                '隨時反問確認病人是否了解病情。'
+              ]
+            },
+            {
+              id: 'epa4',
+              title: 'EPA 4: 同儕與跨專業團隊溝通',
+              subtitle: '',
+              color: 'bg-purple-600',
+              lightColor: 'bg-purple-50',
+              icon: <Icons.HeartHandshake className="w-6 h-6 text-white" />,
+              items: [
+                '能在交班時，使用標準格式（如 SBAR-情境、背景、評估、建議）清楚表達重點。',
+                '能與護理師、藥師、檢驗科人員等有效討論病人需求，取得所需協助。',
+                '能於會診/轉介時，提供正確病史與臨床資料，內容具體有邏輯，並確認團隊成員清楚理解重點。',
+                '能協助團隊共識建立，並在小組討論時適度展現領導與協調能力。'
+              ]
+            }
+          ];
+
+          const getTargetHighlight = (lvl) => {
+            if (activeGroup === 'all') return false;
+            const group = targets.find(t => t.id === activeGroup);
+            if (!group) return false;
+            
+            if (activeGroup === 'pgy2_im') {
+                return lvl >= 4 && lvl <= 5;
+            }
+            return lvl === group.targetLv;
+          };
+
+          return (
+            <div className="min-h-screen bg-gray-50 p-4 md:p-8 font-sans text-gray-800">
+              <div className="max-w-6xl mx-auto">
+                
+                {/* Header */}
+                <div className="mb-10 text-center">
+                  <h2 className="text-xl font-bold text-gray-500 mb-2">
+                    奇美醫療財團法人奇美醫院
+                  </h2>
+                  <h1 className="text-2xl md:text-4xl font-bold text-gray-900 mb-4">
+                    一般醫學內科訓練示範中心
+                  </h1>
+                  <p className="text-emerald-700 font-bold text-xl bg-emerald-50 inline-block px-6 py-2 rounded-full border border-emerald-100">
+                    PGY臨床能力信賴等級(EPAs)
+                  </p>
+                </div>
+
+                {/* EPA Goals Section (Moved to Top) */}
+                <div className="mb-12 border-b pb-12 border-gray-200">
+                    <h3 className="text-2xl font-bold text-gray-800 mb-8 text-center flex items-center justify-center gap-3">
+                        <Icons.FileText className="w-8 h-8 text-emerald-600" />
+                        可信賴專業活動(EPAs) 學習目標
+                    </h3>
+                    
+                    <div className="grid md:grid-cols-2 gap-6">
+                        {epaGoals.map((epa) => (
+                            <div key={epa.id} className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200 flex flex-col h-full">
+                                <div className={`${epa.color} p-4 text-white flex items-start gap-3`}>
+                                    <div className="p-2 bg-white bg-opacity-20 rounded-lg shrink-0 mt-1">
+                                        {epa.icon}
+                                    </div>
+                                    <div>
+                                        <h4 className="text-xl font-bold">{epa.title}</h4>
+                                        {epa.subtitle && <p className="text-sm opacity-90">{epa.subtitle}</p>}
+                                    </div>
+                                </div>
+                                <div className={`p-6 ${epa.lightColor} flex-grow`}>
+                                    <ul className="space-y-3">
+                                        {epa.items.map((item, idx) => (
+                                            <li key={idx} className="flex gap-3 text-sm md:text-base text-gray-700 leading-relaxed">
+                                                <span className={`shrink-0 w-6 h-6 flex items-center justify-center rounded-full text-xs font-bold ${epa.color.replace('bg-', 'text-').replace('600', '700').replace('500', '700')} bg-white shadow-sm border border-current opacity-80`}>
+                                                    {idx + 1}
+                                                </span>
+                                                <span>{item}</span>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Control Tabs */}
+                <div className="flex flex-wrap justify-center gap-4 mb-8">
+                  <button 
+                    onClick={() => setActiveGroup('all')}
+                    className={`px-6 py-2 rounded-full font-medium transition-all ${activeGroup === 'all' ? 'bg-gray-800 text-white shadow-lg' : 'bg-white text-gray-600 hover:bg-gray-100'}`}
+                  >
+                    總覽圖表
+                  </button>
+                  {targets.map(t => (
+                    <button
+                      key={t.id}
+                      onClick={() => setActiveGroup(t.id)}
+                      className={`flex items-center gap-2 px-6 py-2 rounded-full font-medium transition-all border ${activeGroup === t.id ? t.colorClass.replace('bg-', 'bg-opacity-100 bg-') + ' shadow-lg ring-2 ring-offset-1' : 'bg-white text-gray-500 border-gray-200 hover:bg-gray-50'}`}
+                    >
+                      {t.icon}
+                      {t.name}
+                    </button>
+                  ))}
+                </div>
+
+                <div className="grid md:grid-cols-12 gap-8 mb-16">
+                  
+                  {/* Left Column: The Ladder (Levels) */}
+                  <div className="md:col-span-7 space-y-3">
+                    <h3 className="text-xl font-bold text-gray-700 mb-4 flex items-center gap-2">
+                      <Icons.ArrowUpCircle className="w-6 h-6" />
+                      信賴等級定義
+                    </h3>
+                    
+                    <div className="space-y-3 relative">
+                        {/* Vertical Line Connector */}
+                        <div className="absolute left-8 top-4 bottom-4 w-1 bg-gray-200 rounded -z-10"></div>
+
+                        {levels.map((level) => {
+                          const isHighlighted = getTargetHighlight(level.lv);
+                          const isDimmed = activeGroup !== 'all' && !isHighlighted;
+                          
+                          return (
+                            <div 
+                              key={level.lv}
+                              className={`
+                                relative flex items-center p-4 rounded-xl border-2 transition-all duration-300
+                                ${isHighlighted ? 'scale-105 shadow-xl border-current z-10' : 'hover:shadow-md border-transparent'}
+                                ${isDimmed ? 'opacity-40 grayscale-[0.5]' : 'opacity-100'}
+                                bg-white
+                              `}
+                            >
+                              {/* Level Badge */}
+                              <div className={`${level.color} w-16 h-16 rounded-full flex items-center justify-center text-white font-bold text-xl shadow-md shrink-0 mr-4 border-4 border-white`}>
+                                {level.label}
+                              </div>
+
+                              {/* Content */}
+                              <div className="flex-1">
+                                <div className="flex items-center gap-2 mb-1">
+                                    <span className={`text-sm font-bold uppercase tracking-wider px-2 py-0.5 rounded ${level.lightColor} ${level.textColor}`}>
+                                        {level.supervision}
+                                    </span>
+                                </div>
+                                <h4 className={`text-lg font-bold ${level.textColor}`}>{level.title}</h4>
+                                <p className="text-gray-600 text-sm md:text-base">{level.desc}</p>
+                              </div>
+
+                              {/* Icon */}
+                              <div className={`p-2 rounded-full ${level.lightColor} ${level.textColor} hidden sm:block`}>
+                                {level.icon}
+                              </div>
+
+                              {/* Current Target Indicator Tag (Shows only when specific group selected) */}
+                              {isHighlighted && (
+                                <div className="absolute -right-2 top-1/2 transform -translate-y-1/2 translate-x-full hidden md:flex items-center">
+                                    <div className="h-[2px] w-8 bg-gray-400"></div>
+                                    <div className="bg-gray-800 text-white text-sm py-1 px-3 rounded shadow-lg whitespace-nowrap">
+                                        {targets.find(t => t.id === activeGroup)?.name} 目標
+                                    </div>
+                                </div>
+                              )}
+                            </div>
+                          );
+                        })}
+                        
+                        {/* N/A Block */}
+                        <div className={`relative flex items-center p-4 rounded-xl border-2 border-dashed border-gray-300 bg-gray-50 opacity-70`}>
+                           <div className="w-16 h-16 rounded-full flex items-center justify-center bg-gray-200 text-gray-500 font-bold text-lg shrink-0 mr-4 border-4 border-white">
+                             N/A
+                           </div>
+                           <div>
+                             <h4 className="text-lg font-bold text-gray-500">不足以評量 / 未評量</h4>
+                             <p className="text-gray-400 text-sm">尚未有足夠證據可判斷信賴等級</p>
+                           </div>
+                        </div>
+
+                    </div>
+                  </div>
+
+                  {/* Right Column: Targets (Goals) */}
+                  <div className="md:col-span-5 flex flex-col gap-6">
+                    <h3 className="text-xl font-bold text-gray-700 mb-4 flex items-center gap-2">
+                      <Icons.GraduationCap className="w-6 h-6" />
+                      預期進展等級區分
+                    </h3>
+
+                    {targets.map((target) => (
+                      <div 
+                        key={target.id}
+                        onClick={() => setActiveGroup(target.id === activeGroup ? 'all' : target.id)}
+                        className={`
+                            cursor-pointer p-6 rounded-2xl border-2 transition-all duration-300 group
+                            ${activeGroup === target.id 
+                                ? `${target.colorClass} bg-opacity-100 shadow-xl scale-105 ring-2 ring-offset-2 ring-offset-gray-50 ring-current` 
+                                : 'bg-white border-gray-200 hover:border-gray-300 hover:shadow-lg'
+                            }
+                            ${activeGroup !== 'all' && activeGroup !== target.id ? 'opacity-50' : 'opacity-100'}
+                        `}
+                      >
+                        <div className="flex justify-between items-start mb-3">
+                            <div className="flex items-center gap-3">
+                                <div className={`p-2 rounded-lg ${activeGroup === target.id ? 'bg-white bg-opacity-30' : 'bg-gray-100 text-gray-500'}`}>
+                                    {target.icon}
+                                </div>
+                                <h4 className="text-xl font-bold">{target.name}</h4>
+                            </div>
+                            <span className={`text-2xl font-black ${activeGroup === target.id ? 'text-current' : 'text-gray-400'}`}>
+                                {target.targetText}
+                            </span>
+                        </div>
+                        
+                        <p className={`text-sm mb-4 ${activeGroup === target.id ? 'text-current opacity-90' : 'text-gray-500'}`}>
+                            {target.desc}
+                        </p>
+
+                        {/* Progress Bar Representation */}
+                        <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
+                            <div 
+                                className={`h-full rounded-full transition-all duration-1000 ease-out ${target.id === 'pgy2_im' ? 'bg-emerald-500' : target.id === 'pgy2_gen' ? 'bg-blue-500' : 'bg-yellow-500'}`}
+                                style={{ width: `${(target.targetLv / 5) * 100}%` }}
+                            ></div>
+                        </div>
+                        <div className="flex justify-between text-xs mt-1 opacity-60 font-mono">
+                            <span>Lv.1</span>
+                            <span>Lv.3</span>
+                            <span>Lv.5</span>
+                        </div>
+                      </div>
+                    ))}
+
+                    <div className="mt-8 bg-blue-50 p-4 rounded-lg border border-blue-100 text-sm text-blue-800">
+                        <h5 className="font-bold flex items-center gap-2 mb-2">
+                            <Icons.HelpCircle className="w-4 h-4" />
+                            圖表說明
+                        </h5>
+                        <ul className="list-disc pl-4 space-y-1 opacity-80">
+                            <li>點擊右側不同階段的學員卡片，可高亮顯示左側對應的信賴等級目標。</li>
+                            <li>顏色代表監督強度：<span className="text-red-500 font-bold">紅</span>(高監督) ➝ <span className="text-yellow-600 font-bold">黃</span>(過渡) ➝ <span className="text-emerald-600 font-bold">綠</span>(獨立)。</li>
+                        </ul>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<TrustLevelApp />);
+    </script>
+</body>
+</html>
