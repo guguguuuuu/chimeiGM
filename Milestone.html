@@ -19,7 +19,7 @@
         body {
             font-family: "Noto Sans TC", system-ui, -apple-system, sans-serif;
         }
-        /* 自定義滾動條樣式，讓介面更精緻 */
+        /* 自定義滾動條樣式 */
         ::-webkit-scrollbar {
             width: 8px;
         }
@@ -33,17 +33,30 @@
         ::-webkit-scrollbar-thumb:hover {
             background: #94a3b8; 
         }
+        /* Modal 動畫 */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.2s ease-out forwards;
+        }
+        .animate-slide-up {
+            animation: slideUp 0.3s ease-out forwards;
+        }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800">
     <div id="root"></div>
 
     <script type="text/babel">
-        const { useState, useEffect, cloneElement } = React;
+        const { useState, useEffect, cloneElement, useRef } = React;
 
         // --- Icon Components (SVG) ---
-        // 使用 SVG 路徑繪製 Lucide 風格圖示，確保無外部依賴問題
-
         const IconWrapper = ({ children, size = 24, className = "", ...props }) => (
             <svg 
                 xmlns="http://www.w3.org/2000/svg" 
@@ -63,140 +76,114 @@
         );
 
         const Stethoscope = (props) => (
-            <IconWrapper {...props}>
-                <path d="M4.8 2.3A.3.3 0 1 0 5 2H4a2 2 0 0 0-2 2v5a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6V4a2 2 0 0 0-2-2h-1a.2.2 0 1 0 .3.3" />
-                <path d="M8 15v1a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6v-4" />
-                <circle cx="20" cy="10" r="2" />
-            </IconWrapper>
+            <IconWrapper {...props}><path d="M4.8 2.3A.3.3 0 1 0 5 2H4a2 2 0 0 0-2 2v5a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6V4a2 2 0 0 0-2-2h-1a.2.2 0 1 0 .3.3" /><path d="M8 15v1a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6v-4" /><circle cx="20" cy="10" r="2" /></IconWrapper>
         );
-
         const Brain = (props) => (
-            <IconWrapper {...props}>
-                <path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2Z" />
-                <path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2Z" />
-            </IconWrapper>
+            <IconWrapper {...props}><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2Z" /><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2Z" /></IconWrapper>
         );
-
         const BookOpen = (props) => (
-            <IconWrapper {...props}>
-                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
-                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
-            </IconWrapper>
+            <IconWrapper {...props}><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" /><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" /></IconWrapper>
         );
-
         const MessageCircle = (props) => (
-            <IconWrapper {...props}>
-                <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" />
-            </IconWrapper>
+            <IconWrapper {...props}><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" /></IconWrapper>
         );
-
         const Shield = (props) => (
-            <IconWrapper {...props}>
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-            </IconWrapper>
+            <IconWrapper {...props}><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></IconWrapper>
         );
-
         const Building2 = (props) => (
-            <IconWrapper {...props}>
-                <path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z" />
-                <path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2" />
-                <path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2" />
-                <path d="M10 6h4" />
-                <path d="M10 10h4" />
-                <path d="M10 14h4" />
-                <path d="M10 18h4" />
-            </IconWrapper>
+            <IconWrapper {...props}><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z" /><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2" /><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2" /><path d="M10 6h4" /><path d="M10 10h4" /><path d="M10 14h4" /><path d="M10 18h4" /></IconWrapper>
         );
-
         const GraduationCap = (props) => (
-            <IconWrapper {...props}>
-                <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
-                <path d="M6 12v5c3 3 9 3 12 0v-5" />
-            </IconWrapper>
+            <IconWrapper {...props}><path d="M22 10v6M2 10l10-5 10 5-10 5z" /><path d="M6 12v5c3 3 9 3 12 0v-5" /></IconWrapper>
         );
-
         const Sparkles = (props) => (
-            <IconWrapper {...props}>
-                <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z" />
-            </IconWrapper>
+            <IconWrapper {...props}><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L12 3Z" /></IconWrapper>
+        );
+        const X = (props) => (
+            <IconWrapper {...props}><path d="M18 6 6 18"/><path d="m6 6 12 12"/></IconWrapper>
+        );
+        const MousePointerClick = (props) => (
+            <IconWrapper {...props}><path d="m9 9 5 12 1.8-5.2L21 14Z"/><path d="M7.2 2.2 8 5.1"/><path d="m5.1 8-2.9-.8"/><path d="M14 4.1 12 6"/><path d="m6 12-1.9 2"/></IconWrapper>
         );
 
-        const Target = (props) => (
-            <IconWrapper {...props}>
-                <circle cx="12" cy="12" r="10" />
-                <circle cx="12" cy="12" r="6" />
-                <circle cx="12" cy="12" r="2" />
-            </IconWrapper>
-        );
-
-
-        // --- Data & Themes ---
-
+        // --- Themes & Data ---
         const THEMES = {
           blue: {
             bg: 'bg-blue-50',
-            bgDark: 'bg-blue-100',
+            bgHover: 'group-hover:bg-blue-50',
             text: 'text-blue-600',
             textDark: 'text-blue-800',
             border: 'border-blue-200',
+            borderHover: 'group-hover:border-blue-300',
             gradient: 'from-blue-600 to-cyan-500',
             shadow: 'shadow-blue-200',
             accent: 'bg-blue-600',
+            badge: 'bg-blue-100 text-blue-700',
             lightAccent: 'bg-blue-100 text-blue-700'
           },
           indigo: {
             bg: 'bg-indigo-50',
-            bgDark: 'bg-indigo-100',
+            bgHover: 'group-hover:bg-indigo-50',
             text: 'text-indigo-600',
             textDark: 'text-indigo-800',
             border: 'border-indigo-200',
+            borderHover: 'group-hover:border-indigo-300',
             gradient: 'from-indigo-600 to-purple-500',
             shadow: 'shadow-indigo-200',
             accent: 'bg-indigo-600',
+            badge: 'bg-indigo-100 text-indigo-700',
             lightAccent: 'bg-indigo-100 text-indigo-700'
           },
           emerald: {
             bg: 'bg-emerald-50',
-            bgDark: 'bg-emerald-100',
+            bgHover: 'group-hover:bg-emerald-50',
             text: 'text-emerald-600',
             textDark: 'text-emerald-800',
             border: 'border-emerald-200',
+            borderHover: 'group-hover:border-emerald-300',
             gradient: 'from-emerald-600 to-teal-500',
             shadow: 'shadow-emerald-200',
             accent: 'bg-emerald-600',
+            badge: 'bg-emerald-100 text-emerald-700',
             lightAccent: 'bg-emerald-100 text-emerald-700'
           },
           orange: {
             bg: 'bg-orange-50',
-            bgDark: 'bg-orange-100',
+            bgHover: 'group-hover:bg-orange-50',
             text: 'text-orange-600',
             textDark: 'text-orange-800',
             border: 'border-orange-200',
+            borderHover: 'group-hover:border-orange-300',
             gradient: 'from-orange-500 to-amber-500',
             shadow: 'shadow-orange-200',
             accent: 'bg-orange-600',
+            badge: 'bg-orange-100 text-orange-800',
             lightAccent: 'bg-orange-100 text-orange-800'
           },
           rose: {
             bg: 'bg-rose-50',
-            bgDark: 'bg-rose-100',
+            bgHover: 'group-hover:bg-rose-50',
             text: 'text-rose-600',
             textDark: 'text-rose-800',
             border: 'border-rose-200',
+            borderHover: 'group-hover:border-rose-300',
             gradient: 'from-rose-600 to-pink-500',
             shadow: 'shadow-rose-200',
             accent: 'bg-rose-600',
+            badge: 'bg-rose-100 text-rose-700',
             lightAccent: 'bg-rose-100 text-rose-700'
           },
           cyan: {
             bg: 'bg-cyan-50',
-            bgDark: 'bg-cyan-100',
+            bgHover: 'group-hover:bg-cyan-50',
             text: 'text-cyan-600',
             textDark: 'text-cyan-800',
             border: 'border-cyan-200',
+            borderHover: 'group-hover:border-cyan-300',
             gradient: 'from-cyan-600 to-sky-500',
             shadow: 'shadow-cyan-200',
             accent: 'bg-cyan-600',
+            badge: 'bg-cyan-100 text-cyan-700',
             lightAccent: 'bg-cyan-100 text-cyan-700'
           }
         };
@@ -301,11 +288,26 @@
         };
 
         function App() {
-          const [activeTab, setActiveTab] = useState('PC');
-          const currentData = MILESTONE_DATA[activeTab];
-          const theme = THEMES[currentData.color];
+          const [selectedId, setSelectedId] = useState(null);
+          
+          // 當 Modal 開啟時，鎖定背景捲動
+          useEffect(() => {
+            if (selectedId) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = 'auto';
+            }
+            return () => { document.body.style.overflow = 'auto'; };
+          }, [selectedId]);
 
-          // 輔助函式：根據等級和顏色生成樣式
+          // 關閉 Modal
+          const handleClose = () => setSelectedId(null);
+
+          // 獲取當前選中的資料
+          const currentData = selectedId ? MILESTONE_DATA[selectedId] : null;
+          const theme = currentData ? THEMES[currentData.color] : null;
+
+          // 輔助函式：根據等級和顏色生成樣式 (Modal 內使用)
           const getLevelStyles = (level, color) => {
             const styles = {
               1: {
@@ -355,12 +357,12 @@
           return (
             <div className="min-h-screen bg-slate-50 font-sans text-slate-800">
               
-              {/* 頂部導航區 */}
+              {/* Header */}
               <header className="bg-white/80 backdrop-blur-md border-b border-slate-200 sticky top-0 z-20">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                   <div className="flex justify-between items-center h-20">
                     <div className="flex items-center gap-4">
-                      <div className={`p-3 rounded-xl bg-gradient-to-br ${theme.gradient} shadow-lg shadow-blue-500/20 text-white transition-all duration-500`}>
+                      <div className="p-3 rounded-xl bg-gradient-to-br from-blue-600 to-cyan-500 shadow-lg shadow-blue-500/20 text-white">
                         <GraduationCap size={28} />
                       </div>
                       <div>
@@ -373,151 +375,156 @@
               </header>
 
               <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-                <div className="flex flex-col lg:flex-row gap-10">
-                  
-                  {/* 左側選單 */}
-                  <nav className="w-full lg:w-80 flex-shrink-0 space-y-6">
-                    <div className="bg-white rounded-3xl shadow-sm border border-slate-200/60 p-3">
-                      <div className="px-4 py-4 border-b border-slate-100 mb-2">
-                         <h2 className="text-sm font-bold text-slate-400 uppercase tracking-wider">核心能力選擇</h2>
-                      </div>
-                      <div className="space-y-2">
-                        {Object.values(MILESTONE_DATA).map((item) => {
-                          const itemTheme = THEMES[item.color];
-                          const isActive = activeTab === item.id;
-                          return (
-                            <button
-                              key={item.id}
-                              onClick={() => setActiveTab(item.id)}
-                              className={`w-full flex items-center gap-4 px-5 py-4 rounded-2xl text-left transition-all duration-300 relative overflow-hidden group ${
-                                isActive 
-                                  ? `${itemTheme.bg} ${itemTheme.textDark} shadow-sm ring-1 ring-inset ${itemTheme.border}` 
-                                  : 'hover:bg-slate-50 text-slate-600'
-                              }`}
-                            >
-                              {/* Active Indicator Bar */}
-                              {isActive && <div className={`absolute left-0 top-0 bottom-0 w-2 bg-gradient-to-b ${itemTheme.gradient}`} />}
+                
+                {/* 說明文字 */}
+                <div className="text-center mb-10 max-w-2xl mx-auto">
+                    <h2 className="text-lg font-bold text-slate-700 mb-2">請選擇核心能力</h2>
+                    <p className="text-slate-500 text-sm flex items-center justify-center gap-2">
+                        <MousePointerClick size={16} /> 點擊色塊查看 Level 1-5 詳細指標
+                    </p>
+                </div>
 
-                              <div className={`flex-shrink-0 p-2 rounded-xl transition-colors duration-300 ${
-                                isActive ? 'bg-white/60' : 'bg-slate-100 group-hover:bg-white group-hover:shadow-sm'
-                              } ${isActive ? itemTheme.text : 'text-slate-400'}`}>
-                                {cloneElement(item.icon, { size: 24 })}
-                              </div>
-                              <div>
-                                <div className={`text-lg font-bold ${isActive ? '' : 'group-hover:text-slate-900'}`}>{item.name}</div>
-                                <div className="text-xs opacity-60 font-medium">{item.id}</div>
-                              </div>
-                            </button>
-                          );
-                        })}
-                      </div>
-                    </div>
-                    
-                    {/* 說明小卡 */}
-                    <div className="hidden lg:block bg-slate-800 text-slate-300 p-8 rounded-3xl relative overflow-hidden shadow-xl">
-                       <div className="absolute top-0 right-0 -mr-8 -mt-8 w-32 h-32 bg-white/10 rounded-full blur-3xl"></div>
-                       <h3 className="text-white text-lg font-bold mb-3 flex items-center gap-2">
-                         <Target size={20} />
-                         閱讀指南
-                       </h3>
-                       <p className="text-base leading-relaxed opacity-80">
-                         右側內容採用<span className="text-white font-bold">顏色漸層設計</span>：顏色越深，代表能力層級越高。
-                       </p>
-                    </div>
-                  </nav>
-
-                  {/* 右側內容區 */}
-                  <div className="flex-1 min-w-0">
-                    
-                    {/* Hero Section */}
-                    <div className={`relative rounded-[2rem] overflow-hidden shadow-xl mb-10 transition-all duration-500 bg-gradient-to-r ${theme.gradient}`}>
-                      {/* 背景裝飾 */}
-                      <div className="absolute top-0 right-0 p-12 opacity-10 transform translate-x-1/4 -translate-y-1/4">
-                        <div className="scale-[3] text-white rotate-12">
-                          {currentData.icon}
-                        </div>
-                      </div>
-                      <div className="absolute bottom-0 left-0 w-full h-2/3 bg-gradient-to-t from-black/30 to-transparent"></div>
-
-                      <div className="relative z-10 p-10 md:p-14 text-white">
-                        <div className="flex items-center gap-3 font-bold mb-4 opacity-90 tracking-widest text-sm uppercase">
-                          <span className="bg-white/20 px-3 py-1 rounded-lg backdrop-blur-sm shadow-sm">{currentData.id}</span>
-                          <span>Competency Framework</span>
-                        </div>
-                        
-                        <h2 className="text-5xl md:text-6xl font-black mb-3 tracking-tight drop-shadow-sm">{currentData.name}</h2>
-                        <div className="text-2xl font-medium opacity-90 mb-8">{currentData.engName}</div>
-                        
-                        <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20">
-                           <div className="text-sm uppercase opacity-80 font-bold mb-2 tracking-wide">評量重點 (Sub-competency)</div>
-                           <div className="text-2xl md:text-3xl font-bold leading-tight text-white mb-2">{currentData.subTitle}</div>
-                           <div className="w-20 h-1 bg-white/40 rounded-full my-4"></div>
-                           <div className="text-lg md:text-xl opacity-95 leading-relaxed font-light">
-                              {currentData.summary}
-                           </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* 內容卡片列表 - 每個等級都有顏色漸層 */}
-                    <div className="space-y-6">
-                      {[1, 2, 3, 4, 5].map((level) => {
-                        const styles = getLevelStyles(level, currentData.color);
-                        
+                {/* 六大色塊 Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+                    {Object.values(MILESTONE_DATA).map((item) => {
+                        const itemTheme = THEMES[item.color];
                         return (
-                          <div 
-                            key={level} 
-                            className={`relative bg-white rounded-[2rem] border transition-all duration-300 hover:-translate-y-1 ${styles.border} ${styles.shadow} ${styles.ring}`}
-                          >
-                            <div className="flex flex-col md:flex-row min-h-[180px]">
-                              
-                              {/* Level 數字區 - 顏色隨等級變深 */}
-                              <div className={`md:w-32 flex-shrink-0 flex items-center justify-center p-6 border-b md:border-b-0 md:border-r border-slate-100 rounded-t-[2rem] md:rounded-l-[2rem] md:rounded-tr-none overflow-hidden relative ${styles.numBg}`}>
-                                {/* 巨大的背景數字浮水印 */}
-                                <span className={`absolute -bottom-8 -left-4 text-9xl font-black opacity-10 select-none pointer-events-none ${styles.numText}`}>
-                                  {level}
-                                </span>
-                                
-                                <div className="relative z-10 text-center">
-                                  <div className={`text-6xl font-black leading-none tracking-tighter ${styles.numText}`}>
-                                    {level}
-                                  </div>
-                                  <div className={`text-xs font-bold uppercase tracking-widest mt-2 opacity-60 ${styles.numText}`}>Level</div>
-                                </div>
-                              </div>
+                            <button
+                                key={item.id}
+                                onClick={() => setSelectedId(item.id)}
+                                className={`group relative flex flex-col items-start p-8 rounded-[2rem] border transition-all duration-300 bg-white hover:-translate-y-2 hover:shadow-xl text-left
+                                    ${itemTheme.border} ${itemTheme.borderHover} ${itemTheme.shadow}
+                                `}
+                            >
+                                {/* 裝飾背景：Hover時顯示淺色背景 */}
+                                <div className={`absolute inset-0 rounded-[2rem] opacity-0 transition-opacity duration-300 -z-10 ${itemTheme.bg} ${itemTheme.bgHover} group-hover:opacity-40`}></div>
 
-                              {/* 內容文字區 */}
-                              <div className="flex-1 p-8 md:p-10 flex flex-col justify-center">
-                                <div className="mb-4">
-                                   <span className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-bold tracking-wide ${styles.badge}`}>
-                                     {level === 5 && <Sparkles size={16} fill="currentColor" />}
-                                     {level <= 2 ? '初學者階段' : level <= 4 ? '能獨立執行' : '典範與導師'}
-                                   </span>
+                                <div className="flex items-start justify-between w-full mb-6">
+                                    <div className={`p-4 rounded-2xl ${itemTheme.bg} ${itemTheme.text} transition-transform duration-300 group-hover:scale-110`}>
+                                        {cloneElement(item.icon, { size: 32 })}
+                                    </div>
+                                    <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${itemTheme.badge}`}>
+                                        {item.id}
+                                    </span>
                                 </div>
                                 
-                                <p className={`text-xl md:text-2xl leading-loose tracking-wide ${
-                                  level === 5 ? 'text-slate-900 font-medium' : 'text-slate-700 font-normal'
-                                }`}>
-                                  {currentData.levels[level]}
-                                </p>
-                              </div>
-                            </div>
-                          </div>
+                                <h3 className={`text-2xl font-black mb-2 ${itemTheme.textDark} group-hover:text-slate-900 transition-colors`}>
+                                    {item.name}
+                                </h3>
+                                <p className="text-slate-500 font-medium mb-4">{item.engName}</p>
+                                
+                                <div className="mt-auto pt-4 border-t border-slate-100 w-full">
+                                    <div className="text-xs uppercase text-slate-400 font-bold mb-1">Sub-competency</div>
+                                    <div className="text-sm font-semibold text-slate-700 line-clamp-2">
+                                        {item.subTitle}
+                                    </div>
+                                </div>
+                            </button>
                         );
-                      })}
-                    </div>
-
-                    {/* 底部 Footer */}
-                    <div className="mt-16 text-center pb-8">
-                      <div className="inline-flex items-center gap-3 text-slate-400 text-base font-medium px-6 py-3 rounded-full bg-white border border-slate-200 shadow-sm">
-                        <div className={`w-2 h-2 rounded-full ${theme.accent} animate-pulse`}></div>
-                        持續學習，精益求精
-                      </div>
-                    </div>
-
-                  </div>
+                    })}
                 </div>
               </main>
+
+              {/* Modal (彈跳視窗) */}
+              {selectedId && currentData && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 animate-fade-in">
+                    {/* Backdrop */}
+                    <div 
+                        className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity"
+                        onClick={handleClose}
+                    ></div>
+
+                    {/* Content Container */}
+                    <div className="relative bg-white w-full max-w-5xl max-h-[90vh] rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col animate-slide-up">
+                        
+                        {/* Close Button */}
+                        <button 
+                            onClick={handleClose}
+                            className="absolute top-4 right-4 z-20 p-2 bg-white/20 backdrop-blur-md hover:bg-white/40 rounded-full text-white transition-colors"
+                        >
+                            <X size={24} />
+                        </button>
+
+                        {/* Modal Header (Hero Section) */}
+                        <div className={`relative flex-shrink-0 p-8 md:p-12 overflow-hidden bg-gradient-to-r ${theme.gradient} text-white`}>
+                            {/* 裝飾 Icon */}
+                            <div className="absolute top-0 right-0 p-8 opacity-20 transform translate-x-1/4 -translate-y-1/4 pointer-events-none">
+                                <div className="scale-[4] text-white rotate-12">
+                                    {currentData.icon}
+                                </div>
+                            </div>
+
+                            <div className="relative z-10 pr-12">
+                                <div className="flex items-center gap-3 font-bold mb-4 opacity-90 tracking-widest text-xs uppercase">
+                                    <span className="bg-white/20 px-3 py-1 rounded-lg backdrop-blur-sm">{currentData.id}</span>
+                                    <span>Milestone Details</span>
+                                </div>
+                                <h2 className="text-3xl md:text-5xl font-black mb-2">{currentData.name}</h2>
+                                <p className="text-xl opacity-90 mb-6 font-medium">{currentData.engName}</p>
+                                
+                                <div className="bg-white/10 backdrop-blur-md rounded-2xl p-5 border border-white/20 inline-block">
+                                    <div className="text-xs uppercase opacity-80 font-bold mb-2">評量重點</div>
+                                    <div className="text-xl font-bold leading-snug">{currentData.subTitle}</div>
+                                    <div className="mt-3 text-base opacity-90 font-light max-w-2xl">{currentData.summary}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Modal Body (Scrollable Levels) */}
+                        <div className="flex-1 overflow-y-auto p-6 md:p-10 bg-slate-50">
+                            <div className="space-y-6 max-w-4xl mx-auto">
+                                {[1, 2, 3, 4, 5].map((level) => {
+                                    const styles = getLevelStyles(level, currentData.color);
+                                    return (
+                                        <div 
+                                            key={level} 
+                                            className={`relative bg-white rounded-[2rem] border transition-all hover:shadow-md ${styles.border} ${styles.shadow} ${styles.ring}`}
+                                        >
+                                            <div className="flex flex-col md:flex-row min-h-[140px]">
+                                                {/* Level Number */}
+                                                <div className={`md:w-28 flex-shrink-0 flex items-center justify-center p-4 border-b md:border-b-0 md:border-r border-slate-100 rounded-t-[2rem] md:rounded-l-[2rem] md:rounded-tr-none overflow-hidden relative ${styles.numBg}`}>
+                                                    <span className={`absolute -bottom-6 -left-2 text-8xl font-black opacity-10 select-none ${styles.numText}`}>
+                                                        {level}
+                                                    </span>
+                                                    <div className="relative z-10 text-center">
+                                                        <div className={`text-5xl font-black leading-none ${styles.numText}`}>{level}</div>
+                                                        <div className={`text-[10px] font-bold uppercase tracking-widest mt-1 opacity-60 ${styles.numText}`}>Level</div>
+                                                    </div>
+                                                </div>
+
+                                                {/* Content */}
+                                                <div className="flex-1 p-6 md:p-8 flex flex-col justify-center">
+                                                    <div className="mb-3">
+                                                        <span className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold tracking-wide ${styles.badge}`}>
+                                                            {level === 5 && <Sparkles size={14} fill="currentColor" />}
+                                                            {level <= 2 ? '初學者階段' : level <= 4 ? '能獨立執行' : '典範與導師'}
+                                                        </span>
+                                                    </div>
+                                                    <p className={`text-lg md:text-xl leading-relaxed ${level === 5 ? 'text-slate-900 font-medium' : 'text-slate-700'}`}>
+                                                        {currentData.levels[level]}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                            
+                            {/* Modal Footer */}
+                            <div className="mt-12 text-center pb-4">
+                                <button 
+                                    onClick={handleClose}
+                                    className="px-8 py-3 bg-white border border-slate-300 text-slate-600 font-bold rounded-full hover:bg-slate-100 transition-colors shadow-sm"
+                                >
+                                    關閉視窗
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+              )}
+
             </div>
           );
         }
