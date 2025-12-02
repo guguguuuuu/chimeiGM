@@ -105,13 +105,13 @@
         var events = [
             // Week 1
             { date: 1, time: '08:00', title: 'PGY CR Teaching', type: 'teaching', location: '九樓空橋', details: { instructors: ['蔡佩芸醫師'], participants: ['GM全體學員'] } },
-            { date: 1, time: '15:00-16:00', title: '血糖用藥介紹', type: 'course', location: '十樓空橋', details: { instructors: ['黃偉輔醫師(VS)'], notes: '主題：血糖用藥介紹' } },
+            { date: 1, time: '15:00-16:00', title: '血糖用藥介紹', type: 'course', location: '十樓空橋', details: { instructors: ['黃偉輔醫師(VS)'], participants: ['全體學員', '內科UGY'] } },
             { date: 2, time: '08:00', title: '內科部Grand Round', type: 'grand_round', location: '國際會議廳', details: {} },
-            { date: 2, time: '09:00-12:00', title: '教學門診', type: 'clinic', location: '21號診間', details: { instructors: ['楊浚銘醫師'], participants: ['Y1曾麟斐3206', 'Y2蔡鎧鴻2702'] } },
-            { date: 2, time: '11:00-12:00', title: '實證醫學期刊討論會', type: 'journal', location: '九樓空橋', details: { instructors: ['李美娟小組長', '吳政彥營養師'], notes: '簡介攜帶電子裝置', participants: ['全體PGY1'] } },
+            { date: 2, time: '09:00-12:00', title: '教學門診', type: 'clinic', location: '21號診間', details: { instructors: ['楊浚銘主任'], participants: ['Y1曾麟斐3206', 'Y2蔡鎧鴻2702'] } },
+            { date: 2, time: '11:00-12:00', title: '實證醫學期刊討論會', type: 'journal', location: '九樓空橋', details: { instructors: ['李美娟小組長', '吳政彥營養師'], notes: '攜帶電子裝置', participants: ['全體PGY1'] } },
             { date: 2, time: '14:00-17:00', title: '教學門診', type: 'clinic', location: '21號診間', details: { instructors: ['王淑慎醫師'], participants: ['Y1黄亭禎2057', 'Y1黃崢璵3203'] } },
             { date: 3, time: '08:00', title: '值班案例論會', type: 'conference', location: '九樓空橋', details: { instructors: ['蔡佩芸醫師'], notes: '主題：值班急症處理', participants: ['一般內科團隊成員'] } },
-            { date: 3, time: '14:00-17:00', title: '教學門診', type: 'clinic', location: '21號診間', details: { instructors: ['郭妍伶醫師'], participants: ['Y1曾宇暘2061', 'Y2方薇瑄2085', 'Y2何信賢2744'] } },
+            { date: 3, time: '14:00-17:00', title: '教學門診', type: 'clinic', location: '21號診間', details: { instructors: ['郭妍伶主任'], participants: ['Y1曾宇暘2061', 'Y2方薇瑄2085', 'Y2何信賢2744'] } },
             { date: 3, time: '14:00-17:00', title: '神經內科教學門診', type: 'clinic', location: '31號門診間', details: { instructors: ['謝孟倉醫師'], participants: ['R田祐榕6164', 'Y2蔡芝蓉2633', 'Y1王逸洹3204', 'Y1莊堯茗3205', 'UGY葛宇安6284', 'UGY郭禮涵3190'] } },
             { date: 3, time: '15:00-16:00', title: '資深主治醫師指導教學', type: 'teaching', location: '九樓空橋', details: { instructors: ['鄭高珍顧問'], recorder: '曾宇暘', participants: ['全體學員', '內科UGY'] } },
             { date: 4, time: '08:00', title: '病歷教學及品質檢討會', type: 'quality', location: '九樓空橋', details: { instructors: ['王淑慎醫師'], recorder: '劉紹弘', participants: ['一般內科團隊成員'] } },
@@ -122,20 +122,20 @@
             { date: 8, time: '13:00-14:00', title: '聯合討論會 (全院跨領域)', type: 'combined', location: '552會議室', details: { instructors: ['郭妍伶主任'], presenter: '劉紹弘', participants: ['全體學員', '內科UGY'] } },
             { date: 8, time: '14:00-17:00', title: '教學門診', type: 'clinic', location: '21號診間', details: { instructors: ['黃琪雅醫師'], participants: ['Y1沈哲民2090', 'Y1劉紹弘2057', 'Y2黃舜瑜2630'] } },
             { date: 9, time: '08:00', title: '內科部Grand Round', type: 'grand_round', location: '國際會議廳', details: {} },
-            { date: 9, time: '09:00-12:00', title: '教學門診', type: 'clinic', location: '21號診間', details: { instructors: ['楊浚銘醫師'], participants: ['Y1王逸洹3204', 'Y1陳威良3202'] } },
+            { date: 9, time: '09:00-12:00', title: '教學門診', type: 'clinic', location: '21號診間', details: { instructors: ['楊浚銘主任'], participants: ['Y1王逸洹3204', 'Y1陳威良3202'] } },
             { date: 9, time: '12:00-13:00', title: '資深主治醫師巴林團體', type: 'balint', location: '九樓空橋', details: { instructors: ['張榮哲主任'], participants: ['一般內科UGY', '全體PGY1(已備午餐)'] } },
-            { date: 9, time: '12:00-13:00', title: 'Cretrol', type: 'course', location: '八樓空橋', details: { instructors: ['林志憲醫師(VS)'], notes: '主題：Cretrol', participants: ['Seminar備餐'] } },
+            { date: 9, time: '12:00-13:00', title: 'Cretrol', type: 'course', location: '八樓空橋', details: { instructors: ['林志憲醫師(VS)'], notes: 'Seminar備餐', participants: ['全體學員', '內科UGY'] } },
             { date: 9, time: '13:30-15:30', title: 'PGY1臨床技能演練 (TRM)', type: 'skill', location: '教學大樓4F臨床技能中心', details: { instructors: ['陳伯榕醫師'], participants: ['蔡伯慶2074', '曾麟斐3206', '曾宇暘2061', '沈哲民2090', '王逸洹3204', '黄亭禎2058', '蔡旻錡2078'] } },
             { date: 9, time: '14:00-17:00', title: '教學門診', type: 'clinic', location: '21號診間', details: { instructors: ['王淑慎醫師'], participants: ['Y1王亭尹3207', 'Y2曾菀榆2608', 'Y2黃雅麟2634'] } },
             { date: 10, time: '07:30', title: '全院性學術演講 (CEC)', type: 'lecture', location: '國際會議廳', details: { instructors: ['護理部 高金盆督導'], notes: '主題：臨床倫理討論會' } },
-            { date: 10, time: '14:00-17:00', title: '教學門診', type: 'clinic', location: '21號診間', details: { instructors: ['郭妍伶醫師'], participants: ['UGY郭勇德6118', 'Y1陳揚恩2082'] } },
-            { date: 10, time: '15:00-16:00', title: '貧血', type: 'course', location: '十樓空橋', details: { instructors: ['林芸孜醫師(VS)'], notes: '主題：貧血' } },
+            { date: 10, time: '14:00-17:00', title: '教學門診', type: 'clinic', location: '21號診間', details: { instructors: ['郭妍伶主任'], participants: ['UGY郭勇德6118', 'Y1陳揚恩2082'] } },
+            { date: 10, time: '15:00-16:00', title: '貧血', type: 'course', location: '十樓空橋', details: { instructors: ['林芸孜醫師(VS)'], participants: ['全體學員', '內科UGY'] } },
             { date: 11, time: '08:00', title: '病例討論會', type: 'morning', location: '九樓空橋', details: { instructors: ['蔡佩芸醫師'], presenter: 'UGY郭勇德', participants: ['GM全體學員'] } },
             { date: 11, time: '09:00-12:00', title: '風濕免疫科教學門診', type: 'clinic', location: '21號門診間', details: { instructors: ['林永章醫師'], participants: ['R吳俊穎6394', 'UGY謝沁臻6122', '蔡昀昀6320', '歐陽云治3184', '張馨予3192'] } },
             { date: 11, time: '11:00-12:00', title: '整合病房出備暨跨領域團隊會議', type: 'meeting', location: '九樓空橋', details: { participants: ['9A全體學員', '一般內UGY'] } },
             { date: 11, time: '13:30-15:30', title: 'PGY1臨床技能演練 (呼吸道擬真)', type: 'skill', location: '教學大樓4F臨床技能中心', details: { instructors: ['李季恆醫師', '陳伯榕醫師'], participants: ['沈哲民2090', '劉祐辰2056', '王亭尹3207', '黃崢璵3203'] } },
             { date: 12, time: '07:30', title: '全院性學術演講 (CPC)', type: 'lecture', location: '國際會議廳', details: { instructors: ['胃腸肝膽科楊畯棋醫師', '皮膚科陳麒亘醫師'], notes: '主題：臨床病理討論會' } },
-            { date: 12, time: '11:00-12:00', title: '聯合討論會 (感控)', type: 'combined', location: '九樓空橋', details: { instructors: ['王淑慎醫師'], presenter: '劉祐辰', participants: ['一般內科團隊成員'] } },
+            { date: 12, time: '11:00-12:00', title: '聯合討論會 (感控)', type: 'combined', location: '九樓空橋', details: { instructors: ['王淑慎醫師'], presenter: '劉祐辰', participants: ['全體學員', '內科UGY'] } },
             { date: 12, time: '13:00-15:00', title: 'PGY2臨床技能演練 (CVC)', type: 'skill', location: '教學大樓4F臨床技能中心', details: { instructors: ['賴怡楨醫師6406'], participants: ['蔡鎧鴻2702', '黃雅麟2634', '何信賢2744', '黃俊華2743', '蔡芝蓉2633', '方薇瑄2085'] } },
 
             // Week 3
@@ -143,16 +143,16 @@
             { date: 15, time: '13:00-14:00', title: 'PGY訓練學員檢討會', type: 'meeting', location: '九樓空橋', details: { instructors: ['黃琪雅醫師', '王淑慎醫師'], participants: ['劉紹弘', '劉祐辰', '曾麟斐', '陳威良', '陳揚恩', '王亭尹', '黃崢璵', '蔡旻錡', '曾宇暘', '沈哲民', '王逸洹', '莊堯茗', '黄亭禎', '盧思云', '黃舜瑜', '蔡鎧鴻', '番懷槿', '黃雅麟', '何信賢', '曾菀榆', '黃俊華', '蔡芝蓉', '方薇瑄', '劉林昌'] } },
             { date: 15, time: '14:00-17:00', title: '教學門診', type: 'clinic', location: '21號診間', details: { instructors: ['黃琪雅醫師'], participants: ['Y1蔡旻錡2078', 'Y1劉祐辰2056'] } },
             { date: 16, time: '07:30', title: '全院性學術演講', type: 'lecture', location: '國際會議廳', details: { instructors: ['衛生福利部 莊人祥常務次長'], notes: '主題：從資料到行動：打造台灣傳染病監測的智慧防線' } },
-            { date: 16, time: '09:00-12:00', title: '教學門診', type: 'clinic', location: '21號診間', details: { instructors: ['楊浚銘醫師'], participants: ['Y1莊堯茗3205', 'Y1黄亭禎2058'] } },
-            { date: 16, time: '11:00-12:00', title: '實證醫學期刊討論會', type: 'journal', location: '八樓空橋', details: { instructors: [], participants: ['全體PGY2'] } },
+            { date: 16, time: '09:00-12:00', title: '教學門診', type: 'clinic', location: '21號診間', details: { instructors: ['楊浚銘主任'], participants: ['Y1莊堯茗3205', 'Y1黄亭禎2058'] } },
+            { date: 16, time: '11:00-12:00', title: '實證醫學期刊討論會', type: 'journal', location: '八樓空橋', details: { instructors: [], notes: '攜帶電子裝置', participants: ['全體PGY2'] } },
             { date: 16, time: '14:00-17:00', title: '教學門診', type: 'clinic', location: '21號診間', details: { instructors: ['王淑慎醫師'], participants: ['Y2何信賢2744', 'Y2方薇瑄2085'] } },
             { date: 17, time: '07:30', title: '全院性學術演講', type: 'lecture', location: '國際會議廳', details: { instructors: ['布朗大學神經外科 Clark C. Chen, MD, PhD'], notes: '主題：美國經驗看神經膠質母細胞瘤(GBM)治療的新策略' } },
-            { date: 17, time: '15:00-16:00', title: '抗生素簡介', type: 'course', location: '十樓空橋', details: { instructors: ['李承翰醫師(F)'], notes: '主題：抗生素簡介' } },
-            { date: 18, time: '08:00', title: '實證醫學期刊討論會', type: 'journal', location: '九樓空橋', details: { instructors: ['黃琪雅醫師'], presenter: 'PGY1曾麟斐', participants: ['一般內科團隊成員'] } },
+            { date: 17, time: '15:00-16:00', title: '抗生素簡介', type: 'course', location: '十樓空橋', details: { instructors: ['李承翰醫師(F)'], participants: ['全體學員', '內科UGY'] } },
+            { date: 18, time: '08:00', title: '實證醫學期刊討論會', type: 'journal', location: '九樓空橋', details: { instructors: ['黃琪雅醫師'], presenter: 'PGY1曾麟斐', notes: '攜帶電子裝置', participants: ['一般內科團隊成員'] } },
             { date: 18, time: '09:00-12:00', title: '胃腸科教學門診', type: 'clinic', location: '21號門診間', details: { instructors: ['王品貽醫師'], participants: ['R陳頌恩2705', '吳俊諺2708', 'Y2盧思云2619', 'UGY洪語謙6131', '陳思樺6285', '林佑穎3186'] } },
             { date: 18, time: '11:00-12:00', title: '整合病房出備暨跨領域團隊會議', type: 'meeting', location: '九樓空橋', details: { participants: ['9A全體學員', '一般內UGY'] } },
             { date: 19, time: '09:00-12:00', title: '教學門診', type: 'clinic', location: '21號診間', details: { instructors: ['葉正發醫師'], participants: ['Y2蔡鎧鴻2702', 'Y2番懷槿2602'] } },
-            { date: 19, time: '11:00-12:00', title: '聯合討論會 (放射)', type: 'combined', location: '九樓空橋', details: { instructors: ['蔡佩芸醫師/楊鎧輿醫師'], presenter: '劉祐辰', participants: ['一般內科團隊成員'] } },
+            { date: 19, time: '11:00-12:00', title: '聯合討論會 (放射)', type: 'combined', location: '九樓空橋', details: { instructors: ['蔡佩芸醫師/楊鎧輿醫師'], presenter: '劉祐辰', participants: ['全體學員', '內科UGY'] } },
             { date: 19, time: '12:00-13:00', title: '資深主治醫師指導教學', type: 'teaching', location: '九樓空橋', details: { instructors: ['周銘霆顧問'], notes: 'Seminar備餐', participants: [] } },
             { date: 19, time: '14:00-17:00', title: '胸腔內科教學門診', type: 'clinic', location: '21號門診間', details: { instructors: ['柯獻欽醫師'], participants: ['R魏國唐2706', 'Y2曾菀榆2608', 'Y2黃俊華2743', 'Y1曾宇暘2061', 'Y1沈哲民2090', 'UGY謝禮謙6282'] } },
 
@@ -161,24 +161,24 @@
             { date: 22, time: '14:00-16:00', title: 'PGY2臨床技能演練 (TRM)', type: 'skill', location: '教學大樓4F臨床技能中心', details: { instructors: ['葉正發醫師', '王淑慎醫師'], participants: ['盧思云2619', '番懷槿2602', '黃雅麟2634', '蔡芝蓉2633'] } },
             { date: 22, time: '14:00-17:00', title: '教學門診', type: 'clinic', location: '21號診間', details: { instructors: ['黃琪雅醫師'], participants: ['Y1陳威良3202', 'Y1黃崢璵3203'] } },
             { date: 23, time: '08:00', title: '內科部Grand Round', type: 'grand_round', location: '國際會議廳', details: {} },
-            { date: 23, time: '09:00-12:00', title: '教學門診', type: 'clinic', location: '21號診間', details: { instructors: ['楊浚銘醫師'], participants: ['Y2蔡芝蓉2633', 'Y2黃舜瑜2630'] } },
+            { date: 23, time: '09:00-12:00', title: '教學門診', type: 'clinic', location: '21號診間', details: { instructors: ['楊浚銘主任'], participants: ['Y2蔡芝蓉2633', 'Y2黃舜瑜2630'] } },
             { date: 23, time: '12:00-13:00', title: '資深主治醫師巴林團體', type: 'balint', location: '九樓空橋', details: { instructors: [], participants: [] } },
             { date: 23, time: '13:30-15:30', title: 'PGY1臨床技能演練 (TRM)', type: 'skill', location: '教學大樓4F臨床技能中心', details: { instructors: ['陳伯榕醫師'], participants: ['莊堯茗3205', '劉紹弘2057', '劉祐辰2056', '陳威良3202', '陳揚恩2082', '王亭尹3207', '黃崢璵3203'] } },
             { date: 23, time: '14:00-17:00', title: '教學門診', type: 'clinic', location: '21號診間', details: { instructors: ['王淑慎醫師'], participants: ['Y1劉紹弘2057', 'Y2盧思云2619'] } },
             { date: 24, time: '08:00', title: '病例討論會', type: 'morning', location: '九樓空橋', details: { instructors: ['蔡佩芸醫師'], presenter: 'PGY1劉祐辰', participants: ['GM全體學員'] } },
             { date: 24, time: '13:00-14:00', title: '醫病溝通互動演練工作坊', type: 'workshop', location: '九樓空橋', details: { instructors: ['王淑慎醫師', '王慧娟社工師', '楊素璧標準病人'], participants: ['盧思云2619', '黃舜瑜2630', '蔡鎧鴻2702', '番懷槿2602', '黃雅麟2634', '何信賢2744', '曾菀榆2608', '黃俊華2743'] } },
-            { date: 24, time: '15:00-16:00', title: 'NE操作', type: 'course', location: '十樓空橋', details: { instructors: ['蔡穩穩醫師(F)'], notes: '主題：NE操作' } },
+            { date: 24, time: '15:00-16:00', title: 'NE操作', type: 'course', location: '十樓空橋', details: { instructors: ['蔡穩穩醫師(F)'], participants: ['全體學員', '內科UGY'] } },
             { date: 25, time: '11:00-12:00', title: '整合病房出備暨跨領域團隊會議', type: 'meeting', location: '九樓空橋', details: { participants: ['9A全體學員', '一般內UGY'] } },
             { date: 26, time: '07:30', title: '全院性學術演講', type: 'lecture', location: '國際會議廳', details: { instructors: ['教學部 廖家德部長'], notes: '主題：待公告' } },
             { date: 26, time: '09:00-12:00', title: '教學門診', type: 'clinic', location: '21號診間', details: { instructors: ['葉正發醫師'], participants: ['UGY劉林昌3189', 'Y2黃俊華2743'] } },
-            { date: 26, time: '11:00-12:00', title: '聯合討論會 (安寧醫倫)', type: 'combined', location: '九樓空橋', details: { instructors: ['葉正發醫師'], presenter: '劉紹弘', participants: ['一般內科團隊成員'] } },
+            { date: 26, time: '11:00-12:00', title: '聯合討論會 (安寧醫倫)', type: 'combined', location: '九樓空橋', details: { instructors: ['葉正發醫師'], presenter: '劉紹弘', participants: ['全體學員', '內科UGY'] } },
 
             // Week 5
             { date: 29, time: '08:00', title: 'M&M Conference', type: 'conference', location: '九樓空橋', details: { instructors: ['蔡佩芸醫師'], presenter: '曾麟斐', recorder: '曾麟斐', participants: ['一般內科團隊成員'], notes: '以Healthcare Matrix方式報告記錄' } },
-            { date: 29, time: '13:00-14:00', title: '主題式教學', type: 'teaching', location: '九樓空橋', details: { instructors: ['陳鋭溢醫師'], notes: '主題：SGLT2i介紹', participants: ['全體學員', '一般內UGY'] } },
+            { date: 29, time: '13:00-14:00', title: 'SGLT2i介紹', type: 'teaching', location: '九樓空橋', details: { instructors: ['陳鋭溢醫師'], participants: ['全體學員', '內科UGY'] } },
             { date: 29, time: '14:00-17:00', title: '教學門診', type: 'clinic', location: '21號診間', details: { instructors: ['黃琪雅醫師'], participants: ['Y1蔡旻錡2078', 'Y2黃雅麟2634', 'Y2番懷槿2602'] } },
             { date: 30, time: '08:00', title: '內科部Grand Round', type: 'grand_round', location: '國際會議廳', details: {} },
-            { date: 30, time: '09:00-12:00', title: '教學門診', type: 'clinic', location: '21號診間', details: { instructors: ['楊浚銘醫師'], participants: ['Y1王亭尹3207', 'Y1劉祐辰2056'] } },
+            { date: 30, time: '09:00-12:00', title: '教學門診', type: 'clinic', location: '21號診間', details: { instructors: ['楊浚銘主任'], participants: ['Y1王亭尹3207', 'Y1劉祐辰2056'] } },
             { date: 30, time: '10:00-11:00', title: '資深主治醫師指導教學', type: 'teaching', location: '九樓空橋', details: { instructors: ['洪晧彰主任'], recorder: '陳威良', participants: [] } },
             { date: 30, time: '13:30-15:30', title: 'PGY1臨床技能演練 (CVC超音波)', type: 'skill', location: '教學大樓4F臨床技能中心', details: { instructors: ['陳伯榕醫師'], participants: ['劉紹弘2057', '劉祐辰2056', '曾麟斐3206', '陳威良3202', '陳揚恩2082', '王亭尹3207', '曾宇暘2061', '王逸洹3204', '莊堯茗3205'] } },
             { date: 30, time: '14:00-17:00', title: '教學門診', type: 'clinic', location: '21號診間', details: { instructors: ['王淑慎醫師'], participants: ['Y1陳揚恩2082', 'Y1曾麟斐3206'] } },
@@ -373,12 +373,13 @@
             }
             
             if (d.participants && d.participants.length) {
+                // Changed from grid to flex-wrap to ensure text continuity for long names like "一般內科團隊成員"
                 bodyHTML += `<div class="border-t pt-3 mt-3">
                     <div class="flex items-start">
                         <div class="w-6 text-center mr-2 mt-0.5"><svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283-.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg></div>
-                        <div>
+                        <div class="flex-1">
                             <strong class="font-semibold text-gray-700 text-sm">參與學員</strong>
-                            <div class="text-gray-600 text-sm grid grid-cols-2 sm:grid-cols-3 gap-x-4 gap-y-1 mt-1">${d.participants.map(p => `<span>${p}</span>`).join('')}</div>
+                            <div class="text-gray-600 text-sm flex flex-wrap gap-2 mt-1">${d.participants.map(p => `<span class="whitespace-nowrap">${p}</span>`).join('<span class="text-gray-300">|</span>')}</div>
                         </div>
                     </div>
                 </div>`;
