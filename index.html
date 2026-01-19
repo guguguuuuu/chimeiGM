@@ -203,7 +203,9 @@
             color: #6b21a8; /* 深紫色文字 */
         }
 
-        /* 月份 (原有色彩，稍微調整以匹配整體柔和感) */
+        /* 月份色彩 */
+        .bg-february { background-image: linear-gradient(135deg, #ccfbf1 0%, #5eead4 100%); color: #134e4a; } /* 湖水綠 (Teal) */
+        .bg-january { background-image: linear-gradient(135deg, #fee2e2 0%, #fca5a5 100%); color: #7f1d1d; } /* 淡紅色 (新的一年) */
         .bg-december { background-image: linear-gradient(135deg, #dbeafe 0%, #93c5fd 100%); color: #1e3a8a; } /* 淺藍色 */
         .bg-november { background-image: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%); color: #3730a3; } /* 淺藍紫 */
         .bg-october { background-image: linear-gradient(135deg, #fef9c3 0%, #fde047 100%); color: #854d0e; } /* 淺黃 */
@@ -372,7 +374,6 @@
         </h1>
 
         <!-- 區塊一：核心能力導向訓練 -->
-        <!-- 修改：採用與下方一致的方形按鈕並排風格，使用馬卡龍色系 -->
         <div class="training-section">
             <h2><i class="fa-solid fa-book-medical" style="color: #2a9d8f;"></i>核心能力導向訓練</h2>
             <div class="schedule-links">
@@ -400,8 +401,26 @@
         <!-- 區塊二：畢業後一般內科醫學訓練 -->
         <div class="training-section">
             <h2><i class="fa-solid fa-graduation-cap" style="color: #1d72b1;"></i>畢業後一般內科醫學訓練</h2>
+            
+            <!-- 2026年 區塊 -->
+            <div class="schedule-links pgym-links" style="margin-bottom: 1.5rem;">
+                <!-- 2026年2月按鈕 (新增) -->
+                <a href="https://guguguuuuu.github.io/chimeiGM/February.html" class="month-button bg-february">
+                    <span class="month-digit" style="color: #0f766e;">2</span>
+                    <span class="month-name" style="color: #134e4a;">February</span>
+                    <span class="month-year" style="color: #0d9488;">2026</span>
+                </a>
+                <!-- 2026年1月按鈕 -->
+                <a href="https://github.com/guguguuuuu/chimeiGM/blob/main/2026January" class="month-button bg-january">
+                    <span class="month-digit" style="color: #9f1239;">1</span>
+                    <span class="month-name" style="color: #881337;">January</span>
+                    <span class="month-year" style="color: #be123c;">2026</span>
+                </a>
+            </div>
+
+            <!-- 2025年 區塊 (換行) -->
             <div class="schedule-links pgym-links">
-                <!-- 12月按鈕 (連結已更新) -->
+                <!-- 12月按鈕 -->
                 <a href="https://guguguuuuu.github.io/chimeiGM/December.html" class="month-button bg-december">
                     <span class="month-digit" style="color: #1e40af;">12</span>
                     <span class="month-name" style="color: #1e3a8a;">December</span>
