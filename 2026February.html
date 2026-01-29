@@ -142,8 +142,8 @@
 
             // Week 4
             { date: 23, time: '08:00', title: '14天再入院討論會', type: 'quality', location: '九樓空橋', details: { instructors: ['蔡佩芸醫師'], presenter: 'PGY CR 蔡佩芸 / Y1 莊堯茗 3205', participants: ['9A全體學員', '一般內 UGY'] } },
-            { date: 23, time: '12:00-13:00', title: 'Qtern seminar (備餐)', type: 'course', location: '九樓空橋', details: { instructors: ['郭妍伶主任'] } },
-            { date: 23, time: '13:00-14:00', title: 'PGY學員檢討會', type: 'meeting', location: '九樓空橋', details: { instructors: ['核心Core老師群'] } },
+            { date: 23, time: '12:00-13:00', title: 'Qtern seminar (備餐)', type: 'course', location: '九樓空橋', details: { participants: ['內科全體 PGY', '一般內 UGY'] } },
+            { date: 23, time: '13:00-14:00', title: 'PGY學員檢討會', type: 'meeting', location: '九樓空橋', details: { participants: ['內科全體 PGY', '一般內 UGY'] } },
             { date: 23, time: '15:00-16:00', title: '抗生素簡介', type: 'course', location: '十樓空橋', details: { instructors: ['李承翰醫師'] } },
             { date: 24, time: '08:00', title: '內科部 Grand Round', type: 'grand_round', location: '國際會議廳', details: { } },
             { date: 24, time: '13:30-15:30', title: 'PGY1 臨床技能(急性呼吸道處置)', type: 'skill', location: '教學部討論室', details: { instructors: ['陳伯榕醫師'], participants: ['Y1 施睿濬 6343', 'Y1 吳怡霏 2062', 'Y1 陳祈雅 2066', 'Y1 曾俊耀 2083', 'Y1 楊玨 2063'] } },
@@ -305,10 +305,10 @@
                 html += `<div class="dept-summary-card border-${c}-500 pt-6" data-dept="${dept}">
                     <div class="w-16 h-16 rounded-full bg-slate-100 flex items-center justify-center p-2 mb-3 mx-auto shadow-inner border"><img src="${deptIcons[dept]}" class="w-10 h-10 object-contain"></div>
                     <div class="text-center mb-6"><h3 class="font-bold text-xl">${dept}</h3><p class="text-gray-400 text-sm">共 ${s.total} 人</p></div>
-                    <div class="w-full bg-slate-50 flex justify-center py-3 space-x-6 border-t border-slate-100">
-                        ${s.pgy1?`<div class="text-center"><span class="block text-2xl font-bold text-indigo-800 leading-none">${s.pgy1}</span><span class="text-[9px] text-indigo-400 font-bold uppercase">PGY1</span></div>`:''}
-                        ${s.pgy2?`<div class="text-center"><span class="block text-2xl font-bold text-teal-800 leading-none">${s.pgy2}</span><span class="text-[9px] text-teal-400 font-bold uppercase">PGY2</span></div>`:''}
-                        ${s.ugy?`<div class="text-center"><span class="block text-2xl font-bold text-orange-800 leading-none">${s.ugy}</span><span class="text-[9px] text-orange-400 font-bold uppercase">UGY</span></div>`:''}
+                    <div class="w-full bg-slate-50 flex justify-center py-4 space-x-6 border-t border-slate-100">
+                        ${s.pgy1?`<div class="text-center"><span class="block text-4xl font-bold text-indigo-800 leading-none">${s.pgy1}</span><span class="text-xs text-indigo-600 font-bold uppercase mt-1 block">PGY1</span></div>`:''}
+                        ${s.pgy2?`<div class="text-center"><span class="block text-4xl font-bold text-teal-800 leading-none">${s.pgy2}</span><span class="text-xs text-teal-600 font-bold uppercase mt-1 block">PGY2</span></div>`:''}
+                        ${s.ugy?`<div class="text-center"><span class="block text-4xl font-bold text-orange-800 leading-none">${s.ugy}</span><span class="text-xs text-orange-600 font-bold uppercase mt-1 block">UGY</span></div>`:''}
                     </div>
                 </div>`;
             });
