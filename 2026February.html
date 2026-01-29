@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>奇美醫院內科課表 11502</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Tooltip library -->
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script src="https://unpkg.com/tippy.js@6"></script>
+    <style>
+        body {
+            font-family: 'Inter', 'Noto Sans TC', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        .calendar-grid {
+            grid-template-rows: auto 1fr 1fr 1fr 1fr 1fr;
+        }
+        .day-cell {
+            min-height: 150px;
+        }
+        .event {
+            transition: all 0.2s ease-in-out;
+        }
+        .event:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        /* 修正 Tooltip 文字顏色與佈局 */
+        .tippy-box[data-theme~='light'] {
+            background-color: white;
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+            border-radius: 1rem;
+            border: 1px solid #e5e7eb;
+            max-width: 480px !important;
+            color: #111827; /* 深黑色 */
+        }
+        .tab.active {
+            border-color: #4f46e5;
+            color: #4f46e5;
+            background-color: #eef2ff;
+        }
+        /* 科別總覽卡片風格 - 參照 image_425355.png */
+        .dept-summary-card {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            border-left: 5px solid;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .dept-summary-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+        }
+    </style>
+</head>
+<body class="bg-gray-100 p-4 sm:p-6 lg:p-8">
+    <div class="max-w-7xl mx-auto bg-white rounded-2xl shadow-lg overflow-hidden">
+        <div class="p-6 border-b border-gray-200 text-center">
+            <h1 class="text-2xl sm:text-3xl font-bold text-gray-800">奇美醫療財團法人奇美醫院</h1>
+            <p class="text-xl text-indigo-600 font-semibold">115年2月 一般醫學內科訓練課程時程表</p>
+        </div>
+
+        <!-- Tabs Navigation -->
+        <div class="px-4 sm:px-6 pt-4 border-b border-gray-200">
+            <nav class="flex space-x-2 overflow-x-auto whitespace-nowrap pb-2" aria-label="Tabs">
+                <button id="tab-calendar" class="tab active text-gray-500 hover:text-gray-700 px-3 py-2 font-medium text-sm rounded-md border-b-2 border-transparent flex-shrink-0 transition-all">
+                    課程行事曆
+                </button>
+                <button id="tab-schedule" class="tab text-gray-500 hover:text-gray-700 px-3 py-2 font-medium text-sm rounded-md border-b-2 border-transparent flex-shrink-0 transition-all">
+                    醫師名單
+                </button>
+                 <button id="tab-oncall" class="tab text-gray-500 hover:text-gray-700 px-3 py-2 font-medium text-sm rounded-md border-b-2 border-transparent flex-shrink-0 transition-all">
+                    醫師班表
+                </button>
+            </nav>
+        </div>
+
+        <!-- Tab Content Panels -->
+        <div id="calendar-panel" class="tab-panel p-4 sm:p-6">
+            <div id="month-view-container"></div>
+            <div id="list-view-container"></div>
+        </div>
+
+        <div id="schedule-panel" class="tab-panel hidden p-4 sm:p-6">
+            <!-- Content will be injected by JS -->
+        </div>
+        
+        <div id="oncall-panel" class="tab-panel hidden p-4 sm:p-6">
+            <div class="bg-amber-50 border border-amber-200 p-4 rounded-lg mb-6 text-center text-sm">
+                <p class="text-amber-700 font-medium">📌 請將 11502 最新值班表圖片網址替換下方 URL</p>
+            </div>
+            <div class="space-y-6 text-center">
+                <img src="https://via.placeholder.com/1200x800?text=Please+Upload+11502+Schedule+Part1" alt="值班表 Part 1" class="mx-auto w-full h-auto rounded-lg shadow-md border">
+                <img src="https://via.placeholder.com/1200x800?text=Please+Upload+11502+Schedule+Part2" alt="值班表 Part 2" class="mx-auto w-full h-auto rounded-lg shadow-md border mt-6">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Data for February 2026 (115年02月)
+        var events = [
+            // Week 1
+            { date: 2, time: '08:00', title: '內科PGY 訓練說明會', type: 'morning', location: '九樓空橋', details: { instructors: ['黃琪雅醫師', '葉正發醫師', '王淑慎醫師'], participants: ['Y1 李宛錚 2065', 'Y1 施睿濬 6343', 'Y1 吳怡霏 2062', 'Y1 李季玲 2068', 'Y1 曾俊耀 2083', 'Y1 陳祈雅 2066', 'Y1 林敏怡 6111', 'Y1 劉凡維 2067', 'Y1 楊玨 2063'] } },
+            { date: 2, time: '14:00-17:00', title: '教學門診', type: 'clinic', location: '21號診間', details: { instructors: ['黃琪雅醫師'], participants: ['Y1 莊堯茗 3205'] } },
+            { date: 3, time: '08:00', title: '內科部 Grand Round', type: 'grand_round', location: '國際會議廳', details: { instructors: ['內科部'] } },
+            { date: 3, time: '12:00-13:00', title: '資深主治醫師巴林團體', type: 'balint', location: '九樓空橋', details: { instructors: ['張榮哲主任'], participants: ['UGY 方偉丞 6168', 'Y1 李宛錚 2065', 'Y1 施睿濬 6343', 'Y1 吳怡霏 2062', 'Y1 李季玲 2068', 'Y1 陳祈雅 2066', 'Y1 王逸洹 3204', 'Y1 曾俊耀 2083', 'Y1 劉凡維 2067', 'Y1 林敏怡 6111', 'Y1 楊玨 2063'] } },
+            { date: 3, time: '14:00-17:00', title: '教學門診', type: 'clinic', location: '21號診間', details: { instructors: ['王淑慎醫師'], participants: ['Y1 李宛錚 2065', 'Y2 黃舜瑜 2630'] } },
+            { date: 4, time: '08:00', title: '值班案例討論會', type: 'conference', location: '九樓空橋', details: { instructors: ['蔡佩芸醫師'], notes: '主題：值班急症處理', participants: ['一般內科全體學員', '一般內 UGY'] } },
+            { date: 4, time: '13:00-14:00', title: '醫病溝通互動演練工作坊', type: 'workshop', location: '九樓空橋', details: { instructors: ['王淑慎醫師', '鄭夙雅社管師', '楊素璧標準病人'], notes: '課程已邀請標準化病人，請準時出席', participants: ['Y2 方薇瑄 2085', 'Y2 陳劭涓 2084', 'Y2 黃舜瑜 2630', 'Y2 黃迎真 2615', 'Y2 陳韋廷 2609', 'Y2 蔡維恩 2610', 'Y2 王姮文 2742', 'Y2 林柏成 2605'] } },
+            { date: 4, time: '15:00-16:00', title: 'EKG 判讀', type: 'course', location: '十樓空橋', details: { instructors: ['楊其臻醫師'] } },
+            { date: 5, time: '08:00', title: '品質檢討會 (M&M)', type: 'quality', location: '九樓空橋', details: { instructors: ['黃琪雅醫師'], recorder: 'Y1 施睿濬 6343', participants: ['9A 全體學員', '一般內 UGY'] } },
+            { date: 5, time: '11:00-12:00', title: '跨領域團隊會議', type: 'meeting', location: '九樓空橋', details: { instructors: ['核心教師群'] } },
+            { date: 6, time: '09:00-12:00', title: '教學門診', type: 'clinic', location: '21號診間', details: { instructors: ['葉正發醫師'], participants: ['Y1 曾俊耀 2083', 'Y2 王姮文 2742'] } },
+
+            // Week 2
+            { date: 9, time: '08:00', title: '病例討論會', type: 'morning', location: '九樓空橋', details: { instructors: ['蔡佩芸醫師'], presenter: 'Y1 施睿濬 6343' } },
+            { date: 9, time: '14:00-17:00', title: '教學門診', type: 'clinic', location: '21號診間', details: { instructors: ['黃琪雅醫師'], participants: ['Y1 施睿濬 6343', 'Y1 陳威良 3202'] } },
+            { date: 10, time: '08:00', title: '內科部 Grand Round', type: 'grand_round', location: '國際會議廳', details: { instructors: ['內科部'] } },
+            { date: 10, time: '11:00-12:00', title: '實證醫學期刊討論', type: 'journal', location: '五樓空橋', details: { instructors: ['李美娟小組長'], participants: ['PGY2 全體醫師'] } },
+            { date: 10, time: '13:30-15:30', title: 'PGY1 臨床技能 (呼吸道)', type: 'skill', location: '4F技能中心', details: { instructors: ['陳伯榕醫師'], participants: ['Y1 李宛錚 2065', 'Y1 李季玲 2068', 'Y1 陳威良 3202', 'Y1 劉凡維 2067', 'Y1 王逸洹 3204', 'Y1 林敏怡 6111'] } },
+            { date: 10, time: '14:00-17:00', title: '教學門診', type: 'clinic', location: '21號診間', details: { instructors: ['王淑慎醫師'], participants: ['Y2 何信賢 2744'] } },
+            { date: 11, time: '08:00', title: '值班案例討論會', type: 'conference', location: '九樓空橋', details: { instructors: ['蔡佩芸醫師'], notes: '常見疾病診斷與治療策略' } },
+            { date: 11, time: '15:00-16:00', title: '貧血', type: 'course', location: '十樓空橋', details: { instructors: ['林芸孜醫師'] } },
+            { date: 12, time: '08:00', title: '病例討論會', type: 'morning', location: '九樓空橋', details: { instructors: ['蔡佩芸醫師'], presenter: 'UGY 方偉丞 6168' } },
+            { date: 13, time: '11:00-12:00', title: '聯合討論會 (感控)', type: 'combined', location: '九樓空橋', details: { instructors: ['王淑慎醫師', '陳筱姍感管師'], recorder: 'Y1 李宛錚 2065' } },
+            { date: 13, time: '13:00-14:00', title: '資深主治醫師指導', type: 'teaching', location: '九樓空橋', details: { instructors: ['柯獻欽部長'], recorder: 'Y1 陳祈雅 2066' } },
+
+            // Week 3 - CNY Holiday
+            { date: 16, title: '春節假期', type: 'default', location: 'Holiday' },
+            { date: 17, title: '春節假期', type: 'default', location: 'Holiday' },
+            { date: 18, title: '春節假期', type: 'default', location: 'Holiday' },
+            { date: 19, title: '春節假期', type: 'default', location: 'Holiday' },
+
+            // Week 4
+            { date: 23, time: '08:00', title: '14天再入院討論會', type: 'quality', location: '九樓空橋', details: { instructors: ['蔡佩芸醫師'], presenter: 'PGY CR 蔡佩芸 / Y1 莊堯茗 3205' } },
+            { date: 23, time: '12:00-13:00', title: 'Qtern seminar (備餐)', type: 'course', location: '九樓空橋', details: { instructors: ['郭妍伶主任'] } },
+            { date: 23, time: '13:00-14:00', title: 'PGY學員檢討會', type: 'meeting', location: '九樓空橋', details: { instructors: ['核心Core老師群'] } },
+            { date: 23, time: '15:00-16:00', title: '抗生素簡介', type: 'course', location: '十樓空橋', details: { instructors: ['李承翰醫師'] } },
+            { date: 24, time: '08:00', title: '內科部 Grand Round', type: 'grand_round', location: '國際會議廳', details: { instructors: ['內科部'] } },
+            { date: 24, time: '13:30-15:30', title: 'PGY1 臨床技能 (呼吸道 II)', type: 'skill', location: '教學部討論室', details: { instructors: ['陳伯榕醫師'], participants: ['Y1 施睿濬 6343', 'Y1 吳怡霏 2062', 'Y1 陳祈雅 2066', 'Y1 曾俊耀 2083', 'Y1 楊玨 2063'] } },
+            { date: 25, time: '08:00', title: 'M&M Conference', type: 'conference', location: '九樓空橋', details: { instructors: ['蔡佩芸醫師'], presenter: 'Y1 施睿濬 6343' } },
+            { date: 25, time: '12:00-13:00', title: 'PGY學員座談會 (備餐)', type: 'meeting', location: '九樓空橋', details: { instructors: ['甘偉志主任', '陳銳溢醫師'] } },
+            { date: 25, time: '13:00-14:00', title: '資深主治醫師指導', type: 'teaching', location: '九樓空橋', details: { instructors: ['王憲奕副部長'], recorder: 'Y1 林敏怡 6111' } },
+            { date: 25, time: '15:00-16:00', title: 'NE 操作', type: 'course', location: '十樓空橋', details: { instructors: ['蔡穩穩醫師'] } },
+            { date: 26, time: '08:00', title: '病例討論會 (全英)', type: 'morning', location: '九樓空橋', details: { instructors: ['蔡佩芸醫師'], presenter: 'Y1 李宛錚 2065' } },
+            { date: 26, time: '13:00-14:00', title: '聯合討論會 (放射)', type: 'combined', location: '九樓空橋', details: { instructors: ['蔡佩芸醫師', '方昱翔醫師'], recorder: 'Y1 莊堯茗 3205' } },
+            { date: 27, title: '228和平紀念日(補假)', type: 'default', location: 'Holiday' },
+        ];
+
+        var doctorSchedule = {
+            pgy_cr: [{ student: 'PGY CR 蔡佩芸 2857', teacher: 'PGY CR', period: '', department: 'PGY CR' }],
+            pgy1: [
+                { student: 'Y1 李宛錚 2065', teacher: '郭妍伶 5052, 黃琪雅 3856', period: '115.02-115.04', department: '一般內' },
+                { student: 'Y1 施睿濬 6343', teacher: '葉正發 6359', period: '115.02-115.04', department: '一般內' },
+                { student: 'Y1 莊堯茗 3205', teacher: '王淑慎 6496', period: '114.12-115.02', department: '一般內' },
+                { student: 'Y1 吳怡霏 2062', teacher: '劉晉瑋 3869', period: '115.02-115.04', department: '感染' },
+                { student: 'Y1 陳威良 3202', teacher: '蔡家宏 6904', period: '114.12-115.02', department: '感染' },
+                { student: 'Y1 李季玲 2068', teacher: '陳宏睿 5515', period: '115.02-115.04', department: '感染' },
+                { student: 'Y1 陳祈雅 2066', teacher: '林泱瀚 6393', period: '115.02-115.04', department: '胸腔' },
+                { student: 'Y1 王逸洹 3204', teacher: '張庭嘉 3827', period: '114.12-115.02', department: '胸腔' },
+                { student: 'Y1 曾俊耀 2083', teacher: '張瑄元 3372', period: '115.02-115.04', department: '胃腸' },
+                { student: 'Y1 劉凡維 2067', teacher: '王宿鴻 3635', period: '115.02-115.04', department: '胃腸' },
+                { student: 'Y1 林敏怡 6111', teacher: '簡志強 5842', period: '115.02-115.04', department: '腎臟' },
+                { student: 'Y1 楊玨 2063', teacher: '謝孟倉 6502, 黃至誠 6810', period: '115.02-115.04', department: '神內' }
+            ],
+            pgy2: [
+                { student: 'Y2 何信賢 2744', teacher: '吳鴻昌 6507', period: '114.11-115.05', department: '血腫' },
+                { student: 'Y2 方薇瑄 2085', teacher: '郭雨萱 6360', period: '114.12-115.03', department: '血腫' },
+                { student: 'Y2 陳劭涓 2084', teacher: '康乃文 3611', period: '115.01-115.07', department: '血腫' },
+                { student: 'Y2 黃舜瑜 2630', teacher: '劉晉瑋 3869', period: '114.12-115.06', department: '感染' },
+                { student: 'Y2 黃迎真 2615', teacher: '李威杰, 林裕民', period: '115.01-115.03', department: '心內' },
+                { student: 'Y2 蔡維恩 2610', teacher: '吳文憲 5320, 林志憲', period: '115.01-115.03', department: '心內' },
+                { student: 'Y2 林柏成 2605', teacher: '林泱瀚 6393', period: '115.01-115.03', department: '胸腔' },
+                { student: 'Y2 王姮文 2742', teacher: '張庭嘉 3827', period: '115.01-115.03', department: '胸腔' },
+                { student: 'Y2 陳韋廷 2609', teacher: '陳季杏 3781, 楊畯棋 6732', period: '115.02-115.04', department: '胃腸' },
+                { student: 'Y2 尤威儒 2631', teacher: '楊勝翔 6619, 林冠宏 6714', period: '115.01-115.03', department: '神內' }
+            ],
+            ugy: [
+                { student: 'UGY 方偉丞 6168', teacher: '黃琪雅', period: '2/9-2/20', department: '一般內' },
+                { student: 'UGY 李沂家 6285', teacher: '郭妍伶', period: '2/23-3/6', department: '一般內' }
+            ],
+            other: [
+                '郭妍伶主任 1/17-2/12 休假',
+                'Y1 莊堯茗 3205 於 2/6、2/12-2/13、2/20 請假'
+            ]
+        };
+
+        var eventTypeColors = {
+            conference: 'bg-red-100 text-red-800 border-red-200', clinic: 'bg-cyan-100 text-cyan-800 border-cyan-200', 
+            grand_round: 'bg-sky-100 text-sky-800 border-sky-200', quality: 'bg-pink-100 text-pink-800 border-pink-200',
+            skill: 'bg-yellow-100 text-yellow-800 border-yellow-200', course: 'bg-green-100 text-green-800 border-green-200',
+            morning: 'bg-blue-100 text-blue-800 border-blue-200', combined: 'bg-teal-100 text-teal-800 border-teal-200',
+            teaching: 'bg-orange-100 text-orange-800 border-orange-200', balint: 'bg-lime-100 text-lime-800 border-lime-200',
+            default: 'bg-gray-100 text-gray-800 border-gray-200'
+        };
+
+        var holidays = { 16: { icon: '🧧' }, 17: { icon: '🏮' }, 18: { icon: '🐲' }, 19: { icon: '🧧' }, 27: { icon: '🕯️' } };
+        var year = 2026; var month = 1;
+
+        function generateMonthView() {
+            const container = document.getElementById('month-view-container');
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            let html = `<div class="hidden md:block">
+                <div class="flex items-center justify-center mb-4"><h2 class="text-xl font-bold text-gray-700">2026年 2月</h2></div>
+                <div class="grid grid-cols-5 gap-1 text-center font-semibold text-gray-600 mb-1">
+                    <div class="py-2">一</div><div class="py-2">二</div><div class="py-2">三</div><div class="py-2">四</div><div class="py-2">五</div>
+                </div><div class="grid grid-cols-5 gap-1 calendar-grid">`;
+            const firstDate = new Date(year, month, 1);
+            let emptyCells = (firstDate.getDay() + 6) % 7; if (firstDate.getDay() === 0) emptyCells = 6;
+            for (let i = 0; i < (emptyCells > 4 ? 0 : emptyCells); i++) html += `<div class="bg-gray-50 rounded-lg"></div>`;
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dayOfWeek = new Date(year, month, day).getDay(); if (dayOfWeek === 6 || dayOfWeek === 0) continue;
+                const dayEvents = events.filter(e => e.date === day); const holiday = holidays[day];
+                html += `<div class="day-cell border border-gray-200 ${holiday ? 'bg-amber-50' : 'bg-white'} rounded-lg p-2 flex flex-col">
+                    <div class="text-sm font-bold self-start mb-1 text-gray-700 w-7 h-7 flex items-center justify-center rounded-full">${day}</div>
+                    <div class="flex-grow overflow-y-auto space-y-1 pr-1">`;
+                if (holiday) {
+                    html += `<div class="h-full flex items-center justify-center text-xl">${holiday.icon}</div>`;
+                } else {
+                    dayEvents.sort((a,b)=>(a.time||'').localeCompare(b.time||'')).forEach(e => {
+                        const color = eventTypeColors[e.type] || eventTypeColors.default;
+                        html += `<div data-tippy-content='${createTooltipContent(e).replace(/'/g, "&apos;")}' class="event ${color} rounded-md p-1.5 text-xs border cursor-pointer">
+                            <p class="font-bold truncate">${e.title}</p>
+                            <p class="opacity-80 truncate text-[10px]">${e.time || ''}</p>
+                            <p class="text-[9px] opacity-60 truncate">📍 ${e.location || '九樓空橋'}</p>
+                        </div>`;
+                    });
+                }
+                html += `</div></div>`;
+            }
+            container.innerHTML = html + `</div></div>`;
+        }
+
+        function createTooltipContent(e) {
+            let html = `<div class="p-4 text-left space-y-4 text-gray-900">
+                <h3 class="text-xl font-bold text-indigo-900 border-b pb-2">${e.title}</h3>
+                <div class="space-y-2 text-sm">
+                    <div class="flex items-center text-gray-800"><svg class="w-5 h-5 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" stroke-width="2"/></svg><strong>時間：</strong>${e.time || '全天'}</div>
+                    <div class="flex items-center text-gray-800"><svg class="w-5 h-5 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0zM15 11a3 3 0 11-6 0 3 3 0 016 0z" stroke-width="2"/></svg><strong>地點：</strong>${e.location || '九樓空橋'}</div>
+                </div>`;
+            const d = e.details || {};
+            if (d.instructors) html += `<div class="flex items-start text-sm text-gray-900"><svg class="w-5 h-5 mr-2 text-indigo-600 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" stroke-width="2"/></svg><div><strong class="font-semibold">指導教師：</strong><span class="text-gray-900">${d.instructors.join('、')}</span></div></div>`;
+            if (d.presenter) html += `<div class="flex items-start text-sm text-gray-900"><svg class="w-5 h-5 mr-2 text-indigo-600 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.5L14.732 3.732z" stroke-width="2"/></svg><div><strong class="font-semibold">報告者：</strong><span class="text-gray-900">${d.presenter}</span></div></div>`;
+            if (d.participants) {
+                html += `<div class="border-t pt-3 mt-2 text-gray-900"><div class="flex items-start text-sm"><svg class="w-5 h-5 mr-2 text-gray-500 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283-.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" stroke-width="2"/></svg><div><strong class="font-bold text-gray-800 mb-2 block">參與學員</strong><div class="flex flex-wrap gap-1.5 leading-relaxed">`;
+                d.participants.forEach(p => html += `<span class="bg-gray-100 text-gray-900 px-2 py-0.5 rounded-md text-[11px] border border-gray-200 font-medium whitespace-nowrap">${p}</span>`);
+                html += `</div></div></div></div>`;
+            }
+            if (d.notes) html += `<div class="flex items-start text-sm border-t pt-3 mt-2 text-red-700"><svg class="w-5 h-5 mr-2 flex-shrink-0 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-width="2"/></svg><span>${d.notes}</span></div>`;
+            return html + `</div>`;
+        }
+
+        function createDeptTooltipContent(dept) {
+            const allDoctors = [...doctorSchedule.pgy_cr, ...doctorSchedule.pgy1, ...doctorSchedule.pgy2, ...doctorSchedule.ugy];
+            const deptMembers = allDoctors.filter(d => d.department === dept);
+            let content = `<div class="p-4 text-left max-w-md w-screen space-y-3 text-gray-900"><h3 class="text-xl font-bold text-indigo-900 mb-3">${dept}</h3><div class="space-y-4">`;
+            deptMembers.forEach(member => {
+                let role = doctorSchedule.pgy1.includes(member) ? 'PGY1' : (doctorSchedule.pgy2.includes(member) ? 'PGY2' : 'UGY');
+                if (doctorSchedule.pgy_cr.includes(member)) role = 'PGY CR';
+                let roleColor = role.includes('Y1') ? 'bg-indigo-100 text-indigo-700' : (role.includes('Y2') ? 'bg-teal-100 text-teal-700' : 'bg-orange-100 text-orange-700');
+                content += `<div class="border-t pt-3"><div class="flex justify-between items-start"><div><p class="text-base font-bold text-gray-900">${member.student}</p><p class="text-sm text-gray-600 mt-1"><strong>臨床教師：</strong> ${member.teacher}</p><p class="text-sm text-gray-600"><strong>期間：</strong> ${member.period}</p></div><span class="text-xs font-medium ${roleColor} px-2 py-0.5 rounded-full">${role}</span></div></div>`;
+            });
+            return content + `</div></div>`;
+        }
+
+        function generateScheduleView() {
+            const container = document.getElementById('schedule-panel');
+            let html = `<div class="space-y-10">`;
+
+            // 科別總覽卡片 - 參照 image_425355.png
+            const deptIcons = {
+                '一般內': 'https://raw.githubusercontent.com/guguguuuuu/chimeiGM/main/CM-GM.png',
+                '心內': 'https://raw.githubusercontent.com/guguguuuuu/chimeiGM/main/CM-CV.png',
+                '感染': 'https://raw.githubusercontent.com/guguguuuuu/chimeiGM/main/CM-INF.png',
+                '神內': 'https://raw.githubusercontent.com/guguguuuuu/chimeiGM/main/CM-neurology.png',
+                '胃腸': 'https://raw.githubusercontent.com/guguguuuuu/chimeiGM/main/CM-GI.png',
+                '胸腔': 'https://raw.githubusercontent.com/guguguuuuu/chimeiGM/main/CM-Chest.png',
+                '腎臟': 'https://raw.githubusercontent.com/guguguuuuu/chimeiGM/main/CM-Nephro.png',
+                '血腫': 'https://raw.githubusercontent.com/guguguuuuu/chimeiGM/main/CM-Oncology.png'
+            };
+            const deptColors = { '一般內': 'blue', '心內': 'pink', '感染': 'red', '神內': 'purple', '胃腸': 'amber', '胸腔': 'sky', '腎臟': 'green', '血腫': 'rose' };
+            const deptMap = {};
+            [...doctorSchedule.pgy1, ...doctorSchedule.pgy2, ...doctorSchedule.ugy].forEach(d => {
+                if(!deptMap[d.department]) deptMap[d.department] = { total: 0, pgy1: 0, pgy2: 0, ugy: 0 };
+                deptMap[d.department].total++;
+                if(doctorSchedule.pgy1.includes(d)) deptMap[d.department].pgy1++;
+                else if(doctorSchedule.pgy2.includes(d)) deptMap[d.department].pgy2++;
+                else deptMap[d.department].ugy++;
+            });
+
+            html += `<div><h2 class="text-2xl font-bold text-gray-800 mb-6 border-l-4 border-gray-800 pl-3 tracking-tight">科別總覽</h2><div class="grid grid-cols-2 lg:grid-cols-4 gap-4">`;
+            Object.keys(deptIcons).forEach(dept => {
+                const s = deptMap[dept] || { total: 0, pgy1: 0, pgy2: 0, ugy: 0 };
+                const c = deptColors[dept];
+                html += `<div class="dept-summary-card border-${c}-500 pt-6" data-dept="${dept}">
+                    <div class="w-16 h-16 rounded-full bg-slate-100 flex items-center justify-center p-2 mb-3 mx-auto shadow-inner border"><img src="${deptIcons[dept]}" class="w-10 h-10 object-contain"></div>
+                    <div class="text-center mb-6"><h3 class="font-bold text-xl">${dept}</h3><p class="text-gray-400 text-sm">共 ${s.total} 人</p></div>
+                    <div class="w-full bg-slate-50 flex justify-center py-3 space-x-6 border-t border-slate-100">
+                        ${s.pgy1?`<div class="text-center"><span class="block text-2xl font-bold text-indigo-800 leading-none">${s.pgy1}</span><span class="text-[9px] text-indigo-400 font-bold uppercase">PGY1</span></div>`:''}
+                        ${s.pgy2?`<div class="text-center"><span class="block text-2xl font-bold text-teal-800 leading-none">${s.pgy2}</span><span class="text-[9px] text-teal-400 font-bold uppercase">PGY2</span></div>`:''}
+                        ${s.ugy?`<div class="text-center"><span class="block text-2xl font-bold text-orange-800 leading-none">${s.ugy}</span><span class="text-[9px] text-orange-400 font-bold uppercase">UGY</span></div>`:''}
+                    </div>
+                </div>`;
+            });
+            html += `</div></div>`;
+
+            // 醫師詳細名單 - 參照 TXT 的按鈕摺疊格式
+            const renderSet = (id, title, color, data) => {
+                html += `<div data-dept-group="${id}">
+                    <button id="toggle-${id}" class="w-full text-left bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold p-4 rounded-lg flex justify-between items-center transition mb-4">
+                        <div class="flex items-center">
+                            <h2 class="text-2xl font-bold text-${color}-600">${title}</h2>
+                            <span class="ml-3 bg-${color}-100 text-${color}-800 text-sm font-semibold px-2.5 py-0.5 rounded-full">共 ${data.length} 人</span>
+                        </div>
+                        <svg id="toggle-icon-${id}" class="w-6 h-6 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div id="${id}-content" class="hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">`;
+                data.forEach(item => {
+                    html += `<div class="bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden">
+                        <div class="p-5 flex items-start space-x-4">
+                            <div class="flex-shrink-0 w-12 h-12 rounded-full bg-${color}-100 text-${color}-600 flex items-center justify-center font-bold">${id.toUpperCase().substring(0,2)}</div>
+                            <div class="flex-1 min-w-0">
+                                <p class="text-base font-bold text-gray-900">${item.student}</p>
+                                <div class="text-xs font-semibold text-${color}-600 bg-${color}-100 inline-block px-2 py-0.5 rounded-full my-1">${item.department}</div>
+                                <p class="text-sm text-gray-500 mt-1">教師: ${item.teacher}</p>
+                            </div>
+                        </div>
+                        <div class="bg-gray-50 px-5 py-3 border-t text-sm text-gray-600 flex items-center"><svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>訓練期間: ${item.period}</div>
+                    </div>`;
+                });
+                html += `</div></div>`;
+            }
+
+            // PGY CR
+            html += `<div><h2 class="text-2xl font-bold text-purple-600 mb-4 border-l-4 border-purple-600 pl-3">PGY CR</h2><div class="bg-white p-5 rounded-xl shadow-md border border-purple-100 flex items-center space-x-4 max-w-sm"><div class="w-12 h-12 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center font-bold">CR</div><p class="font-bold text-lg text-gray-900">${doctorSchedule.pgy_cr[0].student}</p></div></div>`;
+            
+            renderSet('pgy1', 'PGY1 醫師', 'indigo', doctorSchedule.pgy1);
+            renderSet('pgy2', 'PGY2 醫師', 'teal', doctorSchedule.pgy2);
+            renderSet('ugy', 'UGY 實習醫學生', 'orange', doctorSchedule.ugy);
+
+            if(doctorSchedule.other.length) {
+                html += `<div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 mt-6"><h3 class="font-bold text-gray-800 mb-2">📌 備註</h3><ul class="list-disc list-inside text-sm text-gray-600 space-y-1">${doctorSchedule.other.map(o=>`<li>${o}</li>`).join('')}</ul></div>`;
+            }
+            container.innerHTML = html + `</div>`;
+            setupDeptPopups();
+            setupToggles();
+        }
+
+        function setupToggles() {
+            ['pgy1', 'pgy2', 'ugy'].forEach(id => {
+                const btn = document.getElementById(`toggle-${id}`);
+                if(btn) {
+                    btn.addEventListener('click', () => {
+                        const content = document.getElementById(`${id}-content`);
+                        const icon = document.getElementById(`toggle-icon-${id}`);
+                        content.classList.toggle('hidden');
+                        icon.classList.toggle('rotate-180');
+                    });
+                }
+            });
+        }
+
+        function setupDeptPopups() {
+            const deptCards = document.querySelectorAll('.dept-summary-card');
+            deptCards.forEach(card => {
+                tippy(card, {
+                    content: createDeptTooltipContent(card.dataset.dept),
+                    allowHTML: true,
+                    theme: 'light',
+                    interactive: true,
+                    animation: 'scale-subtle',
+                    placement: 'bottom',
+                    trigger: 'click',
+                    hideOnClick: true,
+                    maxWidth: 400
+                });
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            generateMonthView(); generateScheduleView();
+            tippy('[data-tippy-content]', { allowHTML: true, theme: 'light', interactive: true, animation: 'scale-subtle', trigger: 'mouseenter click', maxWidth: 480 });
+            const tabs = document.querySelectorAll('.tab'), panels = document.querySelectorAll('.tab-panel');
+            tabs.forEach(tab => tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active')); panels.forEach(p => p.classList.add('hidden'));
+                tab.classList.add('active'); document.getElementById(tab.id.replace('tab-', '') + '-panel').classList.remove('hidden');
+            }));
+        });
+    </script>
+</body>
+</html>
