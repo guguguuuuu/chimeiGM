@@ -21,6 +21,12 @@
         .day-cell {
             min-height: 150px;
         }
+        @media (max-width: 768px) {
+            .day-cell {
+                min-height: auto;
+                max-height: 120px;
+            }
+        }
         .event {
             transition: all 0.2s ease-in-out;
         }
