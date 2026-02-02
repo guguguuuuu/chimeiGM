@@ -240,6 +240,46 @@
             container.innerHTML = html + `</div></div>`;
         }
 
+        function generateListView() {
+            const container = document.getElementById('list-view-container');
+            let html = `<div class="md:hidden">
+                <div class="flex items-center justify-center mb-4"><h2 class="text-xl font-bold text-gray-700">2026年 2月 課程列表</h2></div>
+                <div class="space-y-4">`;
+            const sortedEvents = events.filter(e => e.type !== 'default').sort((a, b) => {
+                if (a.date !== b.date) return a.date - b.date;
+                return (a.time || '').localeCompare(b.time || '');
+            });
+            let currentDate = null;
+            sortedEvents.forEach(e => {
+                if (currentDate !== e.date) {
+                    if (currentDate !== null) html += `</div>`;
+                    currentDate = e.date;
+                    const dateStr = `${month + 1}月${e.date}日`;
+                    const holiday = holidays[e.date];
+                    html += `<div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+                        <div class="flex items-center mb-3">
+                            <div class="text-lg font-bold text-gray-800 mr-3">${dateStr}</div>`;
+                    if (holiday) {
+                        html += `<div class="text-2xl">${holiday.icon}</div>`;
+                    }
+                    html += `</div><div class="space-y-2">`;
+                }
+                const color = eventTypeColors[e.type] || eventTypeColors.default;
+                html += `<div data-tippy-content='${createTooltipContent(e).replace(/'/g, "&apos;")}' class="event ${color} rounded-md p-3 border cursor-pointer">
+                    <div class="flex justify-between items-start">
+                        <div class="flex-1">
+                            <p class="font-bold text-sm text-gray-900">${e.title}</p>
+                            <p class="text-xs text-gray-600 mt-1">${e.time || '全天'}</p>
+                            <p class="text-xs text-gray-500">📍 ${e.location || '九樓空橋'}</p>
+                        </div>
+                    </div>
+                </div>`;
+            });
+            if (currentDate !== null) html += `</div>`;
+            html += `</div></div>`;
+            container.innerHTML = html;
+        }
+
         function createTooltipContent(e) {
             let html = `<div class="p-4 text-left space-y-4 text-gray-900">
                 <h3 class="text-xl font-bold text-indigo-900 border-b pb-2">${e.title}</h3>
@@ -388,7 +428,7 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            generateMonthView(); generateScheduleView();
+            generateMonthView(); generateListView(); generateScheduleView();
             tippy('[data-tippy-content]', { allowHTML: true, theme: 'light', interactive: true, animation: 'scale-subtle', trigger: 'mouseenter click', maxWidth: 480 });
             const tabs = document.querySelectorAll('.tab'), panels = document.querySelectorAll('.tab-panel');
             tabs.forEach(tab => tab.addEventListener('click', () => {
