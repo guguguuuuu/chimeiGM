@@ -48,6 +48,12 @@
             color: #4f46e5;
             background-color: #eef2ff;
         }
+        .event p {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: normal;
+            word-break: break-word;
+        }
         /* 科別總覽卡片風格 - 參照 image_425355.png */
         .dept-summary-card {
             background: white;
@@ -271,13 +277,11 @@
                     html += `</div><div class="space-y-2">`;
                 }
                 const color = eventTypeColors[e.type] || eventTypeColors.default;
-                html += `<div data-tippy-content='${createTooltipContent(e).replace(/'/g, "&apos;")}' class="event ${color} rounded-md p-3 border cursor-pointer">
-                    <div class="flex justify-between items-start">
-                        <div class="flex-1">
-                            <p class="font-bold text-sm text-gray-900">${e.title}</p>
-                            <p class="text-xs text-gray-600 mt-1">${e.time || '全天'}</p>
-                            <p class="text-xs text-gray-500">📍 ${e.location || '九樓空橋'}</p>
-                        </div>
+                html += `<div data-tippy-content='${createTooltipContent(e).replace(/'/g, "&apos;")}' class="event ${color} rounded-md p-3 border cursor-pointer overflow-hidden">
+                    <div class="w-full min-w-0">
+                        <p class="font-bold text-sm text-gray-900 truncate">${e.title}</p>
+                        <p class="text-xs text-gray-600 mt-1 truncate">${e.time || '全天'}</p>
+                        <p class="text-xs text-gray-500 truncate">📍 ${e.location || '九樓空橋'}</p>
                     </div>
                 </div>`;
             });
